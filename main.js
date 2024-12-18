@@ -1,74 +1,37 @@
-// URLs for the datasets in your GitHub repository
-const complaintsDataUrl = 'https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/Civilian_Complaint_Review_Board__Complaints_Against_Police_Officers_20241217.csv';
-const allegationsDataUrl = 'https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/Civilian_Complaint_Review_Board__Allegations_Against_Police_Officers_20241217.csv';
+// Data
+const data = [
+    {
+        administration: 'Bloomberg',
+        totalComplaints: 218933,
+        substantiatedRate: 2.97,
+        unsubstantiatedRate: 97.03
+    },
+    {
+        administration: 'de Blasio',
+        totalComplaints: 102913,
+        substantiatedRate: 4.29,
+        unsubstantiatedRate: 95.71
+    },
+    {
+        administration: 'Adams',
+        totalComplaints: 38373,
+        substantiatedRate: 11.66,
+        unsubstantiatedRate: 88.34
+    }
+];
+
+// Set up dimensions for the charts
+const margin = { top: 40, right: 40, bottom: 40, left: 60 };
+const width = 700 - margin.left - margin.right;
+const height = 400 - margin.top - margin.bottom;
 
 // Tooltip for hover effects
 const tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// Set up chart dimensions
-const margin = { top: 40, right: 40, bottom: 40, left: 60 };
-const width = 700 - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
-
-// Load the data and process it
-Promise.all([
-    d3.csv(complaintsDataUrl),
-    d3.csv(allegationsDataUrl)
-])
-.then(([complaintsData, allegationsData]) => {
-    console.log('Complaints Data:', complaintsData);
-    console.log('Allegations Data:', allegationsData);
-
-    // Data processing (modify as needed)
-    const processedData = processData(complaintsData, allegationsData);
-
-    // Draw the chart
-    drawTotalComplaintsChart(processedData);
-})
-.catch(error => {
-    console.error('Error fetching data:', error);
-});
-
-// Process the data
-function processData(complaintsData, allegationsData) {
-    // Example: Filter and process data (make sure Complaint Id matches and adjust date ranges)
-    const result = [];
-
-    // Example of processing and filtering by date and Complaint Id matching
-    // Modify this logic as needed to combine data correctly
-    complaintsData.forEach(complaint => {
-        const allegation = allegationsData.find(a => a['Complaint Id'] === complaint['Complaint Id']);
-        if (allegation) {
-            const complaintYear = new Date(complaint['Close Date']).getFullYear();
-            const substantiated = allegation['Allegation Substantiated'] === 'Yes' ? 1 : 0;
-            const unsubstantiated = 1 - substantiated;
-
-            result.push({
-                year: complaintYear,
-                substantiated,
-                unsubstantiated,
-                totalComplaints: 1
-            });
-        }
-    });
-
-    // Aggregate data by year
-    const aggregatedData = d3.nest()
-        .key(d => d.year)
-        .rollup(values => ({
-            totalComplaints: d3.sum(values, v => v.totalComplaints),
-            substantiated: d3.sum(values, v => v.substantiated),
-            unsubstantiated: d3.sum(values, v => v.unsubstantiated)
-        }))
-        .entries(result);
-
-    return aggregatedData;
-}
-
-// Draw the bar chart for total complaints by year and mayoral administration
-function drawTotalComplaintsChart(data) {
+// Draw Bar Chart
+function drawTotalComplaintsChart() {
     const svg = d3.select("#complaints-chart")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -76,63 +39,123 @@ function drawTotalComplaintsChart(data) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // X and Y scales
+    // X scale and axis for administrations
     const x = d3.scaleBand()
-        .domain(data.map(d => d.key))  // Using year as the x-axis
+        .domain(data.map(d => d.administration))
         .range([0, width])
         .padding(0.4);
 
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.value.totalComplaints)])
-        .range([height, 0]);
-
-    // X and Y axes
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x));
 
+    // Y scale and axis for total complaints
+    const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.totalComplaints)])
+        .range([height, 0]);
+
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    // Bars for substantiated complaints (Blue)
-    svg.selectAll(".substantiated-bar")
+    // Bars for total complaints
+    svg.selectAll(".bar")
         .data(data)
         .enter()
         .append("rect")
-        .attr("class", "substantiated-bar")
-        .attr("x", d => x(d.key))
-        .attr("y", d => y(d.value.substantiated))
-        .attr("width", x.bandwidth() / 2)
-        .attr("height", d => height - y(d.value.substantiated))
-        .attr("fill", "#003DA5")  // Blue for substantiated
-        .on("mouseover", function(event, d) {
-            tooltip.transition().duration(200).style("opacity", 0.9);
-            tooltip.html(`Year: ${d.key}<br>Substantiated: ${d.value.substantiated}`)
-                .style("left", `${event.pageX}px`)
-                .style("top", `${event.pageY - 28}px`);
+        .attr("class", "bar")
+        .attr("x", d => x(d.administration))
+        .attr("y", height) // Start from the bottom
+        .attr("width", x.bandwidth())
+        .attr("height", 0) // Start with no height
+        .on("mouseover", function (event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(`Total Complaints: ${d.totalComplaints}`)
+                .style("left", (event.pageX) + "px")
+                .style("top", (event.pageY - 28) + "px");
         })
-        .on("mouseout", () => {
-            tooltip.transition().duration(500).style("opacity", 0);
+        .on("mouseout", function () {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        })
+        .transition()
+        .duration(1000) // Animation duration
+        .attr("y", d => y(d.totalComplaints))
+        .attr("height", d => height - y(d.totalComplaints));
+}
+
+// Draw Pie Chart
+function drawPieChart(administration) {
+    const svg = d3.select(`#${administration.replace(' ', '-').toLowerCase()}-chart`) // Replace spaces for ID compatibility
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    // Pie chart data
+    const pieData = [
+        { label: 'Substantiated', value: data.find(d => d.administration === administration).substantiatedRate },
+        { label: 'Unsubstantiated', value: data.find(d => d.administration === administration).unsubstantiatedRate }
+    ];
+
+    const pie = d3.pie().value(d => d.value);
+    const arc = d3.arc().innerRadius(0).outerRadius(100);
+
+    svg.selectAll(".arc")
+        .data(pie(pieData))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", (d, i) => i === 0 ? "#003DA5" : "#FF0000") // NY License Plate Blue for substantiated, Red for unsubstantiated
+        .on("mouseover", function (event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9);
+            tooltip.html(`${d.data.label}: ${d.data.value}%`)
+                .style("left", (event.pageX) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         });
 
-    // Bars for unsubstantiated complaints (Red)
-    svg.selectAll(".unsubstantiated-bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "unsubstantiated-bar")
-        .attr("x", d => x(d.key) + x.bandwidth() / 2)
-        .attr("y", d => y(d.value.unsubstantiated))
-        .attr("width", x.bandwidth() / 2)
-        .attr("height", d => height - y(d.value.unsubstantiated))
-        .attr("fill", "#FF0000")  // Red for unsubstantiated
-        .on("mouseover", function(event, d) {
-            tooltip.transition().duration(200).style("opacity", 0.9);
-            tooltip.html(`Year: ${d.key}<br>Unsubstantiated: ${d.value.unsubstantiated}`)
-                .style("left", `${event.pageX}px`)
-                .style("top", `${event.pageY - 28}px`);
-        })
-        .on("mouseout", () => {
-            tooltip.transition().duration(500).style("opacity", 0);
-        });
+    svg.append("text")
+        .attr("class", "pie-label")
+        .attr("text-anchor", "middle")
+        .attr("y", 10)
+        .text(`CCR Substantiated ${administration}: ${data.find(d => d.administration === administration).substantiatedRate}%`);
 }
+
+// Call functions
+drawTotalComplaintsChart();
+drawPieChart('Bloomberg');
+drawPieChart('de Blasio');
+drawPieChart('Adams');
+
+// Scroll interactivity
+const sections = document.querySelectorAll('.section');
+const options = {
+    root: null,
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        } else {
+            entry.target.classList.remove('visible');
+        }
+    });
+}, options);
+
+sections.forEach(section => {
+    observer.observe(section);
+});
