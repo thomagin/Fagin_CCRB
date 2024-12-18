@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCRB Complaints Data</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Include D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- Section 1: Welcome -->
+    <div class="section" id="welcome">
+        <h1 class="license-plate">Welcome to the NYC CCRB Information Page</h1>
+        <p class="license-plate">This page provides information and data on the Civilian Complaint Review Board (CCRB).</p>
+    </div>
+
+    <!-- Section 2: About CCRB -->
+    <div class="section" id="ccrb-info">
+        <h2 class="license-plate">What is the CCRB?</h2>
+        <p>The CCRB is an independent agency that investigates complaints of police misconduct.</p>
+        
+        <h2 class="license-plate">Who is part of the board?</h2>
+        <p>The board consists of 13 members appointed by the Mayor, City Council, and Police Commissioner.</p>
+    </div>
+
+    <!-- Section 3: Complaints Bar Chart -->
+    <div class="section" id="complaints-chart">
+        <h2 class="license-plate">CCRB Complaints Overview</h2>
+        <div id="bar-chart"></div> <!-- Placeholder for bar chart -->
+    </div>
+
+    <!-- Section 4: Substantiated Rates Pie Charts -->
+    <div class="section" id="rates-charts">
+        <h2 class="license-plate">Substantiated Rates by Administration</h2>
+        <div class="chart-container" id="bloomberg-chart"></div> <!-- Bloomberg Admin Chart -->
+        <div class="chart-container" id="de-blasio-chart"></div> <!-- de Blasio Admin Chart -->
+        <div class="chart-container" id="adams-chart"></div> <!-- Adams Admin Chart -->
+    </div>
+
+    <!-- Include the main.js file -->
+    <script src="main.js"></script>
+</body>
+</html>
