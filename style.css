@@ -1,5 +1,5 @@
 body {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Roboto Condensed', sans-serif;
     background-color: white;
     color: #333;
     margin: 0;
@@ -8,14 +8,16 @@ body {
 }
 
 .section {
-    padding: 50px 20px; /* Split the difference in padding */
+    padding: 50px 20px;
     text-align: center;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    /* Remove the initial opacity: 0 since we'll handle visibility differently */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 1; /* Start visible */
 }
 
 .section.visible {
     opacity: 1;
+    transform: translateY(0);
 }
 
 h1, h2 {
@@ -23,10 +25,10 @@ h1, h2 {
 }
 
 .license-plate {
-    font-family: 'Arial', sans-serif; /* Change this to any dignified font you'd prefer */
+    font-family: 'Roboto Condensed', sans-serif;
     font-size: 2em;
-    color: #003DA5; /* NY State License Plate Blue */
-    text-shadow: 1px 1px 2px #FFD700; /* Gold shadow for effect */
+    color: #003DA5;
+    text-shadow: 1px 1px 2px #FFD700;
 }
 
 /* Tooltip styles */
@@ -57,11 +59,11 @@ h1, h2 {
 
 /* Pie Chart colors */
 .pie-chart {
-    fill: #003DA5; /* NY State License Plate Blue */
+    fill: #003DA5;
 }
 
 .pie-chart-unsubstantiated {
-    fill: #FF0000; /* Red for unsubstantiated */
+    fill: #FF0000;
 }
 
 /* Center the charts */
@@ -69,4 +71,48 @@ h1, h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    margin: 10px;
 }
+
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 10px;
+}
+
+/* Scroll Container Styles */
+.scroll-container {
+    position: relative;
+    z-index: 1;
+}
+
+.scroll-section {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.scroll-section {
+    min-height: 80vh; /* Increase height to ensure proper scrolling */
+    padding: 4rem 2rem; /* More padding */
+    margin: 4rem 0;
+    background-color: rgba(255,255,255,0.9); /* Add background to ensure visibility */
+}
+
+#designeeGrid {
+    position: sticky;
+    top: 50vh;
+    transform: translateY(-50%);
+    margin: 2rem 0;
+    z-index: 1; /* Ensure grid is above other elements */
+}
+
+.hidden {
+    display: none;
+}
+
