@@ -1,0 +1,1653 @@
+
+{
+  "Bloomberg": [
+    {
+      "Date": "2002-01-01",
+      "Total Complaints": 966,
+      "Substantiated": 17,
+      "Unsubstantiated": 949
+    },
+    {
+      "Date": "2002-02-01",
+      "Total Complaints": 532,
+      "Substantiated": 20,
+      "Unsubstantiated": 512
+    },
+    {
+      "Date": "2002-03-01",
+      "Total Complaints": 1884,
+      "Substantiated": 85,
+      "Unsubstantiated": 1799
+    },
+    {
+      "Date": "2002-04-01",
+      "Total Complaints": 1603,
+      "Substantiated": 71,
+      "Unsubstantiated": 1532
+    },
+    {
+      "Date": "2002-05-01",
+      "Total Complaints": 880,
+      "Substantiated": 26,
+      "Unsubstantiated": 854
+    },
+    {
+      "Date": "2002-06-01",
+      "Total Complaints": 1042,
+      "Substantiated": 27,
+      "Unsubstantiated": 1015
+    },
+    {
+      "Date": "2002-07-01",
+      "Total Complaints": 1014,
+      "Substantiated": 40,
+      "Unsubstantiated": 974
+    },
+    {
+      "Date": "2002-08-01",
+      "Total Complaints": 334,
+      "Substantiated": 8,
+      "Unsubstantiated": 326
+    },
+    {
+      "Date": "2002-09-01",
+      "Total Complaints": 1763,
+      "Substantiated": 81,
+      "Unsubstantiated": 1682
+    },
+    {
+      "Date": "2002-10-01",
+      "Total Complaints": 997,
+      "Substantiated": 67,
+      "Unsubstantiated": 930
+    },
+    {
+      "Date": "2002-11-01",
+      "Total Complaints": 899,
+      "Substantiated": 32,
+      "Unsubstantiated": 867
+    },
+    {
+      "Date": "2002-12-01",
+      "Total Complaints": 1185,
+      "Substantiated": 42,
+      "Unsubstantiated": 1143
+    },
+    {
+      "Date": "2003-01-01",
+      "Total Complaints": 1162,
+      "Substantiated": 94,
+      "Unsubstantiated": 1068
+    },
+    {
+      "Date": "2003-02-01",
+      "Total Complaints": 1085,
+      "Substantiated": 35,
+      "Unsubstantiated": 1050
+    },
+    {
+      "Date": "2003-03-01",
+      "Total Complaints": 930,
+      "Substantiated": 51,
+      "Unsubstantiated": 879
+    },
+    {
+      "Date": "2003-04-01",
+      "Total Complaints": 905,
+      "Substantiated": 31,
+      "Unsubstantiated": 874
+    },
+    {
+      "Date": "2003-05-01",
+      "Total Complaints": 1076,
+      "Substantiated": 49,
+      "Unsubstantiated": 1027
+    },
+    {
+      "Date": "2003-06-01",
+      "Total Complaints": 1649,
+      "Substantiated": 73,
+      "Unsubstantiated": 1576
+    },
+    {
+      "Date": "2003-07-01",
+      "Total Complaints": 843,
+      "Substantiated": 65,
+      "Unsubstantiated": 778
+    },
+    {
+      "Date": "2003-08-01",
+      "Total Complaints": 588,
+      "Substantiated": 36,
+      "Unsubstantiated": 552
+    },
+    {
+      "Date": "2003-09-01",
+      "Total Complaints": 861,
+      "Substantiated": 56,
+      "Unsubstantiated": 805
+    },
+    {
+      "Date": "2003-10-01",
+      "Total Complaints": 300,
+      "Substantiated": 21,
+      "Unsubstantiated": 279
+    },
+    {
+      "Date": "2003-11-01",
+      "Total Complaints": 1697,
+      "Substantiated": 60,
+      "Unsubstantiated": 1637
+    },
+    {
+      "Date": "2003-12-01",
+      "Total Complaints": 1483,
+      "Substantiated": 127,
+      "Unsubstantiated": 1356
+    },
+    {
+      "Date": "2004-01-01",
+      "Total Complaints": 1225,
+      "Substantiated": 46,
+      "Unsubstantiated": 1179
+    },
+    {
+      "Date": "2004-02-01",
+      "Total Complaints": 1422,
+      "Substantiated": 82,
+      "Unsubstantiated": 1340
+    },
+    {
+      "Date": "2004-03-01",
+      "Total Complaints": 2045,
+      "Substantiated": 120,
+      "Unsubstantiated": 1925
+    },
+    {
+      "Date": "2004-04-01",
+      "Total Complaints": 593,
+      "Substantiated": 33,
+      "Unsubstantiated": 560
+    },
+    {
+      "Date": "2004-05-01",
+      "Total Complaints": 1616,
+      "Substantiated": 127,
+      "Unsubstantiated": 1489
+    },
+    {
+      "Date": "2004-06-01",
+      "Total Complaints": 1909,
+      "Substantiated": 113,
+      "Unsubstantiated": 1796
+    },
+    {
+      "Date": "2004-07-01",
+      "Total Complaints": 1021,
+      "Substantiated": 68,
+      "Unsubstantiated": 953
+    },
+    {
+      "Date": "2004-08-01",
+      "Total Complaints": 382,
+      "Substantiated": 16,
+      "Unsubstantiated": 366
+    },
+    {
+      "Date": "2004-09-01",
+      "Total Complaints": 1575,
+      "Substantiated": 78,
+      "Unsubstantiated": 1497
+    },
+    {
+      "Date": "2004-10-01",
+      "Total Complaints": 1111,
+      "Substantiated": 105,
+      "Unsubstantiated": 1006
+    },
+    {
+      "Date": "2004-11-01",
+      "Total Complaints": 1733,
+      "Substantiated": 91,
+      "Unsubstantiated": 1642
+    },
+    {
+      "Date": "2004-12-01",
+      "Total Complaints": 1850,
+      "Substantiated": 109,
+      "Unsubstantiated": 1741
+    },
+    {
+      "Date": "2005-01-01",
+      "Total Complaints": 1040,
+      "Substantiated": 19,
+      "Unsubstantiated": 1021
+    },
+    {
+      "Date": "2005-02-01",
+      "Total Complaints": 1426,
+      "Substantiated": 75,
+      "Unsubstantiated": 1351
+    },
+    {
+      "Date": "2005-03-01",
+      "Total Complaints": 714,
+      "Substantiated": 35,
+      "Unsubstantiated": 679
+    },
+    {
+      "Date": "2005-04-01",
+      "Total Complaints": 1123,
+      "Substantiated": 15,
+      "Unsubstantiated": 1108
+    },
+    {
+      "Date": "2005-05-01",
+      "Total Complaints": 2783,
+      "Substantiated": 109,
+      "Unsubstantiated": 2674
+    },
+    {
+      "Date": "2005-06-01",
+      "Total Complaints": 1344,
+      "Substantiated": 60,
+      "Unsubstantiated": 1284
+    },
+    {
+      "Date": "2005-07-01",
+      "Total Complaints": 1938,
+      "Substantiated": 89,
+      "Unsubstantiated": 1849
+    },
+    {
+      "Date": "2005-08-01",
+      "Total Complaints": 954,
+      "Substantiated": 14,
+      "Unsubstantiated": 940
+    },
+    {
+      "Date": "2005-09-01",
+      "Total Complaints": 1053,
+      "Substantiated": 27,
+      "Unsubstantiated": 1026
+    },
+    {
+      "Date": "2005-10-01",
+      "Total Complaints": 2849,
+      "Substantiated": 112,
+      "Unsubstantiated": 2737
+    },
+    {
+      "Date": "2005-11-01",
+      "Total Complaints": 2041,
+      "Substantiated": 90,
+      "Unsubstantiated": 1951
+    },
+    {
+      "Date": "2005-12-01",
+      "Total Complaints": 1568,
+      "Substantiated": 50,
+      "Unsubstantiated": 1518
+    },
+    {
+      "Date": "2006-01-01",
+      "Total Complaints": 2101,
+      "Substantiated": 38,
+      "Unsubstantiated": 2063
+    },
+    {
+      "Date": "2006-02-01",
+      "Total Complaints": 1549,
+      "Substantiated": 41,
+      "Unsubstantiated": 1508
+    },
+    {
+      "Date": "2006-03-01",
+      "Total Complaints": 584,
+      "Substantiated": 30,
+      "Unsubstantiated": 554
+    },
+    {
+      "Date": "2006-04-01",
+      "Total Complaints": 1599,
+      "Substantiated": 31,
+      "Unsubstantiated": 1568
+    },
+    {
+      "Date": "2006-05-01",
+      "Total Complaints": 2194,
+      "Substantiated": 58,
+      "Unsubstantiated": 2136
+    },
+    {
+      "Date": "2006-06-01",
+      "Total Complaints": 3152,
+      "Substantiated": 62,
+      "Unsubstantiated": 3090
+    },
+    {
+      "Date": "2006-07-01",
+      "Total Complaints": 1613,
+      "Substantiated": 37,
+      "Unsubstantiated": 1576
+    },
+    {
+      "Date": "2006-08-01",
+      "Total Complaints": 2116,
+      "Substantiated": 71,
+      "Unsubstantiated": 2045
+    },
+    {
+      "Date": "2006-09-01",
+      "Total Complaints": 1602,
+      "Substantiated": 47,
+      "Unsubstantiated": 1555
+    },
+    {
+      "Date": "2006-10-01",
+      "Total Complaints": 1010,
+      "Substantiated": 40,
+      "Unsubstantiated": 970
+    },
+    {
+      "Date": "2006-11-01",
+      "Total Complaints": 2081,
+      "Substantiated": 61,
+      "Unsubstantiated": 2020
+    },
+    {
+      "Date": "2006-12-01",
+      "Total Complaints": 2168,
+      "Substantiated": 60,
+      "Unsubstantiated": 2108
+    },
+    {
+      "Date": "2007-01-01",
+      "Total Complaints": 520,
+      "Substantiated": 13,
+      "Unsubstantiated": 507
+    },
+    {
+      "Date": "2007-02-01",
+      "Total Complaints": 1094,
+      "Substantiated": 35,
+      "Unsubstantiated": 1059
+    },
+    {
+      "Date": "2007-03-01",
+      "Total Complaints": 3255,
+      "Substantiated": 111,
+      "Unsubstantiated": 3144
+    },
+    {
+      "Date": "2007-04-01",
+      "Total Complaints": 2073,
+      "Substantiated": 34,
+      "Unsubstantiated": 2039
+    },
+    {
+      "Date": "2007-05-01",
+      "Total Complaints": 2797,
+      "Substantiated": 65,
+      "Unsubstantiated": 2732
+    },
+    {
+      "Date": "2007-06-01",
+      "Total Complaints": 1141,
+      "Substantiated": 9,
+      "Unsubstantiated": 1132
+    },
+    {
+      "Date": "2007-07-01",
+      "Total Complaints": 2199,
+      "Substantiated": 73,
+      "Unsubstantiated": 2126
+    },
+    {
+      "Date": "2007-08-01",
+      "Total Complaints": 2244,
+      "Substantiated": 27,
+      "Unsubstantiated": 2217
+    },
+    {
+      "Date": "2007-09-01",
+      "Total Complaints": 1634,
+      "Substantiated": 28,
+      "Unsubstantiated": 1606
+    },
+    {
+      "Date": "2007-10-01",
+      "Total Complaints": 2237,
+      "Substantiated": 24,
+      "Unsubstantiated": 2213
+    },
+    {
+      "Date": "2007-11-01",
+      "Total Complaints": 3244,
+      "Substantiated": 41,
+      "Unsubstantiated": 3203
+    },
+    {
+      "Date": "2007-12-01",
+      "Total Complaints": 2073,
+      "Substantiated": 23,
+      "Unsubstantiated": 2050
+    },
+    {
+      "Date": "2008-01-01",
+      "Total Complaints": 1158,
+      "Substantiated": 11,
+      "Unsubstantiated": 1147
+    },
+    {
+      "Date": "2008-02-01",
+      "Total Complaints": 2350,
+      "Substantiated": 62,
+      "Unsubstantiated": 2288
+    },
+    {
+      "Date": "2008-03-01",
+      "Total Complaints": 619,
+      "Substantiated": 2,
+      "Unsubstantiated": 617
+    },
+    {
+      "Date": "2008-04-01",
+      "Total Complaints": 1716,
+      "Substantiated": 25,
+      "Unsubstantiated": 1691
+    },
+    {
+      "Date": "2008-05-01",
+      "Total Complaints": 3827,
+      "Substantiated": 83,
+      "Unsubstantiated": 3744
+    },
+    {
+      "Date": "2008-06-01",
+      "Total Complaints": 1755,
+      "Substantiated": 40,
+      "Unsubstantiated": 1715
+    },
+    {
+      "Date": "2008-07-01",
+      "Total Complaints": 1130,
+      "Substantiated": 10,
+      "Unsubstantiated": 1120
+    },
+    {
+      "Date": "2008-08-01",
+      "Total Complaints": 2696,
+      "Substantiated": 37,
+      "Unsubstantiated": 2659
+    },
+    {
+      "Date": "2008-09-01",
+      "Total Complaints": 1824,
+      "Substantiated": 18,
+      "Unsubstantiated": 1806
+    },
+    {
+      "Date": "2008-10-01",
+      "Total Complaints": 1185,
+      "Substantiated": 7,
+      "Unsubstantiated": 1178
+    },
+    {
+      "Date": "2008-11-01",
+      "Total Complaints": 1025,
+      "Substantiated": 10,
+      "Unsubstantiated": 1015
+    },
+    {
+      "Date": "2008-12-01",
+      "Total Complaints": 1876,
+      "Substantiated": 12,
+      "Unsubstantiated": 1864
+    },
+    {
+      "Date": "2009-01-01",
+      "Total Complaints": 1120,
+      "Substantiated": 15,
+      "Unsubstantiated": 1105
+    },
+    {
+      "Date": "2009-02-01",
+      "Total Complaints": 2384,
+      "Substantiated": 64,
+      "Unsubstantiated": 2320
+    },
+    {
+      "Date": "2009-03-01",
+      "Total Complaints": 1515,
+      "Substantiated": 18,
+      "Unsubstantiated": 1497
+    },
+    {
+      "Date": "2009-04-01",
+      "Total Complaints": 2260,
+      "Substantiated": 46,
+      "Unsubstantiated": 2214
+    },
+    {
+      "Date": "2009-05-01",
+      "Total Complaints": 1095,
+      "Substantiated": 26,
+      "Unsubstantiated": 1069
+    },
+    {
+      "Date": "2009-06-01",
+      "Total Complaints": 3537,
+      "Substantiated": 44,
+      "Unsubstantiated": 3493
+    },
+    {
+      "Date": "2009-07-01",
+      "Total Complaints": 2185,
+      "Substantiated": 50,
+      "Unsubstantiated": 2135
+    },
+    {
+      "Date": "2009-08-01",
+      "Total Complaints": 545,
+      "Substantiated": 2,
+      "Unsubstantiated": 543
+    },
+    {
+      "Date": "2009-09-01",
+      "Total Complaints": 2675,
+      "Substantiated": 53,
+      "Unsubstantiated": 2622
+    },
+    {
+      "Date": "2009-10-01",
+      "Total Complaints": 2934,
+      "Substantiated": 30,
+      "Unsubstantiated": 2904
+    },
+    {
+      "Date": "2009-11-01",
+      "Total Complaints": 991,
+      "Substantiated": 16,
+      "Unsubstantiated": 975
+    },
+    {
+      "Date": "2009-12-01",
+      "Total Complaints": 3256,
+      "Substantiated": 54,
+      "Unsubstantiated": 3202
+    },
+    {
+      "Date": "2010-01-01",
+      "Total Complaints": 1242,
+      "Substantiated": 43,
+      "Unsubstantiated": 1199
+    },
+    {
+      "Date": "2010-02-01",
+      "Total Complaints": 1459,
+      "Substantiated": 29,
+      "Unsubstantiated": 1430
+    },
+    {
+      "Date": "2010-03-01",
+      "Total Complaints": 1264,
+      "Substantiated": 24,
+      "Unsubstantiated": 1240
+    },
+    {
+      "Date": "2010-04-01",
+      "Total Complaints": 2191,
+      "Substantiated": 41,
+      "Unsubstantiated": 2150
+    },
+    {
+      "Date": "2010-05-01",
+      "Total Complaints": 1768,
+      "Substantiated": 25,
+      "Unsubstantiated": 1743
+    },
+    {
+      "Date": "2010-06-01",
+      "Total Complaints": 2584,
+      "Substantiated": 56,
+      "Unsubstantiated": 2528
+    },
+    {
+      "Date": "2010-07-01",
+      "Total Complaints": 1919,
+      "Substantiated": 93,
+      "Unsubstantiated": 1826
+    },
+    {
+      "Date": "2010-08-01",
+      "Total Complaints": 2694,
+      "Substantiated": 97,
+      "Unsubstantiated": 2597
+    },
+    {
+      "Date": "2010-09-01",
+      "Total Complaints": 1073,
+      "Substantiated": 20,
+      "Unsubstantiated": 1053
+    },
+    {
+      "Date": "2010-10-01",
+      "Total Complaints": 454,
+      "Substantiated": 23,
+      "Unsubstantiated": 431
+    },
+    {
+      "Date": "2010-11-01",
+      "Total Complaints": 1372,
+      "Substantiated": 38,
+      "Unsubstantiated": 1334
+    },
+    {
+      "Date": "2010-12-01",
+      "Total Complaints": 1576,
+      "Substantiated": 9,
+      "Unsubstantiated": 1567
+    },
+    {
+      "Date": "2011-01-01",
+      "Total Complaints": 1397,
+      "Substantiated": 27,
+      "Unsubstantiated": 1370
+    },
+    {
+      "Date": "2011-02-01",
+      "Total Complaints": 1463,
+      "Substantiated": 19,
+      "Unsubstantiated": 1444
+    },
+    {
+      "Date": "2011-03-01",
+      "Total Complaints": 445,
+      "Substantiated": 0,
+      "Unsubstantiated": 445
+    },
+    {
+      "Date": "2011-04-01",
+      "Total Complaints": 2810,
+      "Substantiated": 41,
+      "Unsubstantiated": 2769
+    },
+    {
+      "Date": "2011-05-01",
+      "Total Complaints": 1116,
+      "Substantiated": 7,
+      "Unsubstantiated": 1109
+    },
+    {
+      "Date": "2011-06-01",
+      "Total Complaints": 953,
+      "Substantiated": 6,
+      "Unsubstantiated": 947
+    },
+    {
+      "Date": "2011-07-01",
+      "Total Complaints": 2065,
+      "Substantiated": 37,
+      "Unsubstantiated": 2028
+    },
+    {
+      "Date": "2011-08-01",
+      "Total Complaints": 1482,
+      "Substantiated": 45,
+      "Unsubstantiated": 1437
+    },
+    {
+      "Date": "2011-09-01",
+      "Total Complaints": 1472,
+      "Substantiated": 22,
+      "Unsubstantiated": 1450
+    },
+    {
+      "Date": "2011-10-01",
+      "Total Complaints": 819,
+      "Substantiated": 30,
+      "Unsubstantiated": 789
+    },
+    {
+      "Date": "2011-11-01",
+      "Total Complaints": 1452,
+      "Substantiated": 27,
+      "Unsubstantiated": 1425
+    },
+    {
+      "Date": "2011-12-01",
+      "Total Complaints": 1290,
+      "Substantiated": 46,
+      "Unsubstantiated": 1244
+    },
+    {
+      "Date": "2012-01-01",
+      "Total Complaints": 1044,
+      "Substantiated": 17,
+      "Unsubstantiated": 1027
+    },
+    {
+      "Date": "2012-02-01",
+      "Total Complaints": 1127,
+      "Substantiated": 10,
+      "Unsubstantiated": 1117
+    },
+    {
+      "Date": "2012-03-01",
+      "Total Complaints": 689,
+      "Substantiated": 17,
+      "Unsubstantiated": 672
+    },
+    {
+      "Date": "2012-04-01",
+      "Total Complaints": 649,
+      "Substantiated": 10,
+      "Unsubstantiated": 639
+    },
+    {
+      "Date": "2012-05-01",
+      "Total Complaints": 1884,
+      "Substantiated": 32,
+      "Unsubstantiated": 1852
+    },
+    {
+      "Date": "2012-06-01",
+      "Total Complaints": 785,
+      "Substantiated": 48,
+      "Unsubstantiated": 737
+    },
+    {
+      "Date": "2012-07-01",
+      "Total Complaints": 1477,
+      "Substantiated": 56,
+      "Unsubstantiated": 1421
+    },
+    {
+      "Date": "2012-08-01",
+      "Total Complaints": 1797,
+      "Substantiated": 90,
+      "Unsubstantiated": 1707
+    },
+    {
+      "Date": "2012-09-01",
+      "Total Complaints": 845,
+      "Substantiated": 51,
+      "Unsubstantiated": 794
+    },
+    {
+      "Date": "2012-10-01",
+      "Total Complaints": 796,
+      "Substantiated": 32,
+      "Unsubstantiated": 764
+    },
+    {
+      "Date": "2013-01-01",
+      "Total Complaints": 1329,
+      "Substantiated": 55,
+      "Unsubstantiated": 1274
+    },
+    {
+      "Date": "2013-02-01",
+      "Total Complaints": 676,
+      "Substantiated": 64,
+      "Unsubstantiated": 612
+    },
+    {
+      "Date": "2013-03-01",
+      "Total Complaints": 2398,
+      "Substantiated": 69,
+      "Unsubstantiated": 2329
+    },
+    {
+      "Date": "2013-04-01",
+      "Total Complaints": 2199,
+      "Substantiated": 65,
+      "Unsubstantiated": 2134
+    },
+    {
+      "Date": "2013-05-01",
+      "Total Complaints": 2050,
+      "Substantiated": 97,
+      "Unsubstantiated": 1953
+    },
+    {
+      "Date": "2013-06-01",
+      "Total Complaints": 1467,
+      "Substantiated": 71,
+      "Unsubstantiated": 1396
+    },
+    {
+      "Date": "2013-07-01",
+      "Total Complaints": 1531,
+      "Substantiated": 42,
+      "Unsubstantiated": 1489
+    },
+    {
+      "Date": "2013-08-01",
+      "Total Complaints": 869,
+      "Substantiated": 23,
+      "Unsubstantiated": 846
+    },
+    {
+      "Date": "2013-09-01",
+      "Total Complaints": 1584,
+      "Substantiated": 45,
+      "Unsubstantiated": 1539
+    },
+    {
+      "Date": "2013-10-01",
+      "Total Complaints": 1284,
+      "Substantiated": 30,
+      "Unsubstantiated": 1254
+    },
+    {
+      "Date": "2013-11-01",
+      "Total Complaints": 954,
+      "Substantiated": 35,
+      "Unsubstantiated": 919
+    },
+    {
+      "Date": "2013-12-01",
+      "Total Complaints": 2208,
+      "Substantiated": 51,
+      "Unsubstantiated": 2157
+    }
+  ],
+  "de Blasio": [
+    {
+      "Date": "2014-01-01",
+      "Total Complaints": 388,
+      "Substantiated": 10,
+      "Unsubstantiated": 378
+    },
+    {
+      "Date": "2014-02-01",
+      "Total Complaints": 1179,
+      "Substantiated": 58,
+      "Unsubstantiated": 1121
+    },
+    {
+      "Date": "2014-03-01",
+      "Total Complaints": 1499,
+      "Substantiated": 66,
+      "Unsubstantiated": 1433
+    },
+    {
+      "Date": "2014-04-01",
+      "Total Complaints": 1416,
+      "Substantiated": 53,
+      "Unsubstantiated": 1363
+    },
+    {
+      "Date": "2014-05-01",
+      "Total Complaints": 1397,
+      "Substantiated": 42,
+      "Unsubstantiated": 1355
+    },
+    {
+      "Date": "2014-06-01",
+      "Total Complaints": 696,
+      "Substantiated": 17,
+      "Unsubstantiated": 679
+    },
+    {
+      "Date": "2014-07-01",
+      "Total Complaints": 1310,
+      "Substantiated": 34,
+      "Unsubstantiated": 1276
+    },
+    {
+      "Date": "2014-08-01",
+      "Total Complaints": 1503,
+      "Substantiated": 78,
+      "Unsubstantiated": 1425
+    },
+    {
+      "Date": "2014-09-01",
+      "Total Complaints": 1182,
+      "Substantiated": 60,
+      "Unsubstantiated": 1122
+    },
+    {
+      "Date": "2014-10-01",
+      "Total Complaints": 521,
+      "Substantiated": 26,
+      "Unsubstantiated": 495
+    },
+    {
+      "Date": "2014-11-01",
+      "Total Complaints": 1733,
+      "Substantiated": 67,
+      "Unsubstantiated": 1666
+    },
+    {
+      "Date": "2014-12-01",
+      "Total Complaints": 1804,
+      "Substantiated": 76,
+      "Unsubstantiated": 1728
+    },
+    {
+      "Date": "2015-01-01",
+      "Total Complaints": 842,
+      "Substantiated": 34,
+      "Unsubstantiated": 808
+    },
+    {
+      "Date": "2015-02-01",
+      "Total Complaints": 1257,
+      "Substantiated": 77,
+      "Unsubstantiated": 1180
+    },
+    {
+      "Date": "2015-03-01",
+      "Total Complaints": 1636,
+      "Substantiated": 86,
+      "Unsubstantiated": 1550
+    },
+    {
+      "Date": "2015-04-01",
+      "Total Complaints": 691,
+      "Substantiated": 57,
+      "Unsubstantiated": 634
+    },
+    {
+      "Date": "2015-05-01",
+      "Total Complaints": 1036,
+      "Substantiated": 57,
+      "Unsubstantiated": 979
+    },
+    {
+      "Date": "2015-06-01",
+      "Total Complaints": 2283,
+      "Substantiated": 106,
+      "Unsubstantiated": 2177
+    },
+    {
+      "Date": "2015-07-01",
+      "Total Complaints": 1266,
+      "Substantiated": 96,
+      "Unsubstantiated": 1170
+    },
+    {
+      "Date": "2015-08-01",
+      "Total Complaints": 1029,
+      "Substantiated": 47,
+      "Unsubstantiated": 982
+    },
+    {
+      "Date": "2015-09-01",
+      "Total Complaints": 1626,
+      "Substantiated": 130,
+      "Unsubstantiated": 1496
+    },
+    {
+      "Date": "2015-10-01",
+      "Total Complaints": 1138,
+      "Substantiated": 89,
+      "Unsubstantiated": 1049
+    },
+    {
+      "Date": "2015-11-01",
+      "Total Complaints": 1203,
+      "Substantiated": 58,
+      "Unsubstantiated": 1145
+    },
+    {
+      "Date": "2015-12-01",
+      "Total Complaints": 1381,
+      "Substantiated": 96,
+      "Unsubstantiated": 1285
+    },
+    {
+      "Date": "2016-01-01",
+      "Total Complaints": 1152,
+      "Substantiated": 50,
+      "Unsubstantiated": 1102
+    },
+    {
+      "Date": "2016-02-01",
+      "Total Complaints": 1209,
+      "Substantiated": 87,
+      "Unsubstantiated": 1122
+    },
+    {
+      "Date": "2016-03-01",
+      "Total Complaints": 1149,
+      "Substantiated": 54,
+      "Unsubstantiated": 1095
+    },
+    {
+      "Date": "2016-04-01",
+      "Total Complaints": 954,
+      "Substantiated": 50,
+      "Unsubstantiated": 904
+    },
+    {
+      "Date": "2016-05-01",
+      "Total Complaints": 987,
+      "Substantiated": 44,
+      "Unsubstantiated": 943
+    },
+    {
+      "Date": "2016-06-01",
+      "Total Complaints": 1596,
+      "Substantiated": 64,
+      "Unsubstantiated": 1532
+    },
+    {
+      "Date": "2016-07-01",
+      "Total Complaints": 881,
+      "Substantiated": 52,
+      "Unsubstantiated": 829
+    },
+    {
+      "Date": "2016-08-01",
+      "Total Complaints": 991,
+      "Substantiated": 18,
+      "Unsubstantiated": 973
+    },
+    {
+      "Date": "2016-09-01",
+      "Total Complaints": 1016,
+      "Substantiated": 66,
+      "Unsubstantiated": 950
+    },
+    {
+      "Date": "2016-10-01",
+      "Total Complaints": 1070,
+      "Substantiated": 23,
+      "Unsubstantiated": 1047
+    },
+    {
+      "Date": "2016-11-01",
+      "Total Complaints": 1237,
+      "Substantiated": 30,
+      "Unsubstantiated": 1207
+    },
+    {
+      "Date": "2016-12-01",
+      "Total Complaints": 845,
+      "Substantiated": 5,
+      "Unsubstantiated": 840
+    },
+    {
+      "Date": "2017-01-01",
+      "Total Complaints": 829,
+      "Substantiated": 35,
+      "Unsubstantiated": 794
+    },
+    {
+      "Date": "2017-02-01",
+      "Total Complaints": 1499,
+      "Substantiated": 80,
+      "Unsubstantiated": 1419
+    },
+    {
+      "Date": "2017-03-01",
+      "Total Complaints": 729,
+      "Substantiated": 15,
+      "Unsubstantiated": 714
+    },
+    {
+      "Date": "2017-04-01",
+      "Total Complaints": 628,
+      "Substantiated": 15,
+      "Unsubstantiated": 613
+    },
+    {
+      "Date": "2017-05-01",
+      "Total Complaints": 1054,
+      "Substantiated": 36,
+      "Unsubstantiated": 1018
+    },
+    {
+      "Date": "2017-06-01",
+      "Total Complaints": 1098,
+      "Substantiated": 69,
+      "Unsubstantiated": 1029
+    },
+    {
+      "Date": "2017-07-01",
+      "Total Complaints": 930,
+      "Substantiated": 24,
+      "Unsubstantiated": 906
+    },
+    {
+      "Date": "2017-08-01",
+      "Total Complaints": 1167,
+      "Substantiated": 50,
+      "Unsubstantiated": 1117
+    },
+    {
+      "Date": "2017-09-01",
+      "Total Complaints": 1180,
+      "Substantiated": 35,
+      "Unsubstantiated": 1145
+    },
+    {
+      "Date": "2017-10-01",
+      "Total Complaints": 851,
+      "Substantiated": 31,
+      "Unsubstantiated": 820
+    },
+    {
+      "Date": "2017-11-01",
+      "Total Complaints": 1254,
+      "Substantiated": 51,
+      "Unsubstantiated": 1203
+    },
+    {
+      "Date": "2017-12-01",
+      "Total Complaints": 693,
+      "Substantiated": 0,
+      "Unsubstantiated": 693
+    },
+    {
+      "Date": "2018-01-01",
+      "Total Complaints": 1335,
+      "Substantiated": 48,
+      "Unsubstantiated": 1287
+    },
+    {
+      "Date": "2018-02-01",
+      "Total Complaints": 897,
+      "Substantiated": 53,
+      "Unsubstantiated": 844
+    },
+    {
+      "Date": "2018-03-01",
+      "Total Complaints": 812,
+      "Substantiated": 23,
+      "Unsubstantiated": 789
+    },
+    {
+      "Date": "2018-04-01",
+      "Total Complaints": 1148,
+      "Substantiated": 53,
+      "Unsubstantiated": 1095
+    },
+    {
+      "Date": "2018-05-01",
+      "Total Complaints": 815,
+      "Substantiated": 24,
+      "Unsubstantiated": 791
+    },
+    {
+      "Date": "2018-06-01",
+      "Total Complaints": 942,
+      "Substantiated": 6,
+      "Unsubstantiated": 936
+    },
+    {
+      "Date": "2018-07-01",
+      "Total Complaints": 1145,
+      "Substantiated": 43,
+      "Unsubstantiated": 1102
+    },
+    {
+      "Date": "2018-08-01",
+      "Total Complaints": 1069,
+      "Substantiated": 26,
+      "Unsubstantiated": 1043
+    },
+    {
+      "Date": "2018-09-01",
+      "Total Complaints": 734,
+      "Substantiated": 10,
+      "Unsubstantiated": 724
+    },
+    {
+      "Date": "2018-10-01",
+      "Total Complaints": 1567,
+      "Substantiated": 55,
+      "Unsubstantiated": 1512
+    },
+    {
+      "Date": "2018-11-01",
+      "Total Complaints": 780,
+      "Substantiated": 20,
+      "Unsubstantiated": 760
+    },
+    {
+      "Date": "2018-12-01",
+      "Total Complaints": 996,
+      "Substantiated": 11,
+      "Unsubstantiated": 985
+    },
+    {
+      "Date": "2019-01-01",
+      "Total Complaints": 1851,
+      "Substantiated": 105,
+      "Unsubstantiated": 1746
+    },
+    {
+      "Date": "2019-02-01",
+      "Total Complaints": 1260,
+      "Substantiated": 39,
+      "Unsubstantiated": 1221
+    },
+    {
+      "Date": "2019-03-01",
+      "Total Complaints": 1432,
+      "Substantiated": 30,
+      "Unsubstantiated": 1402
+    },
+    {
+      "Date": "2019-04-01",
+      "Total Complaints": 1476,
+      "Substantiated": 29,
+      "Unsubstantiated": 1447
+    },
+    {
+      "Date": "2019-05-01",
+      "Total Complaints": 1220,
+      "Substantiated": 22,
+      "Unsubstantiated": 1198
+    },
+    {
+      "Date": "2019-06-01",
+      "Total Complaints": 1444,
+      "Substantiated": 51,
+      "Unsubstantiated": 1393
+    },
+    {
+      "Date": "2019-07-01",
+      "Total Complaints": 1138,
+      "Substantiated": 49,
+      "Unsubstantiated": 1089
+    },
+    {
+      "Date": "2019-08-01",
+      "Total Complaints": 1122,
+      "Substantiated": 41,
+      "Unsubstantiated": 1081
+    },
+    {
+      "Date": "2019-09-01",
+      "Total Complaints": 1039,
+      "Substantiated": 27,
+      "Unsubstantiated": 1012
+    },
+    {
+      "Date": "2019-10-01",
+      "Total Complaints": 1181,
+      "Substantiated": 61,
+      "Unsubstantiated": 1120
+    },
+    {
+      "Date": "2019-11-01",
+      "Total Complaints": 1165,
+      "Substantiated": 27,
+      "Unsubstantiated": 1138
+    },
+    {
+      "Date": "2019-12-01",
+      "Total Complaints": 1423,
+      "Substantiated": 36,
+      "Unsubstantiated": 1387
+    },
+    {
+      "Date": "2020-01-01",
+      "Total Complaints": 1094,
+      "Substantiated": 26,
+      "Unsubstantiated": 1068
+    },
+    {
+      "Date": "2020-02-01",
+      "Total Complaints": 624,
+      "Substantiated": 5,
+      "Unsubstantiated": 619
+    },
+    {
+      "Date": "2020-03-01",
+      "Total Complaints": 921,
+      "Substantiated": 13,
+      "Unsubstantiated": 908
+    },
+    {
+      "Date": "2020-04-01",
+      "Total Complaints": 730,
+      "Substantiated": 45,
+      "Unsubstantiated": 685
+    },
+    {
+      "Date": "2020-05-01",
+      "Total Complaints": 1080,
+      "Substantiated": 24,
+      "Unsubstantiated": 1056
+    },
+    {
+      "Date": "2020-06-01",
+      "Total Complaints": 2410,
+      "Substantiated": 51,
+      "Unsubstantiated": 2359
+    },
+    {
+      "Date": "2020-07-01",
+      "Total Complaints": 492,
+      "Substantiated": 54,
+      "Unsubstantiated": 438
+    },
+    {
+      "Date": "2020-08-01",
+      "Total Complaints": 982,
+      "Substantiated": 53,
+      "Unsubstantiated": 929
+    },
+    {
+      "Date": "2020-09-01",
+      "Total Complaints": 857,
+      "Substantiated": 40,
+      "Unsubstantiated": 817
+    },
+    {
+      "Date": "2020-10-01",
+      "Total Complaints": 537,
+      "Substantiated": 19,
+      "Unsubstantiated": 518
+    },
+    {
+      "Date": "2020-11-01",
+      "Total Complaints": 481,
+      "Substantiated": 6,
+      "Unsubstantiated": 475
+    },
+    {
+      "Date": "2020-12-01",
+      "Total Complaints": 837,
+      "Substantiated": 53,
+      "Unsubstantiated": 784
+    },
+    {
+      "Date": "2021-01-01",
+      "Total Complaints": 741,
+      "Substantiated": 23,
+      "Unsubstantiated": 718
+    },
+    {
+      "Date": "2021-02-01",
+      "Total Complaints": 176,
+      "Substantiated": 3,
+      "Unsubstantiated": 173
+    },
+    {
+      "Date": "2021-03-01",
+      "Total Complaints": 418,
+      "Substantiated": 0,
+      "Unsubstantiated": 418
+    },
+    {
+      "Date": "2021-04-01",
+      "Total Complaints": 1225,
+      "Substantiated": 40,
+      "Unsubstantiated": 1185
+    },
+    {
+      "Date": "2021-05-01",
+      "Total Complaints": 533,
+      "Substantiated": 35,
+      "Unsubstantiated": 498
+    },
+    {
+      "Date": "2021-06-01",
+      "Total Complaints": 933,
+      "Substantiated": 99,
+      "Unsubstantiated": 834
+    },
+    {
+      "Date": "2021-07-01",
+      "Total Complaints": 665,
+      "Substantiated": 70,
+      "Unsubstantiated": 595
+    },
+    {
+      "Date": "2021-08-01",
+      "Total Complaints": 1032,
+      "Substantiated": 119,
+      "Unsubstantiated": 913
+    },
+    {
+      "Date": "2021-09-01",
+      "Total Complaints": 650,
+      "Substantiated": 34,
+      "Unsubstantiated": 616
+    },
+    {
+      "Date": "2021-10-01",
+      "Total Complaints": 924,
+      "Substantiated": 89,
+      "Unsubstantiated": 835
+    },
+    {
+      "Date": "2021-11-01",
+      "Total Complaints": 594,
+      "Substantiated": 70,
+      "Unsubstantiated": 524
+    },
+    {
+      "Date": "2021-12-01",
+      "Total Complaints": 971,
+      "Substantiated": 50,
+      "Unsubstantiated": 921
+    }
+  ],
+  "Adams": [
+    {
+      "Date": "2022-01-01",
+      "Total Complaints": 1071,
+      "Substantiated": 104,
+      "Unsubstantiated": 967
+    },
+    {
+      "Date": "2022-02-01",
+      "Total Complaints": 1947,
+      "Substantiated": 228,
+      "Unsubstantiated": 1719
+    },
+    {
+      "Date": "2022-03-01",
+      "Total Complaints": 2372,
+      "Substantiated": 369,
+      "Unsubstantiated": 2003
+    },
+    {
+      "Date": "2022-04-01",
+      "Total Complaints": 3722,
+      "Substantiated": 846,
+      "Unsubstantiated": 2876
+    },
+    {
+      "Date": "2022-05-01",
+      "Total Complaints": 1139,
+      "Substantiated": 159,
+      "Unsubstantiated": 980
+    },
+    {
+      "Date": "2022-06-01",
+      "Total Complaints": 1370,
+      "Substantiated": 129,
+      "Unsubstantiated": 1241
+    },
+    {
+      "Date": "2022-07-01",
+      "Total Complaints": 1016,
+      "Substantiated": 121,
+      "Unsubstantiated": 895
+    },
+    {
+      "Date": "2022-08-01",
+      "Total Complaints": 1519,
+      "Substantiated": 201,
+      "Unsubstantiated": 1318
+    },
+    {
+      "Date": "2022-09-01",
+      "Total Complaints": 919,
+      "Substantiated": 179,
+      "Unsubstantiated": 740
+    },
+    {
+      "Date": "2022-10-01",
+      "Total Complaints": 1037,
+      "Substantiated": 121,
+      "Unsubstantiated": 916
+    },
+    {
+      "Date": "2022-11-01",
+      "Total Complaints": 1115,
+      "Substantiated": 182,
+      "Unsubstantiated": 933
+    },
+    {
+      "Date": "2022-12-01",
+      "Total Complaints": 1247,
+      "Substantiated": 157,
+      "Unsubstantiated": 1090
+    },
+    {
+      "Date": "2023-01-01",
+      "Total Complaints": 1127,
+      "Substantiated": 158,
+      "Unsubstantiated": 969
+    },
+    {
+      "Date": "2023-02-01",
+      "Total Complaints": 600,
+      "Substantiated": 179,
+      "Unsubstantiated": 421
+    },
+    {
+      "Date": "2023-03-01",
+      "Total Complaints": 3417,
+      "Substantiated": 79,
+      "Unsubstantiated": 3338
+    },
+    {
+      "Date": "2023-04-01",
+      "Total Complaints": 1404,
+      "Substantiated": 155,
+      "Unsubstantiated": 1249
+    },
+    {
+      "Date": "2023-05-01",
+      "Total Complaints": 1271,
+      "Substantiated": 110,
+      "Unsubstantiated": 1161
+    },
+    {
+      "Date": "2023-06-01",
+      "Total Complaints": 2030,
+      "Substantiated": 137,
+      "Unsubstantiated": 1893
+    },
+    {
+      "Date": "2023-07-01",
+      "Total Complaints": 1676,
+      "Substantiated": 122,
+      "Unsubstantiated": 1554
+    },
+    {
+      "Date": "2023-08-01",
+      "Total Complaints": 1186,
+      "Substantiated": 147,
+      "Unsubstantiated": 1039
+    },
+    {
+      "Date": "2023-09-01",
+      "Total Complaints": 1393,
+      "Substantiated": 88,
+      "Unsubstantiated": 1305
+    },
+    {
+      "Date": "2023-10-01",
+      "Total Complaints": 1843,
+      "Substantiated": 150,
+      "Unsubstantiated": 1693
+    },
+    {
+      "Date": "2023-11-01",
+      "Total Complaints": 2181,
+      "Substantiated": 221,
+      "Unsubstantiated": 1960
+    },
+    {
+      "Date": "2023-12-01",
+      "Total Complaints": 1771,
+      "Substantiated": 131,
+      "Unsubstantiated": 1640
+    },
+    {
+      "Date": "2024-01-01",
+      "Total Complaints": 2558,
+      "Substantiated": 196,
+      "Unsubstantiated": 2362
+    },
+    {
+      "Date": "2024-02-01",
+      "Total Complaints": 1296,
+      "Substantiated": 208,
+      "Unsubstantiated": 1088
+    },
+    {
+      "Date": "2024-03-01",
+      "Total Complaints": 1620,
+      "Substantiated": 228,
+      "Unsubstantiated": 1392
+    },
+    {
+      "Date": "2024-04-01",
+      "Total Complaints": 2000,
+      "Substantiated": 245,
+      "Unsubstantiated": 1755
+    },
+    {
+      "Date": "2024-05-01",
+      "Total Complaints": 1889,
+      "Substantiated": 204,
+      "Unsubstantiated": 1685
+    },
+    {
+      "Date": "2024-06-01",
+      "Total Complaints": 1577,
+      "Substantiated": 207,
+      "Unsubstantiated": 1370
+    },
+    {
+      "Date": "2024-07-01",
+      "Total Complaints": 1958,
+      "Substantiated": 212,
+      "Unsubstantiated": 1746
+    },
+    {
+      "Date": "2024-08-01",
+      "Total Complaints": 2268,
+      "Substantiated": 245,
+      "Unsubstantiated": 2023
+    },
+    {
+      "Date": "2024-09-01",
+      "Total Complaints": 2298,
+      "Substantiated": 268,
+      "Unsubstantiated": 2030
+    },
+    {
+      "Date": "2024-10-01",
+      "Total Complaints": 2463,
+      "Substantiated": 228,
+      "Unsubstantiated": 2235
+    },
+    {
+      "Date": "2024-11-01",
+      "Total Complaints": 2804,
+      "Substantiated": 265,
+      "Unsubstantiated": 2539
+    },
+    {
+      "Date": "2024-12-01",
+      "Total Complaints": 1426,
+      "Substantiated": 189,
+      "Unsubstantiated": 1237
+    }
+  ]
+}
