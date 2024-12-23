@@ -107,6 +107,7 @@ function drawTotalComplaintsChart() {
         .attr("y", d => y(d.totalComplaints))
         .attr("height", d => height - y(d.totalComplaints));
 }
+
 // Draw Donut Chart
 function drawSubstantiationPieChart(admin) {
     const width = 400;
@@ -131,6 +132,14 @@ function drawSubstantiationPieChart(admin) {
         .innerRadius(radius * 0.6) // Inner radius for the donut
         .outerRadius(radius);
 
+    // Custom Colors Mapping
+    const customColors = {
+        "Charges": "#FF0000", // Red
+        "Command Discipline A": "#FFEB3B", // Empire State Blue
+        "Command Discipline B": "#FF5900", // Knicks Orange
+        "Command Discipline": "#008000" // Green
+    };
+
     // Create pie slices
     svg.selectAll(".arc")
         .data(pie(substantiations))
@@ -139,12 +148,12 @@ function drawSubstantiationPieChart(admin) {
         .attr("class", "arc")
         .append("path")
         .attr("d", arc)
-        .attr("fill", (d, i) => d3.schemeCategory10[i]) // Use D3's color scheme
+        .attr("fill", d => customColors[d.data.label.split('(')[1].replace(')', '')] || "#CCCCCC") // Use custom colors for the slices
         .on("mouseover", function (event, d) {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", 0.9);
-            tooltip.html(`${d.data.label}: ${d.data.value}% (${d.data.cases} cases)`)
+            tooltip.html(d.data.label.split('(')[1].replace(')', '')) // Extract and display only the type
                 .style("left", (event.pageX) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
@@ -174,6 +183,61 @@ function drawSubstantiationPieChart(admin) {
         .text(admin);
 }
 
+function drawLegend() {
+    const legendData = [
+        ...new Set(
+            data.flatMap(d =>
+                d.substantiations
+                    .filter(item => item.value > 0) // Only include non-zero values
+                    .map(item => item.label.split('(')[1].replace(')', '')) // Extract type
+            )
+        ),
+    ];
+
+    const itemsPerRow = 2; // Set the number of items per row
+    const legendWidth = 400; // Adjusted width for your needs
+    const legendHeight = Math.ceil(legendData.length / itemsPerRow) * 30; // Adjust height based on rows
+    const spacingX = 150; // Horizontal spacing
+    const spacingY = 30; // Vertical spacing
+
+    const customColors = {
+        "Charges": "#FF0000", // Red
+        "Command Discipline A": "#FFEB3B", // Yellow
+        "Command Discipline B": "#FF5900", // Knicks Orange
+        "Command Discipline": "#008000" // Green
+    };
+
+    const legend = d3.select("#legend")
+        .append("svg")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .append("g")
+        .attr("transform", "translate(10, 10)");
+
+    legend.selectAll(".legend-item")
+        .data(legendData)
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`) // Grid layout
+        .each(function (d, i) {
+            d3.select(this)
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", customColors[d] || "#CCCCCC"); // Default to grey if missing color
+
+            d3.select(this)
+                .append("text")
+                .attr("x", 20)
+                .attr("y", 12)
+                .text(d)
+                .attr("font-size", "12px")
+                .attr("alignment-baseline", "middle");
+        });
+}
 
 // Board data
 const designees = [
@@ -486,5 +550,6 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthma
 drawSubstantiationPieChart('Bloomberg');
 drawSubstantiationPieChart('de Blasio');
 drawSubstantiationPieChart('Adams');
+drawLegend();
 drawGrid();
 drawTotalComplaintsChart();
