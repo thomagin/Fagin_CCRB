@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
     background-color: white;
@@ -10,9 +14,8 @@ body {
 .section {
     padding: 50px 20px;
     text-align: center;
-    /* Remove the initial opacity: 0 since we'll handle visibility differently */
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-    opacity: 1; /* Start visible */
+    opacity: 1;
 }
 
 .section.visible {
@@ -35,13 +38,15 @@ h1, h2 {
 .tooltip {
     position: absolute;
     text-align: center;
-    width: 100px;
-    padding: 5px;
-    font: 12px sans-serif;
-    background: lightsteelblue;
-    border: 0px;
+    width: auto;
+    padding: 8px;
+    font: 14px sans-serif;  /* Increase font size for better readability */
+    background: #f1f1f1;    /* Lighter background for readability */
+    border: 1px solid #ccc;
     border-radius: 5px;
     pointer-events: none;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Add shadow to tooltip */
+    white-space: nowrap; /* Prevent tooltip from breaking lines */
 }
 
 /* D3 Charts */
@@ -66,26 +71,95 @@ h1, h2 {
     fill: #FF0000;
 }
 
-/* Center the charts */
-#complaints-chart, #bloomberg-chart, #de-blasio-chart, #adams-chart {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    margin: 10px;
+/* Layout for pie charts side-by-side */
+#bloomberg-chart, #de-blasio-chart, #adams-chart {
+    display: inline-block; /* Ensure the charts are inline */
+    width: 30%;            /* Set each chart to take up 30% of the container width */
+    margin: 10px;          /* Add some spacing between the charts */
+    text-align: center;    /* Center align the chart container */
+}
+
+
+/* Style for the mayor label above each pie chart */
+#bloomberg-chart text, #de-blasio-chart text, #adams-chart text {
+    font-size: 16px;
+    font-weight: bold;
+    fill: #333;
+    margin-bottom: 10px; /* Space between the label and the pie chart */
+}
+
+
+/* Enhanced styling for pie chart container */
+#bloomberg-chart, #de-blasio-chart, #adams-chart {
+    padding: 20px;
+    background-color: #f9f9f9;  /* Light background for the chart containers */
+    border-radius: 8px; /* Rounded corners for the chart containers */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Light shadow for a cleaner look */
+}
+
+svg text {
+    fill: #003DA5; /* Blue for New York State */
+}
+
+.arc path {
+    stroke: #fff;
+    stroke-width: 2px;
 }
 
 .chart-container {
     width: 100%;
-    max-width: 600px;
-    margin: 10px;
+    max-width: 800px;
+    margin: 10px auto;
+    display: block;
 }
 
-/* Scroll Container Styles */
+/* Axis styles */
+.axis-label {
+    font-weight: normal;
+    font-size: 10px;
+    text-anchor: middle;
+}
+
+/* Enhanced Scroll Container Styles */
 .scroll-container {
     position: relative;
 }
 
+.scroll-section {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+#designeeGrid {
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    margin: 0 auto;
+    background: transparent;
+}
+
+.section-header {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 1rem 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Transition styles for grid elements */
+.square {
+    transition: fill 0.75s ease-in-out, opacity 0.75s ease-in-out;
+}
+
+.label tspan {
+    transition: opacity 0.75s ease-in-out;
+}
+
+/* Utility classes */
 .hidden {
     display: none;
 }
@@ -99,16 +173,25 @@ h1, h2 {
     margin-bottom: 2rem;
 }
 
-#designeeGrid {
-    position: sticky;
-    top: 50vh; /* Adjust based on your header height */
-    transform: translateY(-50%);
-    z-index: 1;
-    margin: 0 auto;
+/* Mobile responsiveness */
+@media screen and (max-width: 768px) {
+    .license-plate {
+        font-size: 1.5em;
+    }
+
+    .section {
+        padding: 30px 15px;
+    }
+
+    .chart-container {
+        max-width: 100%;
+    }
 }
 
-.scroll-section {
-    position: relative;
-    min-height: 120vh;
-    padding: 1rem;
+
+/* Mobile responsiveness for pie chart */
+@media screen and (max-width: 768px) {
+    #bloomberg-chart, #de-blasio-chart, #adams-chart {
+        width: 100%; /* Stack the charts vertically on smaller screens */
+    }
 }

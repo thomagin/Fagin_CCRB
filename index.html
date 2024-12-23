@@ -28,14 +28,21 @@
 
 <!-- Section 3: Board Designee Visualization -->
 <div class="section" id="board-visualization">
-    <div class="header-sticky">
+    <div class="section-header">
         <h2 class="license-plate">Current Board Composition</h2>
         <p>The CCRB board consists of 15 members with different appointment sources.</p>
     </div>
     <svg id="designeeGrid" width="800" height="600"></svg>
     <div class="scroll-container">
-        <div class="scroll-section" id="initial-view"></div>
-        <div class="scroll-section" id="vacant-view"></div>
+        <div class="scroll-section" id="initial-view">
+            <div style="height: 10vh;"></div>
+        </div>
+        <div class="scroll-section" id="transition-trigger">
+            <div style="height: 10vh;"></div>
+        </div>
+        <div class="scroll-section" id="vacant-view">
+            <div style="height: 10vh;"></div>
+        </div>
     </div>
 </div>
     
@@ -47,7 +54,8 @@
 
     <!-- Section 5: Substantiated Rates Pie Charts -->
     <div class="section" id="rates-charts">
-        <h2 class="license-plate">Substantiated Rates by Administration</h2>
+        <h2 class="license-plate">Substantiation Outcomes by Administration</h2>
+        <p>Several types of consequences can result from the CCRB substantiating a complaint. The lightest is Command Discipline A, which typically results in loss of vacation days. The most severe is the filing of charges. Let's look at the outcomes of the CCRB under the last three mayors.</p>
         <div class="chart-container" id="bloomberg-chart"></div> <!-- Bloomberg Admin Chart -->
         <div class="chart-container" id="de-blasio-chart"></div> <!-- de Blasio Admin Chart -->
         <div class="chart-container" id="adams-chart"></div> <!-- Adams Admin Chart -->

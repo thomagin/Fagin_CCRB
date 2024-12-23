@@ -1,25 +1,46 @@
-// main.js
+//JS/D3
+
 const data = [
     {
         administration: 'Bloomberg',
         totalComplaints: 218933,
         substantiatedRate: 2.97,
-        unsubstantiatedRate: 97.03
+        unsubstantiatedRate: 97.03,
+        substantiations: [
+            { label: 'Substantiated (Charges)', value: 84.88, cases: 5522 },
+            { label: 'Substantiated (Command Discipline A)', value: 0.00, cases: 0 },
+            { label: 'Substantiated (Command Discipline B)', value: 0.00, cases: 0 },
+            { label: 'Substantiated (Command Discipline)', value: 15.12, cases: 984 },
+            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ]
     },
     {
         administration: 'de Blasio',
         totalComplaints: 102913,
         substantiatedRate: 4.29,
-        unsubstantiatedRate: 95.71
+        unsubstantiatedRate: 95.71,
+        substantiations: [
+            { label: 'Substantiated (Charges)', value: 37.29, cases: 1646 },
+            { label: 'Substantiated (Command Discipline A)', value: 33.17, cases: 1464 },
+            { label: 'Substantiated (Command Discipline B)', value: 25.37, cases: 1120 },
+            { label: 'Substantiated (Command Discipline)', value: 4.17, cases: 184 },
+            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ]
     },
     {
         administration: 'Adams',
         totalComplaints: 62530,
         substantiatedRate: 11.46,
-        unsubstantiatedRate: 88.54
+        unsubstantiatedRate: 88.54,
+        substantiations: [
+            { label: 'Substantiated (Charges)', value: 14.89, cases: 1067 },
+            { label: 'Substantiated (Command Discipline A)', value: 65.64, cases: 4705 },
+            { label: 'Substantiated (Command Discipline B)', value: 19.48, cases: 1396 },
+            { label: 'Substantiated (Command Discipline)', value: 0.00, cases: 0 },
+            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ]
     }
 ];
-
 
 // Set up dimensions for the charts
 const margin = { top: 40, right: 40, bottom: 40, left: 60 };
@@ -86,54 +107,75 @@ function drawTotalComplaintsChart() {
         .attr("y", d => y(d.totalComplaints))
         .attr("height", d => height - y(d.totalComplaints));
 }
+// Draw Donut Chart
+function drawSubstantiationPieChart(admin) {
+    const width = 400;
+    const height = 400;
+    const radius = Math.min(width, height) / 2;
 
-// Draw Pie Chart
-function drawPieChart(administration) {
-    const svg = d3.select(`#${administration.replace(' ', '-').toLowerCase()}-chart`)
+    const svg = d3.select(`#${admin.replace(' ', '-').toLowerCase()}-chart`)
         .append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    const pieData = [
-        { label: 'Substantiated', value: data.find(d => d.administration === administration).substantiatedRate },
-        { label: 'Unsubstantiated', value: data.find(d => d.administration === administration).unsubstantiatedRate }
-    ];
+    // Find substantiations data for the selected administration
+    const substantiations = data.find(d => d.administration === admin).substantiations;
 
-    const pie = d3.pie().value(d => d.value);
-    const arc = d3.arc().innerRadius(0).outerRadius(100);
+    const pie = d3.pie()
+        .value(d => d.value); // Use the 'value' field for slice sizes
 
+    // Create the donut chart with an inner radius
+    const arc = d3.arc()
+        .innerRadius(radius * 0.6) // Inner radius for the donut
+        .outerRadius(radius);
+
+    // Create pie slices
     svg.selectAll(".arc")
-        .data(pie(pieData))
+        .data(pie(substantiations))
         .enter()
         .append("g")
         .attr("class", "arc")
         .append("path")
         .attr("d", arc)
-        .attr("fill", (d, i) => i === 0 ? "#003DA5" : "#FF0000")
-        .on("mouseover", function(event, d) {
+        .attr("fill", (d, i) => d3.schemeCategory10[i]) // Use D3's color scheme
+        .on("mouseover", function (event, d) {
             tooltip.transition()
                 .duration(200)
-                .style("opacity", .9);
-            tooltip.html(`${d.data.label}: ${d.data.value}%`)
+                .style("opacity", 0.9);
+            tooltip.html(`${d.data.label}: ${d.data.value}% (${d.data.cases} cases)`)
                 .style("left", (event.pageX) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
             tooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
         });
 
-    svg.append("text")
-        .attr("class", "pie-label")
+    // Add percentages as labels inside the pie slices
+    svg.selectAll(".label")
+        .data(pie(substantiations))
+        .enter()
+        .append("text")
+        .filter(d => d.data.value > 0) // Only include slices with a value > 0
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
         .attr("text-anchor", "middle")
-        .attr("y", 10)
-        .text(`CCR Substantiated ${administration}: ${data.find(d => d.administration === administration).substantiatedRate}%`);
+        .attr("dy", "0.35em")
+        .text(d => `${d.data.value}%`); // Display percentage only if > 0
 
-        
-}// Board data
+    // Add mayor's name in the center of the donut
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .style("font-size", "1.5em")
+        .style("font-weight", "bold")
+        .text(admin);
+}
+
+
+// Board data
 const designees = [
     { type: "Mayoral Appointee", label: "Mayoral Appointee", name: "John Siegal, Esq.", color: "#003DA5" },
     { type: "Mayoral Appointee", label: "Mayoral Appointee", name: "June Northern", color: "#003DA5" },
@@ -157,7 +199,7 @@ const textSections = `
     <div class="scroll-section" id="initial-view">
         <h2 class="license-plate">Current Board Composition</h2>
         <p>The CCRB board consists of 15 members with different appointment sources.</p>
-        <div style="height: 100vh;"></div>
+        <div style="height: 1vh;"></div>
     </div>
 `;
 
@@ -174,7 +216,7 @@ function transitionToVacantView(show) {
     isShowingVacant = show;
     
     const svg = d3.select("#designeeGrid");
-    const duration = 750;
+    const duration = 100;
 
     // Restore color transition for squares
     svg.selectAll(".square")
@@ -229,7 +271,7 @@ function transitionToVacantView(show) {
                         .style("opacity", isShowingVacant ? 1 : 1);
                 }
             });
-    }, duration / 2);
+    }, duration / 1);
 }
 
 function drawGrid() {
@@ -308,7 +350,7 @@ function drawGrid() {
 // Modified Intersection Observer options
 const scrollOptions = {
     root: null,
-    threshold: 0.65 //trigger point for change
+    threshold: 0.1 //trigger point for change
 };
 
 const scrollObserver = new IntersectionObserver((entries) => {
@@ -329,7 +371,7 @@ document.querySelectorAll('.scroll-section').forEach(section => {
 d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json').then(function(data) {
 
     // Set up chart dimensions and margins
-    var margin = { top: 20, right: 30, bottom: 40, left: 40 };
+    var margin = { top: 20, right: 30, bottom: 40, left: 60 };
     var width = 800 - margin.left - margin.right;
     var height = 400 - margin.top - margin.bottom;
 
@@ -357,13 +399,13 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthma
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    // Add the x-axis with exact placement for January labels
+    // Add the x-axis with January labels
     svg.append('g')
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(xScale).ticks(d3.timeYear.every(1)).tickFormat(d3.timeFormat("%Y"))) // Place ticks at the year marks
         .selectAll('text')
         .style('text-anchor', 'middle')
-        .style('font-size', '12px')
+        .style('font-size', '10px')
         .attr('transform', 'rotate(-45)') // Rotate labels to avoid crowding
         .style('font-weight', 'bold');
 
@@ -371,15 +413,26 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthma
     svg.append('g')
         .call(d3.axisLeft(yScale));
 
+    // Add Y-axis label
+    svg.append("text")
+    .attr("transform", "rotate(-90)") // Rotate the label to align vertically
+    .attr("y", -margin.left + 15) // Position it based on the margin
+    .attr("x", -(height / 2)) // Center the label along the Y-axis
+    .style("text-anchor", "middle") // Center the text horizontally
+    .style("font-size", "14px") // Set font size
+    .style("font-weight", "bold") // Make the label bold
+    .text("Total Cases Closed"); // Label text
+
+
     // Calculate the width of each bar based on the total number of bars (bars for each mayor)
     var totalBars = Object.values(data).flatMap(mayorData => mayorData).length;
     var barWidth = width / totalBars;
 
     // Add bars for each mayor
     var mayorColors = {
-        "Bloomberg": "#F9A825", // New York yellow
-        "de Blasio": "#388E3C",  // New York green
-        "Adams": "#1976D2"       // New York blue
+        "Bloomberg": "#F9A825", //  yellow
+        "de Blasio": "#388E3C",  //  green
+        "Adams": "#1976D2"       //  blue
     };
 
     // Create the tooltip div
@@ -430,8 +483,8 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthma
 });
 
 // Initialize all visualizations
-drawPieChart('Bloomberg');
-drawPieChart('de Blasio');
-drawPieChart('Adams');
+drawSubstantiationPieChart('Bloomberg');
+drawSubstantiationPieChart('de Blasio');
+drawSubstantiationPieChart('Adams');
 drawGrid();
 drawTotalComplaintsChart();
