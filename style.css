@@ -84,35 +84,31 @@ h1, h2 {
 /* Scroll Container Styles */
 .scroll-container {
     position: relative;
-    z-index: 1;
-}
-
-.scroll-section {
-    min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    margin: 2rem 0;
-}
-
-.scroll-section {
-    min-height: 80vh; /* Increase height to ensure proper scrolling */
-    padding: 4rem 2rem; /* More padding */
-    margin: 4rem 0;
-    background-color: rgba(255,255,255,0.9); /* Add background to ensure visibility */
-}
-
-#designeeGrid {
-    position: sticky;
-    top: 50vh;
-    transform: translateY(-50%);
-    margin: 2rem 0;
-    z-index: 1; /* Ensure grid is above other elements */
 }
 
 .hidden {
     display: none;
 }
 
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+#designeeGrid {
+    position: sticky;
+    top: 50vh; /* Adjust based on your header height */
+    transform: translateY(-50%);
+    z-index: 1;
+    margin: 0 auto;
+}
+
+.scroll-section {
+    position: relative;
+    min-height: 120vh;
+    padding: 1rem;
+}

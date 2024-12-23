@@ -20,6 +20,7 @@ const data = [
     }
 ];
 
+
 // Set up dimensions for the charts
 const margin = { top: 40, right: 40, bottom: 40, left: 60 };
 const width = 700 - margin.left - margin.right;
@@ -130,9 +131,9 @@ function drawPieChart(administration) {
         .attr("text-anchor", "middle")
         .attr("y", 10)
         .text(`CCR Substantiated ${administration}: ${data.find(d => d.administration === administration).substantiatedRate}%`);
-}
 
-// Board data
+        
+}// Board data
 const designees = [
     { type: "Mayoral Appointee", label: "Mayoral Appointee", name: "John Siegal, Esq.", color: "#003DA5" },
     { type: "Mayoral Appointee", label: "Mayoral Appointee", name: "June Northern", color: "#003DA5" },
@@ -151,18 +152,12 @@ const designees = [
     { type: "Chair", label: "Chair", name: "Vacant", color: "#003DA5" },
 ];
 
-// Create scroll sections
-const boardSection = document.querySelector('#board-visualization');
-
-// Create two text sections for the scrollytelling
+// Create scroll section with increased spacing
 const textSections = `
     <div class="scroll-section" id="initial-view">
         <h2 class="license-plate">Current Board Composition</h2>
         <p>The CCRB board consists of 15 members with different appointment sources.</p>
-    </div>
-    <div class="scroll-section" id="vacant-view">
-        <h2 class="license-plate">Vacant Positions Under Adams</h2>
-        <p>Several key positions remain unfilled, affecting the board's ability to function.</p>
+        <div style="height: 100vh;"></div>
     </div>
 `;
 
@@ -181,16 +176,17 @@ function transitionToVacantView(show) {
     const svg = d3.select("#designeeGrid");
     const duration = 750;
 
-    // Transition for squares
+    // Restore color transition for squares
     svg.selectAll(".square")
         .transition()
         .duration(duration)
-        .attr("fill", d => isShowingVacant ? 
+        .attr("fill", d => show ? 
             (d.name === "Vacant" ? "#808080" : "#003DA5") : 
-            d.color)
-        .attr("opacity", d => isShowingVacant ?
+            "#003DA5")
+        .attr("opacity", d => show ?
             (d.name === "Vacant" ? 1 : 0.3) :
             0.8);
+
 
     // Transition for labels
     svg.selectAll(".label")
@@ -208,10 +204,6 @@ function transitionToVacantView(show) {
                 const words = d.type.split(" ");
                 let lineHeight = 15;
 
-                // Clear existing tspans
-                textElement.selectAll("tspan").remove();
-
-                // Add position type
                 words.forEach((word, i) => {
                     textElement.append("tspan")
                         .attr("x", textElement.attr("x"))
@@ -225,25 +217,21 @@ function transitionToVacantView(show) {
                             1);
                 });
 
-                // Add name or "Vacant" label
-                textElement.append("tspan")
-                    .attr("x", textElement.attr("x"))
-                    .attr("dy", lineHeight * 1.5)
-                    .style("opacity", 0)
-                    .text(isShowingVacant ? 
-                        (d.name === "Vacant" ? "Vacant" : d.name) : 
-                        d.name)
-                    .style("font-weight", d.name === "Vacant" ? "bold" : "normal")
-                    .transition()
-                    .duration(duration)
-                    .style("opacity", isShowingVacant ? 
-                        (d.name === "Vacant" ? 1 : 0.3) : 
-                        1);
+                // Only add "Vacant" text where applicable
+                if (d.name === "Vacant") {
+                    textElement.append("tspan")
+                        .attr("x", textElement.attr("x"))
+                        .attr("dy", lineHeight * 1.5)
+                        .style("opacity", 0)
+                        .text("Vacant")
+                        .transition()
+                        .duration(duration)
+                        .style("opacity", isShowingVacant ? 1 : 1);
+                }
             });
     }, duration / 2);
 }
 
-// Draw the initial grid
 function drawGrid() {
     const svg = d3.select("#designeeGrid");
     
@@ -257,7 +245,6 @@ function drawGrid() {
     const squareSize = 100;
     const padding = 20;
 
-    // Grid positions
     const cols = 5;
     const rows = Math.ceil(designees.length / cols);
     const xScale = d3.scaleBand()
@@ -270,7 +257,6 @@ function drawGrid() {
         .range([0, gridHeight])
         .paddingInner(0.1);
 
-    // Draw squares
     const squares = svg.selectAll(".square")
         .data(designees)
         .join("rect")
@@ -283,7 +269,6 @@ function drawGrid() {
         .attr("stroke", "#fff")
         .attr("opacity", 0.8);
 
-    // Add labels
     svg.selectAll(".label")
         .data(designees)
         .join("text")
@@ -303,7 +288,6 @@ function drawGrid() {
             const textElement = d3.select(this);
             
             let lineHeight = 15;
-            // Add position type
             words.forEach((word, i) => {
                 textElement.append("tspan")
                     .attr("x", textElement.attr("x"))
@@ -311,39 +295,36 @@ function drawGrid() {
                     .text(word);
             });
             
-            // Add name
-            textElement.append("tspan")
-                .attr("x", textElement.attr("x"))
-                .attr("dy", lineHeight * 1.5)
-                .text(d.name);
+            // Only show "Vacant" text
+            if (d.name === "Vacant") {
+                textElement.append("tspan")
+                    .attr("x", textElement.attr("x"))
+                    .attr("dy", lineHeight * 1.5)
+                    .text("Vacant");
+            }
         });
 }
 
-// Set up Intersection Observer for scroll triggers
+// Modified Intersection Observer options
 const scrollOptions = {
     root: null,
-    threshold: 0.9
+    threshold: 0.65 //trigger point for change
 };
 
 const scrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            if (entry.target.id === 'vacant-view') {
-                transitionToVacantView(true);
-            } else if (entry.target.id === 'initial-view') {
-                transitionToVacantView(false);
-            }
+            transitionToVacantView(entry.target.id === 'vacant-view');
         }
     });
 }, scrollOptions);
 
-// Observe both scroll sections
 document.querySelectorAll('.scroll-section').forEach(section => {
     scrollObserver.observe(section);
 });
 
 // HISTOGRAM
-// Load the data from the JSON file
+
 // Load the data from the JSON file
 d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json').then(function(data) {
 

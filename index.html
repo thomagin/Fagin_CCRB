@@ -26,13 +26,18 @@
         <p>The board consists of 13 members appointed by the Mayor, City Council, and Police Commissioner.</p>
     </div>
 
-    <!-- Section 3: Board Designee Visualization -->
-    <div class="section" id="board-visualization">
-        <h2 class="license-plate">Composition of the Board</h2>
-        <svg id="designeeGrid" width="800" height="600"></svg>
-        <h2 class="license-plate">Vacant Seats under Adams Administration</h2>
-        <svg id="vacantGrid" width="800" height="600"></svg>
+<!-- Section 3: Board Designee Visualization -->
+<div class="section" id="board-visualization">
+    <div class="header-sticky">
+        <h2 class="license-plate">Current Board Composition</h2>
+        <p>The CCRB board consists of 15 members with different appointment sources.</p>
     </div>
+    <svg id="designeeGrid" width="800" height="600"></svg>
+    <div class="scroll-container">
+        <div class="scroll-section" id="initial-view"></div>
+        <div class="scroll-section" id="vacant-view"></div>
+    </div>
+</div>
     
     <!-- Section 4: Complaints Bar Chart -->
     <div class="section" id="complaints-chart">
