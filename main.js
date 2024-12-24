@@ -84,7 +84,7 @@ const x = d3.scaleBand()
     .padding(0.3);
 
 const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.totalComplaints) * 1.1]) // Add 10% padding
+    .domain([0, d3.max(data, d => d.totalComplaints)])
     .nice() // Round to nice numbers
     .range([height, 0]);
 
@@ -245,7 +245,7 @@ legendItems.append("text")
 
 
 
-    
+
 // DONUT CHART
 function drawSubstantiationPieChart(admin) {
     const width = 400;
