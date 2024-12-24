@@ -337,7 +337,6 @@ function transitionToVacantView(show) {
             });
     }, duration / 1);
 }
-
 function drawGrid() {
     const svg = d3.select("#designeeGrid");
     
@@ -390,25 +389,116 @@ function drawGrid() {
         .style("word-wrap", "break-word")
         .style("text-transform", "capitalize")
         .each(function(d) {
-            const words = d.type.split(" ");
             const textElement = d3.select(this);
-            
             let lineHeight = 15;
-            words.forEach((word, i) => {
-                textElement.append("tspan")
-                    .attr("x", textElement.attr("x"))
-                    .attr("dy", i === 0 ? -15 : lineHeight)
-                    .text(word);
-            });
             
-            // Only show "Vacant" text
-            if (d.name === "Vacant") {
+            if (d.type === "City Council Designee") {
                 textElement.append("tspan")
                     .attr("x", textElement.attr("x"))
-                    .attr("dy", lineHeight * 1.5)
-                    .text("Vacant");
+                    .attr("dy", "-20")
+                    .text("City Council");
+                
+                textElement.append("tspan")
+                    .attr("x", textElement.attr("x"))
+                    .attr("dy", lineHeight)
+                    .text("Designee");
+            } else {
+                const words = d.type.split(" ");
+                words.forEach((word, i) => {
+                    textElement.append("tspan")
+                        .attr("x", textElement.attr("x"))
+                        .attr("dy", i === 0 ? -15 : lineHeight)
+                        .text(word);
+                });
             }
         });
+}
+
+function transitionToVacantView(show) {
+    if (isShowingVacant === show) return;
+    isShowingVacant = show;
+    
+    const svg = d3.select("#designeeGrid");
+    const duration = 100;
+
+    // Transition squares
+    svg.selectAll(".square")
+        .transition()
+        .duration(duration)
+        .attr("fill", d => show ? 
+            (d.name === "Vacant" ? "#808080" : "#003DA5") : 
+            "#003DA5")
+        .attr("opacity", d => show ?
+            (d.name === "Vacant" ? 1 : 0.3) :
+            0.8);
+
+    // Remove all existing labels first
+    svg.selectAll(".label")
+        .selectAll("tspan")
+        .transition()
+        .duration(duration)
+        .style("opacity", 0)
+        .remove();
+
+    // Add new labels with proper timing
+    setTimeout(() => {
+        svg.selectAll(".label")
+            .each(function(d) {
+                const textElement = d3.select(this);
+                let lineHeight = 15;
+
+                // Handle text layout based on type
+                if (d.type === "City Council Designee") {
+                    textElement.append("tspan")
+                        .attr("x", textElement.attr("x"))
+                        .attr("dy", "-20")
+                        .style("opacity", 0)
+                        .text("City Council")
+                        .transition()
+                        .duration(duration)
+                        .style("opacity", show ? 
+                            (d.name === "Vacant" ? 1 : 0.3) : 
+                            1);
+                    
+                    textElement.append("tspan")
+                        .attr("x", textElement.attr("x"))
+                        .attr("dy", lineHeight)
+                        .style("opacity", 0)
+                        .text("Designee")
+                        .transition()
+                        .duration(duration)
+                        .style("opacity", show ? 
+                            (d.name === "Vacant" ? 1 : 0.3) : 
+                            1);
+                } else {
+                    const words = d.type.split(" ");
+                    words.forEach((word, i) => {
+                        textElement.append("tspan")
+                            .attr("x", textElement.attr("x"))
+                            .attr("dy", i === 0 ? -15 : lineHeight)
+                            .style("opacity", 0)
+                            .text(word)
+                            .transition()
+                            .duration(duration)
+                            .style("opacity", show ? 
+                                (d.name === "Vacant" ? 1 : 0.3) : 
+                                1);
+                    });
+                }
+
+                // Only add "Vacant" text for vacant positions when showing vacant view
+                if (d.name === "Vacant" && show) {
+                    textElement.append("tspan")
+                        .attr("x", textElement.attr("x"))
+                        .attr("dy", lineHeight * 1.5)
+                        .style("opacity", 0)
+                        .text("Vacant")
+                        .transition()
+                        .duration(duration)
+                        .style("opacity", 1);
+                }
+            });
+    }, duration);
 }
 
 // Modified Intersection Observer options
