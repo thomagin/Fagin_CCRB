@@ -643,10 +643,10 @@ function createTooltip() {
 
 function addBarsAndInteractions(svg, data, xScale, yScale, height, barWidth, mayorColors, parseDate, formatDate, tooltip) {
     Object.keys(data).forEach(function(mayor) {
-        svg.selectAll('.bar-' + mayor)
+        svg.selectAll('.bar-' + mayor.replace(/\s+/g, '-'))
             .data(data[mayor])
             .enter().append('rect')
-            .attr('class', 'bar-' + mayor)
+            .attr('class', 'bar-' + mayor.replace(/\s+/g, '-'))
             .attr('x', d => xScale(parseDate(d.Date)) - barWidth/2)
             .attr('width', barWidth)
             .attr('y', height)
@@ -662,11 +662,12 @@ function addBarsAndInteractions(svg, data, xScale, yScale, height, barWidth, may
 
         // Add hover effects
         addHoverEffects(svg, mayor, mayorColors, tooltip, parseDate, formatDate);
+        
     });
 }
 
 function addHoverEffects(svg, mayor, mayorColors, tooltip, parseDate, formatDate) {
-    svg.selectAll('.bar-' + mayor)
+    svg.selectAll('.bar-' + mayor.replace(/\s+/g, '-'))
         .on('mouseover', function(event, d) {
             d3.select(this)
                 .transition()
