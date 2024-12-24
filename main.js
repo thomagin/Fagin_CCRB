@@ -6,6 +6,8 @@ const data = [
         totalComplaints: 218933,
         substantiatedRate: 2.97,
         unsubstantiatedRate: 97.03,
+        substantiated: Math.round(218933 * (2.97 / 100)),
+        unsubstantiated: Math.round(218933 * (97.03 / 100)),
         substantiations: [
             { label: 'Substantiated (Charges)', value: 84.88, cases: 5522 },
             { label: 'Substantiated (Command Discipline A)', value: 0.00, cases: 0 },
@@ -19,6 +21,8 @@ const data = [
         totalComplaints: 102913,
         substantiatedRate: 4.29,
         unsubstantiatedRate: 95.71,
+        substantiated: Math.round(102913 * (4.29 / 100)),
+        unsubstantiated: Math.round(102913 * (95.71 / 100)),
         substantiations: [
             { label: 'Substantiated (Charges)', value: 37.29, cases: 1646 },
             { label: 'Substantiated (Command Discipline A)', value: 33.17, cases: 1464 },
@@ -32,6 +36,8 @@ const data = [
         totalComplaints: 62530,
         substantiatedRate: 11.46,
         unsubstantiatedRate: 88.54,
+        substantiated: Math.round(62530 * (11.46 / 100)),
+        unsubstantiated: Math.round(62530 * (88.54 / 100)),
         substantiations: [
             { label: 'Substantiated (Charges)', value: 14.89, cases: 1067 },
             { label: 'Substantiated (Command Discipline A)', value: 65.64, cases: 4705 },
@@ -42,71 +48,196 @@ const data = [
     }
 ];
 
-// Set up dimensions for the charts
-const margin = { top: 40, right: 40, bottom: 40, left: 60 };
-const width = 700 - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
+//BAR CHART
 
-// Tooltip for hover effects
-const tooltip = d3.select("body").append("div")
+// Set up chart dimensions
+const margin = { top: 40, right: 30, bottom: 60, left: 80 };
+const width = 800 - margin.left - margin.right;
+const height = 500 - margin.top - margin.bottom;
+
+// Create SVG container with clipping path for animations
+const svg = d3.select("#bar-chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Add clipping path
+svg.append("defs")
+    .append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+// Create tooltip with enhanced styling
+const tooltip = d3.select("body")
+    .append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// Draw Bar Chart
-function drawTotalComplaintsChart() {
-    const svg = d3.select("#complaints-chart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+// Set up scales with nice round numbers
+const x = d3.scaleBand()
+    .domain(data.map(d => d.administration))
+    .range([0, width])
+    .padding(0.3);
 
-    // X scale and axis for administrations
-    const x = d3.scaleBand()
-        .domain(data.map(d => d.administration))
-        .range([0, width])
-        .padding(0.4);
+const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.totalComplaints)]) // Add 10% padding
+    .nice() // Round to nice numbers
+    .range([height, 0]);
 
-    svg.append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+// Create grid lines
+const yGrid = d3.axisLeft(y)
+    .tickSize(-width)
+    .tickFormat("")
+    .ticks(8);
 
-    // Y scale and axis for total complaints
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.totalComplaints)])
-        .range([height, 0]);
+svg.append("g")
+    .attr("class", "grid")
+    .call(yGrid)
+    .style("stroke", "#e0e0e0")
+    .style("stroke-dasharray", "3,3");
 
-    svg.append("g")
-        .call(d3.axisLeft(y));
+// Create axes with enhanced styling
+const xAxis = svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x))
+    .style("font-size", "12px");
 
-    // Bars for total complaints
-    svg.selectAll(".bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", d => x(d.administration))
-        .attr("y", height)
+const yAxis = svg.append("g")
+    .call(d3.axisLeft(y)
+        .tickFormat(d3.format(","))
+        .ticks(8))
+    .style("font-size", "12px");
+
+// Add axis labels with enhanced styling
+svg.append("text")
+    .attr("class", "axis-label")
+    .attr("x", width / 2)
+    .attr("y", height + 40)
+    .style("text-anchor", "middle")
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .text("Administration");
+
+svg.append("text")
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -height / 2)
+    .attr("y", -60)
+    .style("text-anchor", "middle")
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .text("Number of Complaints");
+
+// Create stacked data
+const stackedData = data.map(d => ({
+    administration: d.administration,
+    segments: [
+        {
+            type: "unsubstantiated",
+            value: d.unsubstantiated,
+            y0: 0,
+            y1: d.unsubstantiated
+        },
+        {
+            type: "substantiated",
+            value: d.substantiated,
+            y0: d.unsubstantiated,
+            y1: d.totalComplaints
+        }
+    ]
+}));
+
+// Create groups for each bar
+const barGroups = svg.selectAll(".bar-group")
+    .data(stackedData)
+    .join("g")
+    .attr("class", "bar-group")
+    .attr("transform", d => `translate(${x(d.administration)},0)`);
+
+// Add segments with enhanced interactions
+barGroups.each(function(d) {
+    const group = d3.select(this);
+    
+    group.selectAll("rect")
+        .data(d.segments)
+        .join("rect")
+        .attr("class", d => d.type)
+        .attr("x", 0)
+        .attr("y", d => y(d.y1))
         .attr("width", x.bandwidth())
-        .attr("height", 0)
+        .attr("height", d => y(d.y0) - y(d.y1))
+        .style("fill", d => d.type === "substantiated" ? "#FFD700" : "#003DA5")
+        .style("stroke", "white")
+        .style("stroke-width", 1)
+        .style("transition", "all 0.3s ease")
         .on("mouseover", function(event, d) {
+            const parentData = this.parentNode.__data__;
+            
+            // Highlight effect
+            d3.select(this)
+                .style("opacity", 0.8)
+                .style("stroke-width", 2);
+
             tooltip.transition()
                 .duration(200)
-                .style("opacity", .9);
-            tooltip.html(`Total Complaints: ${d.totalComplaints}`)
-                .style("left", (event.pageX) + "px")
+                .style("opacity", 0.9);
+
+            const percentage = (d.value / parentData.segments[0].y1 * 100).toFixed(1);
+            
+            tooltip.html(`
+                <strong>${parentData.administration} Administration</strong><br/>
+                ${d.type.charAt(0).toUpperCase() + d.type.slice(1)}: ${d.value.toLocaleString()} (${percentage}%)<br/>
+                Total Complaints: ${parentData.segments[0].y1.toLocaleString()}
+            `)
+                .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
         .on("mouseout", function() {
+            // Remove highlight
+            d3.select(this)
+                .style("opacity", 1)
+                .style("stroke-width", 1);
+
             tooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
-        })
-        .transition()
-        .duration(1000)
-        .attr("y", d => y(d.totalComplaints))
-        .attr("height", d => height - y(d.totalComplaints));
-}
+        });
+});
+
+// Add legend with enhanced styling
+const legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", `translate(${width - 160}, ${margin.top})`);
+
+const legendData = [
+    { label: "Substantiated", color: "#FFD700" },
+    { label: "Unsubstantiated", color: "#003DA5" }
+];
+
+const legendItems = legend.selectAll(".legend-item")
+    .data(legendData)
+    .join("g")
+    .attr("class", "legend-item")
+    .attr("transform", (d, i) => `translate(0, ${i * 25})`);
+
+legendItems.append("rect")
+    .attr("width", 18)
+    .attr("height", 18)
+    .attr("rx", 2)
+    .attr("ry", 2)
+    .style("fill", d => d.color)
+    .style("stroke", "white")
+    .style("stroke-width", 1);
+
+legendItems.append("text")
+    .attr("x", 24)
+    .attr("y", 14)
+    .style("font-size", "12px")
+    .text(d => d.label);
 
 // Draw Donut Chart
 function drawSubstantiationPieChart(admin) {
@@ -522,6 +653,7 @@ document.querySelectorAll('.scroll-section').forEach(section => {
 // HISTOGRAM
 
 // histogram.js
+(function() {
 document.addEventListener('DOMContentLoaded', function() {
     // Load the data from the JSON file
     d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
@@ -543,7 +675,7 @@ function createHistogram(data) {
     const xScale = d3.scaleTime()
     .domain([
         d3.min(Object.values(data).flatMap(mayorData => mayorData.map(d => parseDate(d.Date)))),
-        new Date('2025-12-16') // Set end date to December 16, 2024
+        new Date('2024-12-16') // Set end date to December 16, 2024
     ])
     .range([0, width]);
 
@@ -553,7 +685,7 @@ function createHistogram(data) {
         .range([height, 0]);
 
     // Set up the SVG element
-    const svg = d3.select('#histogram')
+    const svg = d3.select('#monthly-histogram')
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -720,6 +852,217 @@ function addLegend(svg, mayorColors, width) {
             .text(mayor);
     });
 }
+})();
+
+//LINE GRAPH
+// Load and process the data
+// Wait for the DOM to be fully loaded
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
+            .then(createLineChart)
+            .catch(error => console.error("Error loading the data:", error));
+    });
+
+    function createLineChart(data) {
+        // Debug log to check data structure
+        console.log("Raw data:", data);
+
+        // Set up chart dimensions and margins
+        const margin = { top: 40, right: 120, bottom: 60, left: 80 }; // Increased right margin
+        const width = 960 - margin.left - margin.right;
+        const height = 500 - margin.top - margin.bottom;
+
+    // Parse the date format correctly
+    const parseDate = d3.timeParse("%Y-%m-%d");
+    const formatDate = d3.timeFormat("%B %Y");
+
+    // Define mayor colors (matching exact case from data)
+    const mayorColors = {
+        "Bloomberg": "#FFC107",
+        "de Blasio": "#4CAF50",
+        "Adams": "#2196F3"
+    };
+
+    // Combine and process all mayor data with correct case
+    const allData = [];
+    if (data.Bloomberg) allData.push(...data.Bloomberg.map(d => ({ ...d, mayor: "Bloomberg" })));
+    if (data["de Blasio"]) allData.push(...data["de Blasio"].map(d => ({ ...d, mayor: "de Blasio" })));
+    if (data.Adams) allData.push(...data.Adams.map(d => ({ ...d, mayor: "Adams" })));
+
+    // Process dates and calculate rates
+    allData.forEach(d => {
+        d.Date = parseDate(d.Date);
+        d.SubstantiationRate = (d.Substantiated / d["Total Complaints"]) * 100;
+    });
+
+    console.log("Processed data:", allData);
+
+        // Set up scales
+        const xScale = d3.scaleTime()
+            .domain([
+                d3.min(allData, d => d.Date),
+                new Date('2024-12-31') // Changed to end of 2024
+            ])
+            .range([0, width]);
+
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(allData, d => d.SubstantiationRate)])
+        .nice()
+        .range([height, 0]);
+
+    // Set up the SVG element
+    const svg = d3.select('#monthly-line-chart')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Add title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .text("CCRB Substantiation Rate by Mayor (2010-2024)");
+
+    // Add axes
+    addAxes(svg, xScale, yScale, width, height, margin);
+
+    // Define line generator
+    const line = d3.line()
+        .x(d => xScale(d.Date))
+        .y(d => yScale(d.SubstantiationRate))
+        .curve(d3.curveMonotoneX);
+
+    // Create tooltip
+    const tooltip = createTooltip();
+
+    // Group data by mayor
+    const mayorData = d3.group(allData, d => d.mayor);
+
+    // Add lines for each mayor
+    mayorData.forEach((data, mayor) => {
+        // Add the line
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", mayorColors[mayor])
+            .attr("stroke-width", 2)
+            .attr("d", line);
+
+        // Add dots for hover interaction
+        svg.selectAll(`.dot-${mayor.replace(/\s+/g, '-')}`)
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", `dot-${mayor.replace(/\s+/g, '-')}`)
+            .attr("cx", d => xScale(d.Date))
+            .attr("cy", d => yScale(d.SubstantiationRate))
+            .attr("r", 4)
+            .attr("fill", mayorColors[mayor])
+            .style("opacity", 0)
+            .on("mouseover", function(event, d) {
+                d3.select(this).style("opacity", 1);
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                tooltip.html(`
+                    <strong>${mayor}</strong><br>
+                    <strong>Date:</strong> ${formatDate(d.Date)}<br>
+                    <strong>Substantiation Rate:</strong> ${d.SubstantiationRate.toFixed(1)}%<br>
+                    <strong>Substantiated Cases:</strong> ${d.Substantiated}<br>
+                    <strong>Total Cases:</strong> ${d["Total Complaints"]}
+                `)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this).style("opacity", 0);
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+    });
+
+    // Add legend
+    addLegend(svg, mayorColors, width);
+}
+
+function addAxes(svg, xScale, yScale, width, height, margin) {
+    // Add X axis
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale)
+            .ticks(d3.timeYear.every(1))
+            .tickFormat(d3.timeFormat("%Y")))
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .style('font-size', '12px')
+        .attr('transform', 'rotate(-45) translate(-10, 0)')
+        .style('font-weight', 'bold');
+
+    // Add X axis label
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 5)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Year");
+
+    // Add Y axis with grid lines
+    svg.append('g')
+        .call(d3.axisLeft(yScale)
+            .ticks(10)
+            .tickFormat(d => d.toFixed(1) + '%'))
+        .call(g => g.selectAll(".tick line")
+            .clone()
+            .attr("x2", width)
+            .attr("stroke-opacity", 0.1));
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 30)
+        .attr("x", -(height / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Substantiation Rate (%)");
+}
+
+function createTooltip() {
+    return d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+}
+
+
+function addLegend(svg, mayorColors, width) {
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width + 30}, 0)`); // Shifted legend right
+
+    Object.entries(mayorColors).forEach(([mayor, color], i) => {
+        const legendRow = legend.append("g")
+            .attr("transform", `translate(0, ${i * 20})`);
+
+        legendRow.append("rect")
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", color);
+
+        legendRow.append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .style("font-size", "12px")
+            .text(mayor);
+    });
+}
+})();
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
