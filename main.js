@@ -84,7 +84,7 @@ const x = d3.scaleBand()
     .padding(0.3);
 
 const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.totalComplaints)]) // Add 10% padding
+    .domain([0, d3.max(data, d => d.totalComplaints) * 1.1]) // Add 10% padding
     .nice() // Round to nice numbers
     .range([height, 0]);
 
@@ -186,12 +186,16 @@ barGroups.each(function(d) {
                 .duration(200)
                 .style("opacity", 0.9);
 
-            const percentage = (d.value / parentData.segments[0].y1 * 100).toFixed(1);
+            // Find original data for accurate percentages
+            const originalData = data.find(item => item.administration === parentData.administration);
+            const percentage = d.type === "substantiated" 
+                ? originalData.substantiatedRate 
+                : originalData.unsubstantiatedRate;
             
             tooltip.html(`
                 <strong>${parentData.administration} Administration</strong><br/>
-                ${d.type.charAt(0).toUpperCase() + d.type.slice(1)}: ${d.value.toLocaleString()} (${percentage}%)<br/>
-                Total Complaints: ${parentData.segments[0].y1.toLocaleString()}
+                ${d.type.charAt(0).toUpperCase() + d.type.slice(1)}: ${d.value.toLocaleString()} (${percentage.toFixed(1)}%)<br/>
+                Total Complaints: ${originalData.totalComplaints.toLocaleString()}
             `)
                 .style("left", (event.pageX + 10) + "px")
                 .style("top", (event.pageY - 28) + "px");
@@ -239,7 +243,10 @@ legendItems.append("text")
     .style("font-size", "12px")
     .text(d => d.label);
 
-// Draw Donut Chart
+
+
+    
+// DONUT CHART
 function drawSubstantiationPieChart(admin) {
     const width = 400;
     const height = 400;
