@@ -12,7 +12,7 @@ body {
 }
 
 .section {
-    padding: 50px 20px;
+    padding: 20px 20px;
     text-align: center;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     opacity: 1;
@@ -129,7 +129,7 @@ svg text {
     position: relative;
     z-index: 1;
     min-height: 100vh;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 #designeeGrid {
@@ -171,6 +171,28 @@ svg text {
     background: white;
     padding: 1rem 0;
     margin-bottom: 2rem;
+}
+
+#board-visualization {
+    padding-top: 10px; /* Even smaller padding for this specific section */
+}
+
+#board-visualization h2 {
+    margin-bottom: 10px; /* Reduced from 20px */
+}
+
+#board-visualization p {
+    margin-bottom: 10px;
+}
+
+/* Adjust the grid position */
+#designeeGrid {
+    position: sticky;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    margin: -20px auto 0; /* Negative top margin to pull it up */
+    background: transparent;
 }
 
 /* Mobile responsiveness */

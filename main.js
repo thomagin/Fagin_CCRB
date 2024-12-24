@@ -263,7 +263,7 @@ const textSections = `
     <div class="scroll-section" id="initial-view">
         <h2 class="license-plate">Current Board Composition</h2>
         <p>The CCRB board consists of 15 members with different appointment sources.</p>
-        <div style="height: 1vh;"></div>
+        <div style="height: 0.5vh;"></div>
     </div>
 `;
 
@@ -521,120 +521,204 @@ document.querySelectorAll('.scroll-section').forEach(section => {
 
 // HISTOGRAM
 
-// Load the data from the JSON file
-d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json').then(function(data) {
+// histogram.js
+document.addEventListener('DOMContentLoaded', function() {
+    // Load the data from the JSON file
+    d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
+        .then(createHistogram)
+        .catch(error => console.error("Error loading the data:", error));
+});
 
+function createHistogram(data) {
     // Set up chart dimensions and margins
-    var margin = { top: 20, right: 30, bottom: 40, left: 60 };
-    var width = 800 - margin.left - margin.right;
-    var height = 400 - margin.top - margin.bottom;
+    const margin = { top: 40, right: 60, bottom: 60, left: 80 };
+    const width = 960 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
 
     // Parse the date format correctly
-    var parseDate = d3.timeParse("%Y-%m-%d");
-    var formatDate = d3.timeFormat("%B %Y"); // Format the date as Month Year
+    const parseDate = d3.timeParse("%Y-%m-%d");
+    const formatDate = d3.timeFormat("%B %Y");
 
-    // Set up the scales
-    var xScale = d3.scaleTime()
-        .domain([
-            d3.min(Object.values(data).flatMap(mayorData => mayorData.map(d => parseDate(d.Date)))), // min date
-            d3.max(Object.values(data).flatMap(mayorData => mayorData.map(d => parseDate(d.Date))))  // max date
-        ])
-        .range([0, width]);
+    // Set up the scales with padding
+    const xScale = d3.scaleTime()
+    .domain([
+        d3.min(Object.values(data).flatMap(mayorData => mayorData.map(d => parseDate(d.Date)))),
+        new Date('2025-12-16') // Set end date to December 16, 2024
+    ])
+    .range([0, width]);
 
-    var yScale = d3.scaleLinear()
-        .domain([0, d3.max(Object.values(data).flatMap(mayorData => mayorData.map(d => d["Total Complaints"])))])
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(Object.values(data).flatMap(mayorData => mayorData.map(d => d["Total Complaints"]))) * 1.1])
         .nice()
         .range([height, 0]);
 
     // Set up the SVG element
-    var svg = d3.select('body').append('svg')
+    const svg = d3.select('#histogram')
+        .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Add the x-axis with January labels
-    svg.append('g')
-        .attr('transform', 'translate(0,' + height + ')')
-        .call(d3.axisBottom(xScale).ticks(d3.timeYear.every(1)).tickFormat(d3.timeFormat("%Y"))) // Place ticks at the year marks
-        .selectAll('text')
-        .style('text-anchor', 'middle')
-        .style('font-size', '10px')
-        .attr('transform', 'rotate(-45)') // Rotate labels to avoid crowding
-        .style('font-weight', 'bold');
-
-    // Add the y-axis
-    svg.append('g')
-        .call(d3.axisLeft(yScale));
-
-    // Add Y-axis label
+    // Add title
     svg.append("text")
-    .attr("transform", "rotate(-90)") // Rotate the label to align vertically
-    .attr("y", -margin.left + 15) // Position it based on the margin
-    .attr("x", -(height / 2)) // Center the label along the Y-axis
-    .style("text-anchor", "middle") // Center the text horizontally
-    .style("font-size", "14px") // Set font size
-    .style("font-weight", "bold") // Make the label bold
-    .text("Total Cases Closed"); // Label text
+        .attr("x", width / 2)
+        .attr("y", -margin.top / 2)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .text("CCRB Complaints by Mayor (2010-2024)");
 
+    // Add axes and labels
+    addAxes(svg, xScale, yScale, width, height, margin);
 
-    // Calculate the width of each bar based on the total number of bars (bars for each mayor)
-    var totalBars = Object.values(data).flatMap(mayorData => mayorData).length;
-    var barWidth = width / totalBars;
+    // Calculate bar width and define colors
+    const totalBars = Object.values(data).flatMap(mayorData => mayorData).length;
+    const barWidth = width / totalBars * 0.8;
 
-    // Add bars for each mayor
-    var mayorColors = {
-        "Bloomberg": "#F9A825", //  yellow
-        "de Blasio": "#388E3C",  //  green
-        "Adams": "#1976D2"       //  blue
+    const mayorColors = {
+        "Bloomberg": "#FFC107",
+        "de Blasio": "#4CAF50",
+        "Adams": "#2196F3"
     };
 
-    // Create the tooltip div
-    var tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("background-color", "white")
-        .style("border", "1px solid #ccc")
-        .style("padding", "10px")
-        .style("border-radius", "5px")
-        .style("font-size", "12px");
+    // Create tooltip
+    const tooltip = createTooltip();
 
-    // For each mayor, add bars
-    Object.keys(data).forEach(function(mayor, mayorIndex) {
+    // Add bars and interactions
+    addBarsAndInteractions(svg, data, xScale, yScale, height, barWidth, mayorColors, parseDate, formatDate, tooltip);
+
+    // Add legend
+    addLegend(svg, mayorColors, width);
+}
+
+function addAxes(svg, xScale, yScale, width, height, margin) {
+    // Add X axis
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(xScale)
+            .ticks(d3.timeYear.every(1))
+            .tickFormat(d3.timeFormat("%Y")))
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .style('font-size', '12px')
+        .attr('transform', 'rotate(-45) translate(-10, 0)')
+        .style('font-weight', 'bold');
+
+    // Add X axis label
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 5)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Year");
+
+    // Add Y axis with grid lines
+    svg.append('g')
+        .call(d3.axisLeft(yScale)
+            .ticks(10)
+            .tickFormat(d => d.toLocaleString()))
+        .call(g => g.selectAll(".tick line")
+            .clone()
+            .attr("x2", width)
+            .attr("stroke-opacity", 0.1));
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 30)
+        .attr("x", -(height / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Total Cases Closed");
+}
+
+function createTooltip() {
+    return d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+}
+
+function addBarsAndInteractions(svg, data, xScale, yScale, height, barWidth, mayorColors, parseDate, formatDate, tooltip) {
+    Object.keys(data).forEach(function(mayor) {
         svg.selectAll('.bar-' + mayor)
             .data(data[mayor])
             .enter().append('rect')
             .attr('class', 'bar-' + mayor)
-            .attr('x', function(d) {
-                // Bar position based on date, without extra space between mayors
-                return xScale(parseDate(d.Date));
-            })
-            .attr('y', function(d) { return yScale(d["Total Complaints"]); })
-            .attr('width', barWidth)  // Use calculated bar width
-            .attr('height', function(d) { return height - yScale(d["Total Complaints"]); })
+            .attr('x', d => xScale(parseDate(d.Date)) - barWidth/2)
+            .attr('width', barWidth)
+            .attr('y', height)
+            .attr('height', 0)
             .attr('fill', mayorColors[mayor])
-            .attr('stroke', '#fff')  // Light white border around bars
+            .attr('stroke', '#fff')
             .attr('stroke-width', 1)
-            .on('mouseover', function(event, d) {
-                tooltip.style("visibility", "visible")
-                    .html(`
-                        <strong>Mayor:</strong> ${mayor} <br>
-                        <strong>Month/Year:</strong> ${formatDate(parseDate(d.Date))} <br>
-                        <strong>Total Complaints:</strong> ${d["Total Complaints"]} <br>
-                        <strong>Rate of Substantiation:</strong> ${(d["Substantiated"] / d["Total Complaints"] * 100).toFixed(2)}%
-                    `)
-                    .style("left", (event.pageX + 5) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on('mouseout', function() {
-                tooltip.style("visibility", "hidden");
-            });
-    });
+            .transition()
+            .duration(1000)
+            .delay((d, i) => i * 10)
+            .attr('y', d => yScale(d["Total Complaints"]))
+            .attr('height', d => height - yScale(d["Total Complaints"]));
 
-}).catch(function(error) {
-    console.log("Error loading the data: ", error);
-});
+        // Add hover effects
+        addHoverEffects(svg, mayor, mayorColors, tooltip, parseDate, formatDate);
+    });
+}
+
+function addHoverEffects(svg, mayor, mayorColors, tooltip, parseDate, formatDate) {
+    svg.selectAll('.bar-' + mayor)
+        .on('mouseover', function(event, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('fill', d3.color(mayorColors[mayor]).brighter(0.2));
+
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 1);
+                
+            tooltip.html(`
+                <strong>${mayor}</strong><br>
+                <strong>Date:</strong> ${formatDate(parseDate(d.Date))}<br>
+                <strong>Total Complaints:</strong> ${d["Total Complaints"].toLocaleString()}<br>
+                <strong>Substantiated:</strong> ${(d["Substantiated"] / d["Total Complaints"] * 100).toFixed(1)}%
+            `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on('mouseout', function() {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .attr('fill', mayorColors[mayor]);
+
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+}
+
+function addLegend(svg, mayorColors, width) {
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width - 120}, 0)`);
+
+    Object.entries(mayorColors).forEach(([mayor, color], i) => {
+        const legendRow = legend.append("g")
+            .attr("transform", `translate(0, ${i * 20})`);
+
+        legendRow.append("rect")
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", color);
+
+        legendRow.append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .style("font-size", "12px")
+            .text(mayor);
+    });
+}
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
