@@ -84,7 +84,7 @@ const x = d3.scaleBand()
     .padding(0.3);
 
 const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.totalComplaints)])
+    .domain([0, d3.max(data, d => d.totalComplaints) * 1.14])
     .nice() // Round to nice numbers
     .range([height, 0]);
 
@@ -247,12 +247,34 @@ legendItems.append("text")
 
 
 // DONUT CHART
+// Create a flex container for the charts
+d3.select("#rates-charts")
+    .style("display", "flex")
+    .style("flex-direction", "column")
+    .style("align-items", "center");
+
+// Create a row container for the charts
+const chartsRow = d3.select("#rates-charts")
+    .append("div")
+    .style("display", "flex")
+    .style("flex-direction", "row")
+    .style("justify-content", "center")
+    .style("width", "100%")
+    .style("margin", "20px 0");
+
 function drawSubstantiationPieChart(admin) {
-    const width = 400;
-    const height = 400;
+    const width = 280;  // Slightly smaller to ensure fit
+    const height = 280;
     const radius = Math.min(width, height) / 2;
 
-    const svg = d3.select(`#${admin.replace(' ', '-').toLowerCase()}-chart`)
+    // Create a container div for each chart
+    const chartDiv = chartsRow
+        .append("div")
+        .attr("class", "chart-container")
+        .style("flex", "0 1 auto")
+        .style("margin", "0 10px");
+
+    const svg = chartDiv
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -263,19 +285,18 @@ function drawSubstantiationPieChart(admin) {
     const substantiations = data.find(d => d.administration === admin).substantiations;
 
     const pie = d3.pie()
-        .value(d => d.value); // Use the 'value' field for slice sizes
+        .value(d => d.value);
 
-    // Create the donut chart with an inner radius
     const arc = d3.arc()
-        .innerRadius(radius * 0.6) // Inner radius for the donut
+        .innerRadius(radius * 0.6)
         .outerRadius(radius);
 
     // Custom Colors Mapping
     const customColors = {
-        "Charges": "#FF0000", // Red
-        "Command Discipline A": "#FFEB3B", // Empire State Blue
-        "Command Discipline B": "#FF5900", // Knicks Orange
-        "Command Discipline": "#008000" // Green
+        "Charges": "#FF0000",
+        "Command Discipline A": "#FFEB3B",
+        "Command Discipline B": "#FF5900",
+        "Command Discipline": "#008000"
     };
 
     // Create pie slices
@@ -286,12 +307,12 @@ function drawSubstantiationPieChart(admin) {
         .attr("class", "arc")
         .append("path")
         .attr("d", arc)
-        .attr("fill", d => customColors[d.data.label.split('(')[1].replace(')', '')] || "#CCCCCC") // Use custom colors for the slices
+        .attr("fill", d => customColors[d.data.label.split('(')[1].replace(')', '')] || "#CCCCCC")
         .on("mouseover", function (event, d) {
             tooltip.transition()
                 .duration(200)
                 .style("opacity", 0.9);
-            tooltip.html(d.data.label.split('(')[1].replace(')', '')) // Extract and display only the type
+            tooltip.html(d.data.label.split('(')[1].replace(')', ''))
                 .style("left", (event.pageX) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
@@ -301,51 +322,60 @@ function drawSubstantiationPieChart(admin) {
                 .style("opacity", 0);
         });
 
-    // Add percentages as labels inside the pie slices
+    // Add percentages as labels
     svg.selectAll(".label")
         .data(pie(substantiations))
         .enter()
         .append("text")
-        .filter(d => d.data.value > 0) // Only include slices with a value > 0
+        .filter(d => d.data.value > 0)
         .attr("transform", d => `translate(${arc.centroid(d)})`)
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
-        .text(d => `${d.data.value}%`); // Display percentage only if > 0
+        .style("fill", "#333")  // Match your text color
+        .style("font-size", "12px")
+        .text(d => `${d.data.value}%`);
 
-    // Add mayor's name in the center of the donut
+    // Add mayor's name in the center
     svg.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
-        .style("font-size", "1.5em")
+        .style("font-size", "1.2em")
         .style("font-weight", "bold")
+        .style("fill", "#003DA5")  // Match your brand color
         .text(admin);
 }
 
 function drawLegend() {
+    // Create legend container
+    const legendDiv = d3.select("#legend")
+        .style("width", "100%")
+        .style("text-align", "center")
+        .style("margin-bottom", "20px");
+
     const legendData = [
         ...new Set(
             data.flatMap(d =>
                 d.substantiations
-                    .filter(item => item.value > 0) // Only include non-zero values
-                    .map(item => item.label.split('(')[1].replace(')', '')) // Extract type
+                    .filter(item => item.value > 0)
+                    .map(item => item.label.split('(')[1].replace(')', ''))
             )
         ),
     ];
 
-    const itemsPerRow = 2; // Set the number of items per row
-    const legendWidth = 400; // Adjusted width for your needs
-    const legendHeight = Math.ceil(legendData.length / itemsPerRow) * 30; // Adjust height based on rows
-    const spacingX = 150; // Horizontal spacing
-    const spacingY = 30; // Vertical spacing
+    const legendWidth = 400;
+    const itemsPerRow = 2;
+    const legendHeight = Math.ceil(legendData.length / itemsPerRow) * 30;
+    const spacingX = 150;
+    const spacingY = 30;
 
     const customColors = {
-        "Charges": "#FF0000", // Red
-        "Command Discipline A": "#FFEB3B", // Yellow
-        "Command Discipline B": "#FF5900", // Knicks Orange
-        "Command Discipline": "#008000" // Green
+        "Charges": "#FF0000",
+        "Command Discipline A": "#FFEB3B",
+        "Command Discipline B": "#FF5900",
+        "Command Discipline": "#008000"
     };
 
-    const legend = d3.select("#legend")
+    const legend = legendDiv
         .append("svg")
         .attr("width", legendWidth)
         .attr("height", legendHeight)
@@ -357,7 +387,7 @@ function drawLegend() {
         .enter()
         .append("g")
         .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`) // Grid layout
+        .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`)
         .each(function (d, i) {
             d3.select(this)
                 .append("rect")
@@ -365,17 +395,32 @@ function drawLegend() {
                 .attr("y", 0)
                 .attr("width", 15)
                 .attr("height", 15)
-                .attr("fill", customColors[d] || "#CCCCCC"); // Default to grey if missing color
+                .attr("fill", customColors[d] || "#CCCCCC");
 
             d3.select(this)
                 .append("text")
                 .attr("x", 20)
                 .attr("y", 12)
                 .text(d)
-                .attr("font-size", "12px")
+                .style("font-size", "12px")
+                .style("fill", "#333")
                 .attr("alignment-baseline", "middle");
         });
 }
+
+// Initialize everything
+function initializeCharts() {
+    // First draw the legend
+    drawLegend();
+    
+    // Then draw all charts
+    data.forEach(d => drawSubstantiationPieChart(d.administration));
+}
+
+
+
+//GRID VISUALIZATION
+
 
 // Board data
 const designees = [
