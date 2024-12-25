@@ -18,6 +18,23 @@ body {
     opacity: 1;
 }
 
+.section-image {
+    max-width: 70%;
+    height: auto;
+    margin: 20px 0;
+}
+
+.photo-credit {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.image-container {
+    margin: 20px 0;
+}
+
 .section.visible {
     opacity: 1;
     transform: translateY(0);
