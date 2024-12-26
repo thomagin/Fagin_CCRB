@@ -1522,6 +1522,219 @@ d3.select('.arrow-container')
     .duration(800)
     .style('opacity', 1);
 
+// BAR CHART YEARLY
+// Set up dimensions
+const yearlyMargin = { top: 40, right: 120, bottom: 60, left: 80 };
+const yearlyWidth = 900 - yearlyMargin.left - yearlyMargin.right;
+const yearlyHeight = 500 - yearlyMargin.top - yearlyMargin.bottom;
+
+// Create SVG container
+const yearlySvg = d3.select("#yearly-complaints-chart")
+    .append("svg")
+    .attr("width", yearlyWidth + yearlyMargin.left + yearlyMargin.right)
+    .attr("height", yearlyHeight + yearlyMargin.top + yearlyMargin.bottom)
+    .append("g")
+    .attr("transform", `translate(${yearlyMargin.left},${yearlyMargin.top})`);
+
+// Fetch data from GitHub
+d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmayors.json')
+    .then(function(yearlyData) {
+    // Flatten the nested data structure
+    const yearlyFlatData = [];
+    Object.entries(yearlyData).forEach(([mayor, years]) => {
+        years.forEach(yearData => {
+            yearlyFlatData.push({
+                year: yearData.Year,
+                date: yearData.Date,
+                mayor: mayor,
+                substantiated: yearData.Substantiated,
+                unsubstantiated: yearData.Unsubstantiated,
+                total: yearData['Total Complaints']
+            });
+        });
+    });
+
+    // Sort by date
+    yearlyFlatData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Set up scales
+    const yearlyXScale = d3.scaleBand()
+        .domain(yearlyFlatData.map(d => d.year))
+        .range([0, yearlyWidth])
+        .padding(0.3);
+
+    const yearlyYScale = d3.scaleLinear()
+        .domain([0, d3.max(yearlyFlatData, d => d.total) * 1.1])
+        .nice()
+        .range([yearlyHeight, 0]);
+
+    // Create color scale for mayors
+    const yearlyMayorColors = {
+        "Bloomberg": "#003DA5",
+        "de Blasio": "#FFD700",
+        "Adams": "#FF4500"
+    };
+
+    // Add grid lines
+    const yearlyYGrid = d3.axisLeft(yearlyYScale)
+        .tickSize(-yearlyWidth)
+        .tickFormat("")
+        .ticks(8);
+
+    yearlySvg.append("g")
+        .attr("class", "grid")
+        .call(yearlyYGrid)
+        .style("stroke", "#e0e0e0")
+        .style("stroke-dasharray", "3,3");
+
+    // Add axes
+    yearlySvg.append("g")
+        .attr("transform", `translate(0,${yearlyHeight})`)
+        .call(d3.axisBottom(yearlyXScale))
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-45)");
+
+    yearlySvg.append("g")
+        .call(d3.axisLeft(yearlyYScale)
+            .tickFormat(d3.format(","))
+            .ticks(8));
+
+    // Add labels
+    yearlySvg.append("text")
+        .attr("class", "axis-label")
+        .attr("x", yearlyWidth / 2)
+        .attr("y", yearlyHeight + 50)
+        .style("text-anchor", "middle")
+        .text("Year");
+
+    yearlySvg.append("text")
+        .attr("class", "axis-label")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -yearlyHeight / 2)
+        .attr("y", -60)
+        .style("text-anchor", "middle")
+        .text("Number of Complaints");
+
+    // Create tooltip
+    const yearlyTooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    // Add stacked bars
+    const yearlyBarGroups = yearlySvg.selectAll(".bar-group")
+        .data(yearlyFlatData)
+        .join("g")
+        .attr("class", "bar-group")
+        .attr("transform", d => `translate(${yearlyXScale(d.year)},0)`);
+
+    // Add substantiated complaints
+    yearlyBarGroups.append("rect")
+        .attr("class", "substantiated")
+        .attr("y", d => yearlyYScale(d.substantiated))
+        .attr("height", d => yearlyHeight - yearlyYScale(d.substantiated))
+        .attr("width", yearlyXScale.bandwidth())
+        .style("fill", "#2F2F2F")
+        .style("stroke", "white")
+        .style("stroke-width", 1);
+
+    // Add unsubstantiated complaints
+    yearlyBarGroups.append("rect")
+        .attr("class", "unsubstantiated")
+        .attr("y", d => yearlyYScale(d.total))
+        .attr("height", d => yearlyYScale(d.substantiated) - yearlyYScale(d.total))
+        .attr("width", yearlyXScale.bandwidth())
+        .style("fill", d => yearlyMayorColors[d.mayor])
+        .style("stroke", "white")
+        .style("stroke-width", 1);
+
+    // Add hover interactions
+    yearlyBarGroups.selectAll("rect")
+        .on("mouseover", function(event, d) {
+            const parentData = this.parentNode.__data__;
+            const substantiationRate = (parentData.substantiated / parentData.total * 100).toFixed(1);
+            
+            d3.select(this)
+                .style("opacity", 0.8)
+                .style("stroke-width", 2);
+
+            yearlyTooltip.transition()
+                .duration(200)
+                .style("opacity", 0.9);
+
+            yearlyTooltip.html(`
+                <strong>${parentData.year} (${parentData.mayor})</strong><br/>
+                Total Complaints: ${parentData.total.toLocaleString()}<br/>
+                Substantiated: ${parentData.substantiated.toLocaleString()} (${substantiationRate}%)<br/>
+                Unsubstantiated: ${parentData.unsubstantiated.toLocaleString()}
+            `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function() {
+            d3.select(this)
+                .style("opacity", 1)
+                .style("stroke-width", 1);
+
+            yearlyTooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
+
+    // Add legend
+    const yearlyLegend = yearlySvg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${yearlyWidth + 10}, 0)`);
+
+    Object.entries(yearlyMayorColors).forEach(([mayor, color], i) => {
+        const legendGroup = yearlyLegend.append("g")
+            .attr("transform", `translate(0, ${i * 60})`);
+
+        legendGroup.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color)
+            .style("stroke", "white");
+
+        legendGroup.append("text")
+            .attr("x", 24)
+            .attr("y", 14)
+            .text(mayor);
+
+        // Add substantiated indicator
+        legendGroup.append("rect")
+            .attr("width", 18)
+            .attr("height", 9)
+            .attr("y", 25)
+            .style("fill", "#2F2F2F")
+            .style("stroke", "white");
+
+        legendGroup.append("text")
+            .attr("x", 24)
+            .attr("y", 32)
+            .style("font-size", "12px")
+            .text("Substantiated");
+
+        // Add unsubstantiated indicator
+        legendGroup.append("rect")
+            .attr("width", 18)
+            .attr("height", 9)
+            .attr("y", 40)
+            .style("fill", color)
+            .style("stroke", "white");
+
+        legendGroup.append("text")
+            .attr("x", 24)
+            .attr("y", 47)
+            .style("font-size", "12px")
+            .text("Unsubstantiated");
+    });
+});
+
+
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
