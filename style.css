@@ -364,3 +364,77 @@ svg text {
         font-size: 10px;
     }
 }
+
+/* CHOKEHOLD */
+
+.comparison-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.period-box {
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.period-box.highlighted {
+    border-color: #003DA5;
+    background-color: #f8f9ff;
+}
+
+.period-label {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.rate {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #003DA5;
+    margin: 1rem 0;
+}
+
+.total-complaints {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.arrow-container {
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.arrow {
+    font-size: 2rem;
+    color: #003DA5;
+}
+
+@media (max-width: 768px) {
+    .comparison-container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    .period-box {
+        margin: 1rem 0;
+        width: 100%;
+    }
+
+    .arrow-container {
+        transform: rotate(90deg);
+        padding: 1rem 0;
+    }
+}

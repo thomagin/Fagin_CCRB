@@ -1464,6 +1464,65 @@ document.addEventListener('DOMContentLoaded', () => {
     ComplaintsVisualization.init();
 });
 
+
+// CHOKEHOLD RATE
+
+const chokeholdData = {
+    before: {
+        rate: 1.09,
+        complaints: 2293
+    },
+    after: {
+        rate: 6.22,
+        complaints: 1639
+    }
+};
+
+// Create the visualization container
+const container = d3.select('#visualization')
+    .append('div')
+    .attr('class', 'comparison-container');
+
+// Before period box
+const beforeBox = container.append('div')
+    .attr('class', 'period-box')
+    .html(`
+        <div class="period-label">Before Eric Garner Incident</div>
+        <div class="rate">${chokeholdData.before.rate}%</div>
+        <div class="total-complaints">of ${chokeholdData.before.complaints.toLocaleString()} complaints substantiated</div>
+    `);
+
+// Arrow
+const arrowContainer = container.append('div')
+    .attr('class', 'arrow-container')
+    .html(`
+        <div class="arrow">→</div>
+    `);
+
+// After period box
+const afterBox = container.append('div')
+    .attr('class', 'period-box highlighted')
+    .html(`
+        <div class="period-label">After Eric Garner Incident</div>
+        <div class="rate">${chokeholdData.after.rate}%</div>
+        <div class="total-complaints">of ${chokeholdData.after.complaints.toLocaleString()} complaints substantiated</div>
+    `);
+
+// Add transition effects
+d3.selectAll('.period-box')
+    .style('opacity', 0)
+    .transition()
+    .duration(800)
+    .style('opacity', 1);
+
+d3.select('.arrow-container')
+    .style('opacity', 0)
+    .transition()
+    .delay(400)
+    .duration(800)
+    .style('opacity', 1);
+
+
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
 drawSubstantiationPieChart('de Blasio');
