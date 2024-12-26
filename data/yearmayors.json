@@ -1,0 +1,169 @@
+{
+  "Bloomberg": [
+    {
+      "Year": 2002,
+      "Date": "2002-01-01",
+      "Total Complaints": 13099,
+      "Substantiated": 516,
+      "Unsubstantiated": 12583
+    },
+    {
+      "Year": 2003,
+      "Date": "2003-01-01",
+      "Total Complaints": 12579,
+      "Substantiated": 698,
+      "Unsubstantiated": 11881
+    },
+    {
+      "Year": 2004,
+      "Date": "2004-01-01",
+      "Total Complaints": 16482,
+      "Substantiated": 988,
+      "Unsubstantiated": 15494
+    },
+    {
+      "Year": 2005,
+      "Date": "2005-01-01",
+      "Total Complaints": 18833,
+      "Substantiated": 695,
+      "Unsubstantiated": 18138
+    },
+    {
+      "Year": 2006,
+      "Date": "2006-01-01",
+      "Total Complaints": 21769,
+      "Substantiated": 576,
+      "Unsubstantiated": 21193
+    },
+    {
+      "Year": 2007,
+      "Date": "2007-01-01",
+      "Total Complaints": 24511,
+      "Substantiated": 483,
+      "Unsubstantiated": 24028
+    },
+    {
+      "Year": 2008,
+      "Date": "2008-01-01",
+      "Total Complaints": 21161,
+      "Substantiated": 317,
+      "Unsubstantiated": 20844
+    },
+    {
+      "Year": 2009,
+      "Date": "2009-01-01",
+      "Total Complaints": 24497,
+      "Substantiated": 418,
+      "Unsubstantiated": 24079
+    },
+    {
+      "Year": 2010,
+      "Date": "2010-01-01",
+      "Total Complaints": 19596,
+      "Substantiated": 498,
+      "Unsubstantiated": 19098
+    },
+    {
+      "Year": 2011,
+      "Date": "2011-01-01",
+      "Total Complaints": 16764,
+      "Substantiated": 307,
+      "Unsubstantiated": 16457
+    },
+    {
+      "Year": 2012,
+      "Date": "2012-01-01",
+      "Total Complaints": 11093,
+      "Substantiated": 363,
+      "Unsubstantiated": 10730
+    },
+    {
+      "Year": 2013,
+      "Date": "2013-01-01",
+      "Total Complaints": 18549,
+      "Substantiated": 647,
+      "Unsubstantiated": 17902
+    }
+  ],
+  "de Blasio": [
+    {
+      "Year": 2014,
+      "Date": "2014-01-01",
+      "Total Complaints": 14628,
+      "Substantiated": 587,
+      "Unsubstantiated": 14041
+    },
+    {
+      "Year": 2015,
+      "Date": "2015-01-01",
+      "Total Complaints": 15388,
+      "Substantiated": 933,
+      "Unsubstantiated": 14455
+    },
+    {
+      "Year": 2016,
+      "Date": "2016-01-01",
+      "Total Complaints": 13087,
+      "Substantiated": 543,
+      "Unsubstantiated": 12544
+    },
+    {
+      "Year": 2017,
+      "Date": "2017-01-01",
+      "Total Complaints": 11912,
+      "Substantiated": 441,
+      "Unsubstantiated": 11471
+    },
+    {
+      "Year": 2018,
+      "Date": "2018-01-01",
+      "Total Complaints": 12240,
+      "Substantiated": 372,
+      "Unsubstantiated": 11868
+    },
+    {
+      "Year": 2019,
+      "Date": "2019-01-01",
+      "Total Complaints": 15751,
+      "Substantiated": 517,
+      "Unsubstantiated": 15234
+    },
+    {
+      "Year": 2020,
+      "Date": "2020-01-01",
+      "Total Complaints": 11045,
+      "Substantiated": 389,
+      "Unsubstantiated": 10656
+    },
+    {
+      "Year": 2021,
+      "Date": "2021-01-01",
+      "Total Complaints": 8862,
+      "Substantiated": 632,
+      "Unsubstantiated": 8230
+    }
+  ],
+  "Adams": [
+    {
+      "Year": 2022,
+      "Date": "2022-01-01",
+      "Total Complaints": 18474,
+      "Substantiated": 2796,
+      "Unsubstantiated": 15678
+    },
+    {
+      "Year": 2023,
+      "Date": "2023-01-01",
+      "Total Complaints": 19899,
+      "Substantiated": 1677,
+      "Unsubstantiated": 18222
+    },
+    {
+      "Year": 2024,
+      "Date": "2024-01-01",
+      "Total Complaints": 24000,
+      "Substantiated": 2695,
+      "Unsubstantiated": 21305
+    }
+  ]
+}
