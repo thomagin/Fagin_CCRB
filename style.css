@@ -145,8 +145,8 @@ svg text {
 .scroll-section {
     position: relative;
     z-index: 1;
-    min-height: 100vh;
-    padding: 0.5rem;
+    min-height: 75vh;
+    padding: 0.25rem;
 }
 
 #designeeGrid {
@@ -191,7 +191,7 @@ svg text {
 }
 
 #board-visualization {
-    padding-top: 10px; /* Even smaller padding for this specific section */
+    padding-top: 5px; /* Even smaller padding for this specific section */
 }
 
 #board-visualization h2 {

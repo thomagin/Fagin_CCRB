@@ -84,7 +84,7 @@ const x = d3.scaleBand()
     .padding(0.3);
 
 const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.totalComplaints) * 1.14])
+    .domain([0, d3.max(data, d => d.totalComplaints) * 1.1]) // Add 10% padding
     .nice() // Round to nice numbers
     .range([height, 0]);
 
@@ -137,15 +137,15 @@ const stackedData = data.map(d => ({
     administration: d.administration,
     segments: [
         {
-            type: "unsubstantiated",
-            value: d.unsubstantiated,
-            y0: 0,
-            y1: d.unsubstantiated
-        },
-        {
             type: "substantiated",
             value: d.substantiated,
-            y0: d.unsubstantiated,
+            y0: 0,
+            y1: d.substantiated
+        },
+        {
+            type: "unsubstantiated",
+            value: d.unsubstantiated,
+            y0: d.substantiated,
             y1: d.totalComplaints
         }
     ]
@@ -701,6 +701,8 @@ const scrollObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.scroll-section').forEach(section => {
     scrollObserver.observe(section);
 });
+
+
 
 // HISTOGRAM
 
