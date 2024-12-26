@@ -234,3 +234,133 @@ svg text {
         width: 100%; /* Stack the charts vertically on smaller screens */
     }
 }
+
+/* FADO chart */
+#complaints-small-multiples {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.small-multiples-explainer {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    text-align: center;
+    color: #666;
+    font-size: 0.9em;
+}
+
+#small-multiples-container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#small-multiples-vis {
+    width: 100%;
+    overflow: visible;
+}
+
+#small-multiples-tooltip {
+    position: absolute;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.2s;
+    max-width: 300px;
+}
+
+#small-multiples-tooltip strong {
+    color: #003DA5;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.small-multiples-cell {
+    transition: all 0.3s ease;
+}
+
+.small-multiples-cell:hover {
+    stroke: #003DA5;
+    stroke-width: 3px;
+}
+
+.small-multiples-row-label {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    fill: #333;
+    dominant-baseline: middle;
+}
+
+.small-multiples-col-label {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    fill: #003DA5;
+}
+
+.small-multiples-value-label {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 12px;
+    fill: white;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+}
+
+#small-multiples-legend {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.small-multiples-legend-title {
+    font-size: 12px;
+    fill: #666;
+    text-anchor: middle;
+}
+
+.small-multiples-legend-axis text {
+    font-size: 10px;
+    fill: #666;
+}
+
+.small-multiples-legend-axis path,
+.small-multiples-legend-axis line {
+    stroke: #ddd;
+}
+
+.small-multiples-size-legend-circle {
+    fill: none;
+    stroke: #666;
+    stroke-dasharray: 4,4;
+}
+
+.small-multiples-size-legend-label {
+    font-size: 10px;
+    fill: #666;
+}
+
+@media screen and (max-width: 768px) {
+    #complaints-small-multiples {
+        padding: 10px;
+    }
+    
+    .small-multiples-row-label {
+        font-size: 12px;
+    }
+    
+    .small-multiples-col-label {
+        font-size: 14px;
+    }
+    
+    .small-multiples-value-label {
+        font-size: 10px;
+    }
+}

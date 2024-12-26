@@ -14,6 +14,40 @@ const data = [
             { label: 'Substantiated (Command Discipline B)', value: 0.00, cases: 0 },
             { label: 'Substantiated (Command Discipline)', value: 15.12, cases: 984 },
             { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ],
+        complaintTypes: [
+            {
+                type: 'Force',
+                total: 67494,
+                substantiatedRate: 1.13,
+                unsubstantiatedRate: 98.87,
+                substantiated: Math.round(67494 * (1.13 / 100)),
+                unsubstantiated: Math.round(67494 * (98.87 / 100))
+            },
+            {
+                type: 'Abuse of Authority',
+                total: 104933,
+                substantiatedRate: 4.61,
+                unsubstantiatedRate: 95.39,
+                substantiated: Math.round(104933 * (4.61 / 100)),
+                unsubstantiated: Math.round(104933 * (95.39 / 100))
+            },
+            {
+                type: 'Discourtesy',
+                total: 37320,
+                substantiatedRate: 2.14,
+                unsubstantiatedRate: 97.86,
+                substantiated: Math.round(37320 * (2.14 / 100)),
+                unsubstantiated: Math.round(37320 * (97.86 / 100))
+            },
+            {
+                type: 'Offensive Language',
+                total: 6209,
+                substantiatedRate: 1.76,
+                unsubstantiatedRate: 98.24,
+                substantiated: Math.round(6209 * (1.76 / 100)),
+                unsubstantiated: Math.round(6209 * (98.24 / 100))
+            }
         ]
     },
     {
@@ -29,6 +63,40 @@ const data = [
             { label: 'Substantiated (Command Discipline B)', value: 25.37, cases: 1120 },
             { label: 'Substantiated (Command Discipline)', value: 4.17, cases: 184 },
             { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ],
+        complaintTypes: [
+            {
+                type: 'Force',
+                total: 27371,
+                substantiatedRate: 2.52,
+                unsubstantiatedRate: 97.48,
+                substantiated: Math.round(27371 * (2.52 / 100)),
+                unsubstantiated: Math.round(27371 * (97.48 / 100))
+            },
+            {
+                type: 'Abuse of Authority',
+                total: 56129,
+                substantiatedRate: 5.43,
+                unsubstantiatedRate: 94.57,
+                substantiated: Math.round(56129 * (5.43 / 100)),
+                unsubstantiated: Math.round(56129 * (94.57 / 100))
+            },
+            {
+                type: 'Discourtesy',
+                total: 13070,
+                substantiatedRate: 4.10,
+                unsubstantiatedRate: 95.90,
+                substantiated: Math.round(13070 * (4.10 / 100)),
+                unsubstantiated: Math.round(13070 * (95.90 / 100))
+            },
+            {
+                type: 'Offensive Language',
+                total: 2873,
+                substantiatedRate: 3.97,
+                unsubstantiatedRate: 96.03,
+                substantiated: Math.round(2873 * (3.97 / 100)),
+                unsubstantiated: Math.round(2873 * (96.03 / 100))
+            }
         ]
     },
     {
@@ -44,6 +112,40 @@ const data = [
             { label: 'Substantiated (Command Discipline B)', value: 19.48, cases: 1396 },
             { label: 'Substantiated (Command Discipline)', value: 0.00, cases: 0 },
             { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
+        ],
+        complaintTypes: [
+            {
+                type: 'Force',
+                total: 10415,
+                substantiatedRate: 4.75,
+                unsubstantiatedRate: 95.25,
+                substantiated: Math.round(10415 * (4.75 / 100)),
+                unsubstantiated: Math.round(10415 * (95.25 / 100))
+            },
+            {
+                type: 'Abuse of Authority',
+                total: 22704,
+                substantiatedRate: 12.68,
+                unsubstantiatedRate: 87.32,
+                substantiated: Math.round(22704 * (12.68 / 100)),
+                unsubstantiated: Math.round(22704 * (87.32 / 100))
+            },
+            {
+                type: 'Discourtesy',
+                total: 4030,
+                substantiatedRate: 20.72,
+                unsubstantiatedRate: 79.28,
+                substantiated: Math.round(4030 * (20.72 / 100)),
+                unsubstantiated: Math.round(4030 * (79.28 / 100))
+            },
+            {
+                type: 'Offensive Language',
+                total: 863,
+                substantiatedRate: 15.53,
+                unsubstantiatedRate: 84.47,
+                substantiated: Math.round(863 * (15.53 / 100)),
+                unsubstantiated: Math.round(863 * (84.47 / 100))
+            }
         ]
     }
 ];
@@ -1118,10 +1220,253 @@ function addLegend(svg, mayorColors, width) {
 }
 })();
 
+///MOSAIC CHARTS
+
+// Wrap all functionality in a namespace to avoid conflicts
+const ComplaintsVisualization = {
+    init: function() {
+        this.createVisualization();
+        this.addResizeHandler();
+    },
+
+    createVisualization: function() {
+        // Clear existing visualization
+        d3.select('#complaints-small-multiples-vis').selectAll('*').remove();
+
+        // Adjust dimensions to accommodate legend
+        const width = Math.min(1200, window.innerWidth - 40);
+        const height = 500;
+        const margin = { top: 100, right: 40, bottom: 40, left: 200 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
+
+        // Create SVG
+        const svg = d3.select('#complaints-small-multiples-vis')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('viewBox', [0, 0, width, height])
+            .attr('class', 'complaints-multiples-svg'); // Unique class
+
+        // Create scales
+        const complaintTypes = ['Force', 'Abuse of Authority', 'Discourtesy', 'Offensive Language'];
+        const rowScale = d3.scaleBand()
+            .domain(complaintTypes)
+            .range([0, innerHeight])
+            .padding(0.2);
+
+        const administrations = ['Bloomberg', 'de Blasio', 'Adams'];
+        const colScale = d3.scaleBand()
+            .domain(administrations)
+            .range([0, innerWidth])
+            .padding(0.2);
+
+        const colorScale = d3.scaleSequential(d3.interpolateBlues)
+            .domain([0, 25]);
+
+        // Size scale
+        const maxComplaints = d3.max(data, d => d3.max(d.complaintTypes, c => c.total));
+        const sizeScale = d3.scaleSqrt()
+            .domain([0, maxComplaints])
+            .range([0, Math.min(rowScale.bandwidth(), colScale.bandwidth())]);
+
+        // Create main group
+        const g = svg.append('g')
+            .attr('class', 'complaints-multiples-main')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        // Add row labels
+        g.selectAll('.complaints-multiples-row-label')
+            .data(complaintTypes)
+            .join('text')
+            .attr('class', 'complaints-multiples-row-label')
+            .attr('x', -10)
+            .attr('y', d => rowScale(d) + rowScale.bandwidth() / 2)
+            .attr('text-anchor', 'end')
+            .text(d => d);
+
+        // Add column labels
+        g.selectAll('.complaints-multiples-col-label')
+            .data(administrations)
+            .join('text')
+            .attr('class', 'complaints-multiples-col-label')
+            .attr('x', d => colScale(d) + colScale.bandwidth() / 2)
+            .attr('y', -20)
+            .attr('text-anchor', 'middle')
+            .text(d => d);
+
+        // Create tooltip
+        const tooltip = d3.select('#complaints-small-multiples-tooltip');
+
+        // Create cells
+        complaintTypes.forEach(type => {
+            data.forEach(admin => {
+                const complaint = admin.complaintTypes.find(c => c.type === type);
+                const size = sizeScale(complaint.total);
+                
+                const cell = g.append('g')
+                    .attr('class', 'complaints-multiples-cell-group')
+                    .attr('transform', `translate(
+                        ${colScale(admin.administration) + colScale.bandwidth() / 2},
+                        ${rowScale(type) + rowScale.bandwidth() / 2}
+                    )`);
+
+                // Add square
+                cell.append('rect')
+                    .attr('class', 'complaints-multiples-cell')
+                    .attr('x', -size / 2)
+                    .attr('y', -size / 2)
+                    .attr('width', size)
+                    .attr('height', size)
+                    .attr('fill', colorScale(complaint.substantiatedRate))
+                    .attr('stroke', '#fff')
+                    .attr('stroke-width', 2)
+                    .on('mouseover', function(event) {
+                        d3.select(this)
+                            .attr('stroke', '#003DA5')
+                            .attr('stroke-width', 3);
+
+                        tooltip
+                            .style('opacity', 1)
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 10) + 'px')
+                            .html(`
+                                <strong>${type} under ${admin.administration}</strong>
+                                Total Complaints: ${complaint.total.toLocaleString()}<br>
+                                Substantiated: ${complaint.substantiatedRate.toFixed(1)}%<br>
+                                Substantiated Cases: ${complaint.substantiated.toLocaleString()}<br>
+                                Unsubstantiated: ${complaint.unsubstantiatedRate.toFixed(1)}%
+                            `);
+                    })
+                    .on('mousemove', function(event) {
+                        tooltip
+                            .style('left', (event.pageX + 10) + 'px')
+                            .style('top', (event.pageY - 10) + 'px');
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this)
+                            .attr('stroke', '#fff')
+                            .attr('stroke-width', 2);
+                        tooltip.style('opacity', 0);
+                    });
+
+                // Add value label if square is large enough
+                if (size > 40) {
+                    cell.append('text')
+                        .attr('class', 'complaints-multiples-value-label')
+                        .attr('text-anchor', 'middle')
+                        .attr('dy', '0.35em')
+                        .text(`${complaint.substantiatedRate.toFixed(1)}%`);
+                }
+            });
+        });
+
+        this.createLegends(svg, margin, height, colorScale, sizeScale);
+    },
+
+    createLegends: function(svg, margin, height, colorScale, sizeScale) {
+        // Move legend to top
+        const legendGroup = svg.append('g')
+            .attr('class', 'complaints-multiples-legend')
+            .attr('transform', `translate(${margin.left}, 30)`);
+
+        // Color legend setup
+        const legendWidth = 200;
+        const legendHeight = 15;
+
+        // Create gradient with unique ID
+        const gradientId = 'complaints-multiples-gradient';
+        const defs = svg.append('defs');
+        const linearGradient = defs.append('linearGradient')
+            .attr('id', gradientId)
+            .attr('x1', '0%')
+            .attr('x2', '100%');
+
+        // Create more color stops for smoother gradient
+        d3.range(0, 31).forEach(d => {
+            linearGradient.append('stop')
+                .attr('offset', `${(d/30 * 100)}%`)
+                .attr('stop-color', colorScale(d * 15/30));
+        });
+
+        // Add legends with unique classes
+        this.addColorLegend(legendGroup, legendWidth, legendHeight, gradientId);
+        this.addSizeLegend(legendGroup, legendWidth, sizeScale);
+    },
+
+    addColorLegend: function(legendGroup, legendWidth, legendHeight, gradientId) {
+        const colorLegend = legendGroup.append('g')
+            .attr('class', 'complaints-multiples-color-legend');
+        
+        colorLegend.append('rect')
+            .attr('width', legendWidth)
+            .attr('height', legendHeight)
+            .style('fill', `url(#${gradientId})`);
+
+        const colorScale2 = d3.scaleLinear()
+            .domain([0, 25])
+            .range([0, legendWidth]);
+
+        const colorAxis = d3.axisBottom(colorScale2)
+            .ticks(5)
+            .tickFormat(d => d + '%');
+
+        colorLegend.append('g')
+            .attr('transform', `translate(0,${legendHeight})`)
+            .call(colorAxis);
+
+        colorLegend.append('text')
+            .attr('x', legendWidth / 2)
+            .attr('y', -5)
+            .attr('text-anchor', 'middle')
+            .text('Substantiation Rate');
+    },
+
+    addSizeLegend: function(legendGroup, legendWidth, sizeScale) {
+        const sizeLegend = legendGroup.append('g')
+            .attr('class', 'complaints-multiples-size-legend')
+            .attr('transform', `translate(${legendWidth + 50},0)`);
+
+        const legendSizes = [1000, 5000, 10000].map(value => ({
+            value: value,
+            radius: sizeScale(value) / 2
+        }));
+
+        const sizeLegendGroups = sizeLegend.selectAll('g')
+            .data(legendSizes)
+            .join('g')
+            .attr('transform', (d, i) => `translate(${i * 70},0)`);
+
+        sizeLegendGroups.append('rect')
+            .attr('x', d => -d.radius)
+            .attr('y', d => -d.radius)
+            .attr('width', d => d.radius * 2)
+            .attr('height', d => d.radius * 2)
+            .attr('fill', 'none')
+            .attr('stroke', '#666')
+            .attr('stroke-dasharray', '2,2');
+
+        sizeLegendGroups.append('text')
+            .attr('y', d => -d.radius - 5)
+            .attr('text-anchor', 'middle')
+            .text(d => d3.format(',')(d.value));
+    },
+
+    addResizeHandler: function() {
+        window.addEventListener('resize', () => {
+            this.createVisualization();
+        });
+    }
+};
+
+// Initialize the visualization
+document.addEventListener('DOMContentLoaded', () => {
+    ComplaintsVisualization.init();
+});
+
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
 drawSubstantiationPieChart('de Blasio');
 drawSubstantiationPieChart('Adams');
 drawLegend();
 drawGrid();
-drawTotalComplaintsChart();
