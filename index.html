@@ -64,16 +64,31 @@
 </div>
     
 
-    <!-- Section 8.5: Yearly Complaints Analysis -->
-    <div class="section" id="yearly-complaints">
-        <h2 class="license-plate">Year-by-Year CCRB Complaints</h2>
-        <p>Here's a breakdown of the complaints by year. We can see how police oversight changed over time under each administration going back to Bloomberg.</p>
-        <div id="yearly-complaints-chart"></div>
-        <p>A few trends emerge here. The CCRB under Bloomberg saw a steady increase in the number of complaints over the first several years, and the rate of substantiation dropped. This period of increased CCRB activity lines up with the era of Stop and Frisk, which was later found unconstitutional in 2013. 
-            The de Blasio years are notably quieter. The yearly complaints dip, though the rate of substantiation slightly rises.
-            The rate of substantiation has been significantly higher during Adams' term as mayor, and New Yorkers are filing complaints at levels approaching the peaks of Bloomberg's administration. It's difficult to speculate about cause, but Adams did take office during the aftermath of the George Floyd protests, when law enforcement across the country was under increased scrutiny. 
-        </p>
+<div class="section" id="yearly-complaints">
+    <h2 class="license-plate">Year-by-Year CCRB Complaints</h2>
+    <div class="yearly-scroll-container">
+        <!-- The chart will be sticky -->
+        <div id="yearly-complaints-chart" class="sticky-chart"></div>
+        <!-- Annotations will appear as we scroll -->
+        <div class="annotations">
+            <div class="annotation-section" id="bloomberg-section">
+                <div class="annotation-text">
+                    <p>The CCRB under Bloomberg saw a steady increase in the number of complaints over the first several years, and the rate of substantiation dropped. This period of increased CCRB activity lines up with the era of Stop and Frisk, which was later found unconstitutional in 2013.</p>
+                </div>
+            </div>
+            <div class="annotation-section" id="deblasio-section">
+                <div class="annotation-text">
+                    <p>The de Blasio years are notably quieter. The yearly complaints dip, though the rate of substantiation slightly rises. Notably, Eric Garner was killed by a police officer in 2014.</p>
+                </div>
+            </div>
+            <div class="annotation-section" id="adams-section">
+                <div class="annotation-text">
+                    <p>The rate of substantiation has been significantly higher during Adams' term as mayor, and New Yorkers are filing complaints at levels approaching the peaks of Bloomberg's administration. It's difficult to speculate about cause, but Adams did take office in the aftermath of the George Floyd protests in 2020, when law enforcement across the country was under increased scrutiny.</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
         
      <!-- Section 6: Monthly Cases Histogram -->
      <div class="section" id="monthly-histogram">

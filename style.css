@@ -591,3 +591,79 @@ svg text {
 }
 
 
+/*ANNOTATIONS FOR YEARLY CHART*/
+
+/* Yearly Complaints Specific Styling */
+
+
+#yearly-complaints-chart.sticky-chart {
+    position: sticky;
+    top: 50px;
+    z-index: 1;
+    background: white;
+    margin-bottom: 20px;
+}
+
+
+.annotation-text {
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.annotation-text.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.yearly-scroll-container {
+    position: relative;
+    min-height: 200vh;
+}
+
+.sticky-chart {
+    position: sticky;
+    top: 50px;
+    z-index: 1;
+    background: white;
+}
+
+.annotations {
+    position: relative;
+    z-index: 2;
+}
+
+.tooltip {
+    z-index: 9999;
+    pointer-events: none;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.annotation-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+}
+
+/* Bloomberg section stays on the right */
+#bloomberg-section {
+    justify-content: flex-end;
+}
+
+/* de Blasio and Adams sections go to the left */
+#deblasio-section, #adams-section {
+    justify-content: flex-start;
+}
+
+/* LINE CHART ANNOTATIONS */
+

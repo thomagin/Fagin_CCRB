@@ -1722,6 +1722,14 @@ const yearlyMargin = { top: 40, right: 120, bottom: 60, left: 80 };
 const yearlyWidth = 900 - yearlyMargin.left - yearlyMargin.right;
 const yearlyHeight = 500 - yearlyMargin.top - yearlyMargin.bottom;
 
+// Create tooltip first (outside the data loading)
+const yearlyTooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("z-index", "9999")  // Ensure tooltip is always on top
+    .style("pointer-events", "none");
+
 // Create SVG container
 const yearlySvg = d3.select("#yearly-complaints-chart")
     .append("svg")
@@ -1796,28 +1804,6 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
             .tickFormat(d3.format(","))
             .ticks(8));
 
-    // Add labels
-    yearlySvg.append("text")
-        .attr("class", "axis-label")
-        .attr("x", yearlyWidth / 2)
-        .attr("y", yearlyHeight + 50)
-        .style("text-anchor", "middle")
-        .text("Year");
-
-    yearlySvg.append("text")
-        .attr("class", "axis-label")
-        .attr("transform", "rotate(-90)")
-        .attr("x", -yearlyHeight / 2)
-        .attr("y", -60)
-        .style("text-anchor", "middle")
-        .text("Number of Complaints");
-
-    // Create tooltip
-    const yearlyTooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
     // Add stacked bars
     const yearlyBarGroups = yearlySvg.selectAll(".bar-group")
         .data(yearlyFlatData)
@@ -1852,7 +1838,6 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
             const substantiationRate = (parentData.substantiated / parentData.total * 100).toFixed(1);
             
             d3.select(this)
-                .style("opacity", 0.8)
                 .style("stroke-width", 2);
 
             yearlyTooltip.transition()
@@ -1870,7 +1855,6 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
         })
         .on("mouseout", function() {
             d3.select(this)
-                .style("opacity", 1)
                 .style("stroke-width", 1);
 
             yearlyTooltip.transition()
@@ -1878,53 +1862,62 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
                 .style("opacity", 0);
         });
 
-    // Add legend
-    const yearlyLegend = yearlySvg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${yearlyWidth + 10}, 0)`);
+    // Function to handle mayor focus - now inside the data loading scope
+    function focusMayor(mayor) {
+        const yearRanges = {
+            'Bloomberg': [2002, 2013],
+            'de Blasio': [2014, 2021],
+            'Adams': [2022, 2024]
+        };
+        
+        const range = yearRanges[mayor];
+        
+        yearlyBarGroups.selectAll("rect")
+            .transition()
+            .duration(500)
+            .style("opacity", function(d) {
+                const parentData = d3.select(this.parentNode).datum();
+                return (parentData.year >= range[0] && parentData.year <= range[1]) ? 1 : 0.15;
+            });
 
-    Object.entries(yearlyMayorColors).forEach(([mayor, color], i) => {
-        const legendGroup = yearlyLegend.append("g")
-            .attr("transform", `translate(0, ${i * 60})`);
+        console.log('Focusing mayor:', mayor);
+        console.log('Year range:', range);
+    }
 
-        legendGroup.append("rect")
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", color)
-            .style("stroke", "white");
+    // Set up intersection observer - now inside the data loading scope
+    const observerOptions = {
+        root: null,
+        rootMargin: '-40% 0px -40% 0px',
+        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    };
 
-        legendGroup.append("text")
-            .attr("x", 24)
-            .attr("y", 14)
-            .text(mayor);
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const section = entry.target;
+            const textElement = section.querySelector('.annotation-text');
+            
+            if (entry.isIntersecting) {
+                textElement.classList.add('active');
+                
+                if (section.id === 'bloomberg-section') {
+                    console.log('Focusing Bloomberg');
+                    focusMayor('Bloomberg');
+                } else if (section.id === 'deblasio-section') {
+                    console.log('Focusing de Blasio');
+                    focusMayor('de Blasio');
+                } else if (section.id === 'adams-section') {
+                    console.log('Focusing Adams');
+                    focusMayor('Adams');
+                }
+            } else {
+                textElement.classList.remove('active');
+            }
+        });
+    }, observerOptions);
 
-        // Add substantiated indicator
-        legendGroup.append("rect")
-            .attr("width", 18)
-            .attr("height", 9)
-            .attr("y", 25)
-            .style("fill", "#2F2F2F")
-            .style("stroke", "white");
-
-        legendGroup.append("text")
-            .attr("x", 24)
-            .attr("y", 32)
-            .style("font-size", "12px")
-            .text("Substantiated");
-
-        // Add unsubstantiated indicator
-        legendGroup.append("rect")
-            .attr("width", 18)
-            .attr("height", 9)
-            .attr("y", 40)
-            .style("fill", color)
-            .style("stroke", "white");
-
-        legendGroup.append("text")
-            .attr("x", 24)
-            .attr("y", 47)
-            .style("font-size", "12px")
-            .text("Unsubstantiated");
+    // Start observing
+    document.querySelectorAll('.annotation-section').forEach(section => {
+        observer.observe(section);
     });
 });
 
