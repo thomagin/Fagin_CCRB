@@ -12,10 +12,44 @@ body {
 }
 
 .section {
-    padding: 20px 20px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
     text-align: center;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     opacity: 1;
+}
+
+
+/* Side-by-side layout option */
+.section.with-sidebar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: center;
+    text-align: left;
+    padding: 2rem;
+}
+
+.section.with-sidebar.text-left {
+    grid-template-columns: minmax(400px, 2fr) minmax(0, 3fr);
+}
+
+.section.with-sidebar.text-right {
+    grid-template-columns: minmax(0, 3fr) minmax(400px, 2fr);
+}
+
+/* Mobile responsiveness for side-by-side layout */
+@media screen and (max-width: 1024px) {
+    .section.with-sidebar {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .section.with-sidebar.text-left,
+    .section.with-sidebar.text-right {
+        grid-template-columns: 1fr;
+    }
 }
 
 .section-image {
@@ -234,7 +268,6 @@ svg text {
         width: 100%; /* Stack the charts vertically on smaller screens */
     }
 }
-
 /* FADO chart */
 #complaints-small-multiples {
     padding: 20px;
@@ -261,8 +294,8 @@ svg text {
     overflow: visible;
 }
 
-#small-multiples-tooltip {
-    position: absolute;
+#complaints-small-multiples-tooltip {
+    position: fixed;
     padding: 12px;
     background: rgba(255, 255, 255, 0.97);
     border: 1px solid #ddd;
@@ -274,9 +307,12 @@ svg text {
     opacity: 0;
     transition: opacity 0.2s;
     max-width: 300px;
+    visibility: hidden;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
 }
 
-#small-multiples-tooltip strong {
+#complaints-small-multiples-tooltip strong {
     color: #003DA5;
     display: block;
     margin-bottom: 5px;
@@ -492,6 +528,10 @@ svg text {
     color: #666;
     font-size: 0.9rem;
     margin-top: 0.5rem;
+}
+
+.candidate-card:first-child .candidate-image {
+    object-position: center 5%; /* This moves the image up, showing more of the bottom */
 }
 
 /* Responsive Design */

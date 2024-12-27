@@ -1220,8 +1220,9 @@ function addLegend(svg, mayorColors, width) {
 }
 })();
 
-///MOSAIC CHARTS
+///FADO CHARTS
 
+// Wrap all functionality in a namespace to avoid conflicts
 // Wrap all functionality in a namespace to avoid conflicts
 const ComplaintsVisualization = {
     init: function() {
@@ -1231,6 +1232,12 @@ const ComplaintsVisualization = {
 
     createVisualization: function() {
         // Clear existing visualization
+        // Ensure tooltip exists
+if (d3.select('#complaints-small-multiples-tooltip').empty()) {
+    d3.select('#complaints-small-multiples')
+        .append('div')
+        .attr('id', 'complaints-small-multiples-tooltip');
+}
         d3.select('#complaints-small-multiples-vis').selectAll('*').remove();
 
         // Adjust dimensions to accommodate legend
@@ -1246,7 +1253,7 @@ const ComplaintsVisualization = {
             .attr('width', width)
             .attr('height', height)
             .attr('viewBox', [0, 0, width, height])
-            .attr('class', 'complaints-multiples-svg'); // Unique class
+            .attr('class', 'complaints-multiples-svg');
 
         // Create scales
         const complaintTypes = ['Force', 'Abuse of Authority', 'Discourtesy', 'Offensive Language'];
@@ -1328,8 +1335,9 @@ const ComplaintsVisualization = {
 
                         tooltip
                             .style('opacity', 1)
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 10) + 'px')
+                            .style('visibility', 'visible')
+                            .style('left', event.clientX + 'px')
+                            .style('top', event.clientY + 'px')
                             .html(`
                                 <strong>${type} under ${admin.administration}</strong>
                                 Total Complaints: ${complaint.total.toLocaleString()}<br>
@@ -1340,14 +1348,16 @@ const ComplaintsVisualization = {
                     })
                     .on('mousemove', function(event) {
                         tooltip
-                            .style('left', (event.pageX + 10) + 'px')
-                            .style('top', (event.pageY - 10) + 'px');
+                            .style('left', event.clientX + 'px')
+                            .style('top', event.clientY + 'px');
                     })
                     .on('mouseout', function() {
                         d3.select(this)
                             .attr('stroke', '#fff')
                             .attr('stroke-width', 2);
-                        tooltip.style('opacity', 0);
+                        tooltip
+                            .style('opacity', 0)
+                            .style('visibility', 'hidden');
                     });
 
                 // Add value label if square is large enough

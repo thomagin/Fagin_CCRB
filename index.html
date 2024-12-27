@@ -86,15 +86,16 @@
 
 
     <!-- Section 8: small multiple complaint types -->
-<div class="section" id="complaints-small-multiples">
-    <h2 class="license-plate">Complaints and Substantiation by Type</h2>
-    <div class="small-multiples-explainer">
-        <p>Each row shows a type of complaint. Square size shows the total number of complaints, 
-           while color intensity indicates the substantiation rate.</p>
-    </div>
-    <div id="complaints-small-multiples">
-        <div id="complaints-small-multiples-vis"></div>
-        <div id="complaints-small-multiples-tooltip"></div>
+    <div class="section" id="complaints-section">
+        <h2 class="license-plate">Complaints and Substantiation by Type</h2>
+        <div class="small-multiples-explainer">
+            <p>Each row shows a type of complaint. Square size shows the total number of complaints, 
+               while color intensity indicates the substantiation rate.</p>
+        </div>
+        <div id="complaints-small-multiples">
+            <div id="complaints-small-multiples-vis"></div>
+            <div id="complaints-small-multiples-tooltip"></div>
+        </div>
     </div>
 
     <!-- Section 8.5: Yearly Complaints Analysis -->
@@ -115,50 +116,50 @@
     <p>Whichever position you take, the agency exists and will continue functioning until it is formally abolished. As New Yorkers, we live with the NYPD and we should have some say in how its officers uphold the law. Our votes for mayor will indirectly shape the composition of the board. If you want a more lenient board, you should vote for a candidate who is skeptical of police oversight; if you want a more punitive board, you should vote for a candidate who is in favor of reining in the NYPD.</p>
 
     <h2 class="license-plate">When can you vote for the CCRB you want to see?</h2>
-    <p>The election for mayor of New York City will be held on November 4, 2025. However, the primary elections will be held in June, and this is when New Yorker can have more influence on the CCRB.</p>
+    <p>The election for mayor of New York City will be held on November 4, 2025. However, the primary elections will be held in June, and if recent years are any indication this is likely when New Yorkers will be choosing their next mayor.</p>
 
     <h2 class="license-plate">Who are the candidates running in the Democratic primary?</h2>
     
     <div class="candidates-grid">
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Eric Adams" class="candidate-image" />
+            <img src="data/adams.jpg" alt="Eric Adams" class="candidate-image" />
             <h3><a href="https://www.nyc.gov/office-of-the-mayor/index.page" target="_blank">Eric Adams</a></h3>
             <p class="candidate-info">Current Mayor of New York City</p>
         </div>
         
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Brad Lander" class="candidate-image" />
+            <img src="data/lander.jpg" alt="Brad Lander" class="candidate-image" />
             <h3><a href="https://www.landerfornyc.com/" target="_blank">Brad Lander</a></h3>
             <p class="candidate-info">NYC Comptroller</p>
         </div>
         
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Zohran Mamdani" class="candidate-image" />
+            <img src="data/zohran.jpg" alt="Zohran Mamdani" class="candidate-image" />
             <h3><a href="https://www.zohranfornyc.com/" target="_blank">Zohran Mamdani</a></h3>
             <p class="candidate-info">NY State Assemblymember</p>
         </div>
         
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Zellnor Myrie" class="candidate-image" />
+            <img src="data/zellnor.jpg" alt="Zellnor Myrie" class="candidate-image" />
             <h3><a href="https://www.zellnor.nyc/" target="_blank">Zellnor Myrie</a></h3>
             <p class="candidate-info">NY State Senator</p>
         </div>
         
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Jessica Ramos" class="candidate-image" />
+            <img src="data/Ramos.jpg" alt="Jessica Ramos" class="candidate-image" />
             <h3><a href="https://www.ramosfornyc.com/" target="_blank">Jessica Ramos</a></h3>
             <p class="candidate-info">NY State Senator</p>
         </div>
         
         <div class="candidate-card">
-            <img src="/api/placeholder/300/300" alt="Scott Stringer" class="candidate-image" />
+            <img src="data/stringer.jpg" alt="Scott Stringer" class="candidate-image" />
             <h3><a href="https://secure.actblue.com/donate/stringer-home" target="_blank">Scott Stringer</a></h3>
             <p class="candidate-info">Former NYC Comptroller</p>
         </div>
     </div>
 
     <h2 class="license-plate">What can you do in the meantime?</h2>
-    <p>If you are interested in police oversight and want to learn more about the activities of the CCRB, the board holds public meetings where they update the public, take questions, and hear concerns related to police misconduct. The meetings are open to the public and anyone can ask a question. These meetings typically take place on the second Wednesday of each month at 4:00 PM, and every year they hold at least one meeting in each borough. If you want to speak directly to the people invested with the power to make decisions about police misconduct, you should go and speak your mind.</p>
+    <p>If you want to learn more about the activities of the CCRB, the board holds public meetings where they update the public, take questions, and hear concerns related to police misconduct. The meetings are open to the public and anyone can ask a question. These meetings typically take place on the second Wednesday of each month at 4:00 PM, and every year they hold at least one meeting in each borough. If you want to speak directly to the people invested with the power to make decisions about police misconduct, you should go and speak your mind.</p>
     
     <h2 class="license-plate">Other ways to shape police oversight</h2>
     <p>Elections aren't the only way to make the CCRB change course. On July 17, 2014, Eric Garner was killed by a police officer who used a chokehold to subdue him for allegedly selling loose cigarettes, a misdemeanor. 
@@ -166,19 +167,13 @@
     </p>
 </div>
 
-      <!-- Section 9: chokehold comparison-->
-      <body>
-      <!--  <div class="section" id="chokehold-rate">
-            <h2 class="license-plate">CCRB Chokehold Complaint Substantiation Rates</h2> -->
-            <div id="visualization"></div>
+ <!-- Section 9: chokehold comparison-->
+<div class="section" id="chokehold-rate">
+    <h2 class="license-plate">CCRB Chokehold Complaint Substantiation Rates</h2>
+    <div id="visualization"></div>
 
-            <p>The CCRB is roughly <strong>five times</strong> more likely to substantiate a case involving a chokehold now than they were before the killing of Eric Garner. This is the result of public pressure and the increased scrutiny of police misconduct brought about by New Yorkers across the city who joined together to demand change. So there's no need to wait until an election, or even for the next public meeting of the CCRB. New Yorkers can influence the way this agency does its work by simply joining together and demanding better police oversight.  
-            </p>
-
-        </div>
-        <script src="main.js"></script>
-    </body>
-
+    <p>The CCRB is roughly <strong>five times</strong> more likely to substantiate a case involving a chokehold now than they were before the killing of Eric Garner. This is the result of public pressure and the increased scrutiny of police misconduct brought about by New Yorkers across the city who joined together to demand change. So there's no need to wait until an election, or even for the next public meeting of the CCRB. New Yorkers can influence the way this agency does its work by simply joining together and demanding better police oversight.</p>
+</div>
     </html>
 
         <script src="main.js"></script> <!-- External JavaScript file for D3 -->
