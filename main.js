@@ -547,7 +547,6 @@ const designees = [
 const textSections = `
     <div class="scroll-section" id="initial-view">
         <h2 class="license-plate">Current Board Composition</h2>
-        <p>The CCRB board consists of 15 members with different appointment sources.</p>
         <div style="height: 0.5vh;"></div>
     </div>
 `;
