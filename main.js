@@ -2,153 +2,339 @@
 
 const data = [
     {
-        administration: 'Bloomberg',
-        totalComplaints: 218933,
-        substantiatedRate: 2.97,
-        unsubstantiatedRate: 97.03,
-        substantiated: Math.round(218933 * (2.97 / 100)),
-        unsubstantiated: Math.round(218933 * (97.03 / 100)),
-        substantiations: [
-            { label: 'Substantiated (Charges)', value: 84.88, cases: 5522 },
-            { label: 'Substantiated (Command Discipline A)', value: 0.00, cases: 0 },
-            { label: 'Substantiated (Command Discipline B)', value: 0.00, cases: 0 },
-            { label: 'Substantiated (Command Discipline)', value: 15.12, cases: 984 },
-            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
-        ],
-        complaintTypes: [
-            {
-                type: 'Force',
-                total: 67494,
-                substantiatedRate: 1.13,
-                unsubstantiatedRate: 98.87,
-                substantiated: Math.round(67494 * (1.13 / 100)),
-                unsubstantiated: Math.round(67494 * (98.87 / 100))
-            },
-            {
-                type: 'Abuse of Authority',
-                total: 104933,
-                substantiatedRate: 4.61,
-                unsubstantiatedRate: 95.39,
-                substantiated: Math.round(104933 * (4.61 / 100)),
-                unsubstantiated: Math.round(104933 * (95.39 / 100))
-            },
-            {
-                type: 'Discourtesy',
-                total: 37320,
-                substantiatedRate: 2.14,
-                unsubstantiatedRate: 97.86,
-                substantiated: Math.round(37320 * (2.14 / 100)),
-                unsubstantiated: Math.round(37320 * (97.86 / 100))
-            },
-            {
-                type: 'Offensive Language',
-                total: 6209,
-                substantiatedRate: 1.76,
-                unsubstantiatedRate: 98.24,
-                substantiated: Math.round(6209 * (1.76 / 100)),
-                unsubstantiated: Math.round(6209 * (98.24 / 100))
-            }
-        ]
+      "administration": "Bloomberg",
+      "period": {
+        "start": "2002-01-01",
+        "end": "2013-12-31"
+      },
+      "totalComplaints": 218933,
+      "substantiatedRate": 2.97,
+      "unsubstantiatedRate": 97.03,
+      "substantiated": 6506,
+      "unsubstantiated": 212427,
+      "substantiations": [
+        { "label": "Substantiated (Charges)", "value": 84.88, "cases": 5522 },
+        { "label": "Substantiated (Command Discipline A)", "value": 0.00, "cases": 0 },
+        { "label": "Substantiated (Command Discipline B)", "value": 0.00, "cases": 0 },
+        { "label": "Substantiated (Command Discipline)", "value": 15.12, "cases": 984 },
+        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+      ],
+      "complaintTypes": [
+        {
+          "type": "Force",
+          "total": 67494,
+          "substantiatedRate": 1.13,
+          "unsubstantiatedRate": 98.87,
+          "substantiated": 763,
+          "unsubstantiated": 66731
+        },
+        {
+          "type": "Abuse of Authority",
+          "total": 104933,
+          "substantiatedRate": 4.61,
+          "unsubstantiatedRate": 95.39,
+          "substantiated": 4837,
+          "unsubstantiated": 100096
+        },
+        {
+          "type": "Discourtesy",
+          "total": 37320,
+          "substantiatedRate": 2.14,
+          "unsubstantiatedRate": 97.86,
+          "substantiated": 799,
+          "unsubstantiated": 36521
+        },
+        {
+          "type": "Offensive Language",
+          "total": 6209,
+          "substantiatedRate": 1.76,
+          "unsubstantiatedRate": 98.24,
+          "substantiated": 109,
+          "unsubstantiated": 6100
+        }
+      ],
+      "demographics": [
+        {
+          "race": "Hispanic",
+          "gender": "Male/Man",
+          "rate": 3.85,
+          "total": 29278,
+          "substantiated": 1127
+        },
+        {
+          "race": "Hispanic",
+          "gender": "Female/Woman",
+          "rate": 2.34,
+          "total": 8246,
+          "substantiated": 193
+        },
+        {
+          "race": "Black",
+          "gender": "Male/Man",
+          "rate": 4.32,
+          "total": 70618,
+          "substantiated": 3050
+        },
+        {
+          "race": "Black",
+          "gender": "Female/Woman",
+          "rate": 2.62,
+          "total": 19825,
+          "substantiated": 519
+        },
+        {
+          "race": "White",
+          "gender": "Male/Man",
+          "rate": 3.59,
+          "total": 14977,
+          "substantiated": 537
+        },
+        {
+          "race": "White",
+          "gender": "Female/Woman",
+          "rate": 3.56,
+          "total": 4940,
+          "substantiated": 176
+        },
+        {
+          "race": "Asian",
+          "gender": "Male/Man",
+          "rate": 3.57,
+          "total": 2354,
+          "substantiated": 84
+        },
+        {
+          "race": "Asian",
+          "gender": "Female/Woman",
+          "rate": 1.81,
+          "total": 552,
+          "substantiated": 10
+        }
+      ]
     },
     {
-        administration: 'de Blasio',
-        totalComplaints: 102913,
-        substantiatedRate: 4.29,
-        unsubstantiatedRate: 95.71,
-        substantiated: Math.round(102913 * (4.29 / 100)),
-        unsubstantiated: Math.round(102913 * (95.71 / 100)),
-        substantiations: [
-            { label: 'Substantiated (Charges)', value: 37.29, cases: 1646 },
-            { label: 'Substantiated (Command Discipline A)', value: 33.17, cases: 1464 },
-            { label: 'Substantiated (Command Discipline B)', value: 25.37, cases: 1120 },
-            { label: 'Substantiated (Command Discipline)', value: 4.17, cases: 184 },
-            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
-        ],
-        complaintTypes: [
-            {
-                type: 'Force',
-                total: 27371,
-                substantiatedRate: 2.52,
-                unsubstantiatedRate: 97.48,
-                substantiated: Math.round(27371 * (2.52 / 100)),
-                unsubstantiated: Math.round(27371 * (97.48 / 100))
-            },
-            {
-                type: 'Abuse of Authority',
-                total: 56129,
-                substantiatedRate: 5.43,
-                unsubstantiatedRate: 94.57,
-                substantiated: Math.round(56129 * (5.43 / 100)),
-                unsubstantiated: Math.round(56129 * (94.57 / 100))
-            },
-            {
-                type: 'Discourtesy',
-                total: 13070,
-                substantiatedRate: 4.10,
-                unsubstantiatedRate: 95.90,
-                substantiated: Math.round(13070 * (4.10 / 100)),
-                unsubstantiated: Math.round(13070 * (95.90 / 100))
-            },
-            {
-                type: 'Offensive Language',
-                total: 2873,
-                substantiatedRate: 3.97,
-                unsubstantiatedRate: 96.03,
-                substantiated: Math.round(2873 * (3.97 / 100)),
-                unsubstantiated: Math.round(2873 * (96.03 / 100))
-            }
-        ]
+      "administration": "de Blasio",
+      "period": {
+        "start": "2014-01-01",
+        "end": "2021-12-31"
+      },
+      "totalComplaints": 102913,
+      "substantiatedRate": 4.29,
+      "unsubstantiatedRate": 95.71,
+      "substantiated": 4414,
+      "unsubstantiated": 98499,
+      "substantiations": [
+        { "label": "Substantiated (Charges)", "value": 37.29, "cases": 1646 },
+        { "label": "Substantiated (Command Discipline A)", "value": 33.17, "cases": 1464 },
+        { "label": "Substantiated (Command Discipline B)", "value": 25.37, "cases": 1120 },
+        { "label": "Substantiated (Command Discipline)", "value": 4.17, "cases": 184 },
+        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+      ],
+      "complaintTypes": [
+        {
+          "type": "Force",
+          "total": 27371,
+          "substantiatedRate": 2.52,
+          "unsubstantiatedRate": 97.48,
+          "substantiated": 690,
+          "unsubstantiated": 26681
+        },
+        {
+          "type": "Abuse of Authority",
+          "total": 56129,
+          "substantiatedRate": 5.43,
+          "unsubstantiatedRate": 94.57,
+          "substantiated": 3048,
+          "unsubstantiated": 53081
+        },
+        {
+          "type": "Discourtesy",
+          "total": 13070,
+          "substantiatedRate": 4.10,
+          "unsubstantiatedRate": 95.90,
+          "substantiated": 536,
+          "unsubstantiated": 12534
+        },
+        {
+          "type": "Offensive Language",
+          "total": 2873,
+          "substantiatedRate": 3.97,
+          "unsubstantiatedRate": 96.03,
+          "substantiated": 114,
+          "unsubstantiated": 2759
+        }
+      ],
+      "demographics": [
+        {
+          "race": "Hispanic",
+          "gender": "Male/Man",
+          "rate": 5.09,
+          "total": 13896,
+          "substantiated": 708
+        },
+        {
+          "race": "Hispanic",
+          "gender": "Female/Woman",
+          "rate": 3.05,
+          "total": 3875,
+          "substantiated": 118
+        },
+        {
+          "race": "Black",
+          "gender": "Male/Man",
+          "rate": 5.98,
+          "total": 30109,
+          "substantiated": 1800
+        },
+        {
+          "race": "Black",
+          "gender": "Female/Woman",
+          "rate": 3.26,
+          "total": 9001,
+          "substantiated": 293
+        },
+        {
+          "race": "White",
+          "gender": "Male/Man",
+          "rate": 5.35,
+          "total": 6785,
+          "substantiated": 363
+        },
+        {
+          "race": "White",
+          "gender": "Female/Woman",
+          "rate": 3.18,
+          "total": 2826,
+          "substantiated": 90
+        },
+        {
+          "race": "Asian",
+          "gender": "Male/Man",
+          "rate": 5.61,
+          "total": 1621,
+          "substantiated": 91
+        },
+        {
+          "race": "Asian",
+          "gender": "Female/Woman",
+          "rate": 0.68,
+          "total": 440,
+          "substantiated": 3
+        }
+      ]
     },
     {
-        administration: 'Adams',
-        totalComplaints: 62530,
-        substantiatedRate: 11.46,
-        unsubstantiatedRate: 88.54,
-        substantiated: Math.round(62530 * (11.46 / 100)),
-        unsubstantiated: Math.round(62530 * (88.54 / 100)),
-        substantiations: [
-            { label: 'Substantiated (Charges)', value: 14.89, cases: 1067 },
-            { label: 'Substantiated (Command Discipline A)', value: 65.64, cases: 4705 },
-            { label: 'Substantiated (Command Discipline B)', value: 19.48, cases: 1396 },
-            { label: 'Substantiated (Command Discipline)', value: 0.00, cases: 0 },
-            { label: 'Substantiated (Formal Training)', value: 0.00, cases: 0 }
-        ],
-        complaintTypes: [
-            {
-                type: 'Force',
-                total: 10415,
-                substantiatedRate: 4.75,
-                unsubstantiatedRate: 95.25,
-                substantiated: Math.round(10415 * (4.75 / 100)),
-                unsubstantiated: Math.round(10415 * (95.25 / 100))
-            },
-            {
-                type: 'Abuse of Authority',
-                total: 22704,
-                substantiatedRate: 12.68,
-                unsubstantiatedRate: 87.32,
-                substantiated: Math.round(22704 * (12.68 / 100)),
-                unsubstantiated: Math.round(22704 * (87.32 / 100))
-            },
-            {
-                type: 'Discourtesy',
-                total: 4030,
-                substantiatedRate: 20.72,
-                unsubstantiatedRate: 79.28,
-                substantiated: Math.round(4030 * (20.72 / 100)),
-                unsubstantiated: Math.round(4030 * (79.28 / 100))
-            },
-            {
-                type: 'Offensive Language',
-                total: 863,
-                substantiatedRate: 15.53,
-                unsubstantiatedRate: 84.47,
-                substantiated: Math.round(863 * (15.53 / 100)),
-                unsubstantiated: Math.round(863 * (84.47 / 100))
-            }
-        ]
+      "administration": "Adams",
+      "period": {
+        "start": "2022-01-01",
+        "end": "2024-12-16"
+      },
+      "totalComplaints": 62530,
+      "substantiatedRate": 11.46,
+      "unsubstantiatedRate": 88.54,
+      "substantiated": 7168,
+      "unsubstantiated": 55362,
+      "substantiations": [
+        { "label": "Substantiated (Charges)", "value": 14.89, "cases": 1067 },
+        { "label": "Substantiated (Command Discipline A)", "value": 65.64, "cases": 4705 },
+        { "label": "Substantiated (Command Discipline B)", "value": 19.48, "cases": 1396 },
+        { "label": "Substantiated (Command Discipline)", "value": 0.00, "cases": 0 },
+        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+      ],
+      "complaintTypes": [
+        {
+          "type": "Force",
+          "total": 10415,
+          "substantiatedRate": 4.75,
+          "unsubstantiatedRate": 95.25,
+          "substantiated": 495,
+          "unsubstantiated": 9920
+        },
+        {
+          "type": "Abuse of Authority",
+          "total": 22704,
+          "substantiatedRate": 12.68,
+          "unsubstantiatedRate": 87.32,
+          "substantiated": 2879,
+          "unsubstantiated": 19825
+        },
+        {
+          "type": "Discourtesy",
+          "total": 4030,
+          "substantiatedRate": 20.72,
+          "unsubstantiatedRate": 79.28,
+          "substantiated": 835,
+          "unsubstantiated": 3195
+        },
+        {
+          "type": "Offensive Language",
+          "total": 863,
+          "substantiatedRate": 15.53,
+          "unsubstantiatedRate": 84.47,
+          "substantiated": 134,
+          "unsubstantiated": 729
+        }
+      ],
+      "demographics": [
+        {
+          "race": "Hispanic",
+          "gender": "Male/Man",
+          "rate": 16.95,
+          "total": 3722,
+          "substantiated": 631
+        },
+        {
+          "race": "Hispanic",
+          "gender": "Female/Woman",
+          "rate": 9.48,
+          "total": 1571,
+          "substantiated": 149
+        },
+        {
+          "race": "Black",
+          "gender": "Male/Man",
+          "rate": 14.65,
+          "total": 9458,
+          "substantiated": 1386
+        },
+        {
+          "race": "Black",
+          "gender": "Female/Woman",
+          "rate": 10.76,
+          "total": 3670,
+          "substantiated": 395
+        },
+        {
+          "race": "White",
+          "gender": "Male/Man",
+          "rate": 12.24,
+          "total": 1895,
+          "substantiated": 232
+        },
+        {
+          "race": "White",
+          "gender": "Female/Woman",
+          "rate": 9.74,
+          "total": 1098,
+          "substantiated": 107
+        },
+        {
+          "race": "Asian",
+          "gender": "Male/Man",
+          "rate": 20.27,
+          "total": 513,
+          "substantiated": 104
+        },
+        {
+          "race": "Asian",
+          "gender": "Female/Woman",
+          "rate": 19.35,
+          "total": 279,
+          "substantiated": 54
+        }
+      ]
     }
-];
+  ]
 
 //BAR CHART
 
@@ -1222,7 +1408,6 @@ function addLegend(svg, mayorColors, width) {
 ///FADO CHARTS
 
 // Wrap all functionality in a namespace to avoid conflicts
-// Wrap all functionality in a namespace to avoid conflicts
 const ComplaintsVisualization = {
     init: function() {
         this.createVisualization();
@@ -1242,7 +1427,7 @@ if (d3.select('#complaints-small-multiples-tooltip').empty()) {
         // Adjust dimensions to accommodate legend
         const width = Math.min(1200, window.innerWidth - 40);
         const height = 500;
-        const margin = { top: 100, right: 40, bottom: 40, left: 200 };
+        const margin = { top: 130, right: 40, bottom: -30, left: 200 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 
@@ -1743,6 +1928,169 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
     });
 });
 
+
+// RACE AND SEX HEATMAP
+
+function createDemographicsHeatmap() {
+    const margin = { top: 50, right: 120, bottom: 60, left: 120 };
+    const width = 900 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const svg = d3.select("#demographics-heatmap")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    const races = ["Asian", "Black", "Hispanic", "White"];
+    const genders = ["Female/Woman", "Male/Man"];
+
+    const x = d3.scaleBand()
+        .domain(races)
+        .range([0, width])
+        .padding(0.1);
+
+    const y = d3.scaleBand()
+        .domain(genders)
+        .range([0, height])
+        .padding(0.1);
+
+    const buttonContainer = d3.select("#demographics-heatmap")
+        .insert("div", "svg")
+        .style("text-align", "center")
+        .style("margin-bottom", "20px");
+
+    buttonContainer.selectAll("button")
+        .data(data)
+        .join("button")
+        .text(d => d.administration)
+        .style("margin", "0 10px")
+        .style("padding", "8px 16px")
+        .style("border", "none")
+        .style("border-radius", "4px")
+        .style("background-color", "#003DA5")
+        .style("color", "white")
+        .style("cursor", "pointer")
+        .style("transition", "background-color 0.3s")
+        .on("mouseover", function() {
+            d3.select(this).style("background-color", "#002D7A");
+        })
+        .on("mouseout", function() {
+            d3.select(this).style("background-color", "#003DA5");
+        })
+        .on("click", function(event, d) {
+            updateHeatmap(d);
+            buttonContainer.selectAll("button")
+                .style("opacity", 0.7);
+            d3.select(this)
+                .style("opacity", 1);
+        });
+
+    const tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    svg.append("g")
+        .attr("transform", `translate(0,${height})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .style("text-anchor", "middle")
+        .attr("transform", "rotate(0)");
+
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+    // Add title in separate container above SVG
+d3.select("#demographics-heatmap")
+    .insert("div", "svg")
+    .style("text-align", "center")
+    .style("margin-bottom", "20px")
+    .append("h3")
+    .attr("class", "heatmap-title")
+    .text("Substantiation Rates by Race and Gender");
+
+    function updateHeatmap(mayorData) {
+        // Create color scale specific to this administration's data
+        const colorScale = d3.scaleSequential(d3.interpolateBlues)
+            .domain([
+                d3.min(mayorData.demographics, d => d.rate),
+                d3.max(mayorData.demographics, d => d.rate)
+            ]);
+
+        d3.select(".heatmap-title")
+            .text(`Substantiation Rates by Race and Gender - ${mayorData.administration} Administration`);
+
+        const cells = svg.selectAll("rect")
+            .data(mayorData.demographics);
+
+        cells.enter()
+            .append("rect")
+            .merge(cells)
+            .transition()
+            .duration(750)
+            .attr("x", d => x(d.race))
+            .attr("y", d => y(d.gender))
+            .attr("width", x.bandwidth())
+            .attr("height", y.bandwidth())
+            .style("fill", d => colorScale(d.rate));
+
+        svg.selectAll("rect")
+            .on("mouseover", function(event, d) {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0.8);
+
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 0.9);
+
+                tooltip.html(`
+                    <strong>${d.race} ${d.gender}</strong><br/>
+                    Substantiation Rate: ${d.rate.toFixed(1)}%<br/>
+                    Total Complaints: ${d.total.toLocaleString()}<br/>
+                    Substantiated: ${d.substantiated.toLocaleString()}
+                `)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+                d3.select(this)
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1);
+
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+        const labels = svg.selectAll(".cell-label")
+            .data(mayorData.demographics);
+
+        labels.enter()
+            .append("text")
+            .attr("class", "cell-label")
+            .merge(labels)
+            .transition()
+            .duration(750)
+            .attr("x", d => x(d.race) + x.bandwidth() / 2)
+            .attr("y", d => y(d.gender) + y.bandwidth() / 2)
+            .attr("text-anchor", "middle")
+            .attr("dy", ".35em")
+            .style("fill", d => d.rate > 15 ? "white" : "black")
+            .text(d => `${d.rate.toFixed(1)}%`);
+
+        cells.exit().remove();
+        labels.exit().remove();
+    }
+
+    updateHeatmap(data[0]);
+}
+
+document.addEventListener('DOMContentLoaded', createDemographicsHeatmap);
 
 
 // Initialize all visualizations

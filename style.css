@@ -302,14 +302,17 @@ svg text {
 }
 /* FADO chart */
 #complaints-small-multiples {
-    padding: 20px;
+    padding: 0;
     margin: 20px auto;
-    max-width: 1200px;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .small-multiples-explainer {
     max-width: 800px;
-    margin: 0 auto 20px;
+    margin: 5 auto 5px;
     text-align: center;
     color: #666;
     font-size: 0.9em;
