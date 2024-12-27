@@ -1,0 +1,197 @@
+[
+  {
+    "mayor": "Bloomberg",
+    "period": {
+      "start": "2002-01-01",
+      "end": "2013-12-31"
+    },
+    "data": [
+      {
+        "race": "Hispanic",
+        "gender": "Male/Man",
+        "rate": 3.85,
+        "total": 29278,
+        "substantiated": 1127
+      },
+      {
+        "race": "Hispanic",
+        "gender": "Female/Woman",
+        "rate": 2.34,
+        "total": 8246,
+        "substantiated": 193
+      },
+      {
+        "race": "Black",
+        "gender": "Male/Man",
+        "rate": 4.32,
+        "total": 70618,
+        "substantiated": 3050
+      },
+      {
+        "race": "Black",
+        "gender": "Female/Woman",
+        "rate": 2.62,
+        "total": 19825,
+        "substantiated": 519
+      },
+      {
+        "race": "White",
+        "gender": "Male/Man",
+        "rate": 3.59,
+        "total": 14977,
+        "substantiated": 537
+      },
+      {
+        "race": "White",
+        "gender": "Female/Woman",
+        "rate": 3.56,
+        "total": 4940,
+        "substantiated": 176
+      },
+      {
+        "race": "Asian",
+        "gender": "Male/Man",
+        "rate": 3.57,
+        "total": 2354,
+        "substantiated": 84
+      },
+      {
+        "race": "Asian",
+        "gender": "Female/Woman",
+        "rate": 1.81,
+        "total": 552,
+        "substantiated": 10
+      }
+    ]
+  },
+  {
+    "mayor": "de Blasio",
+    "period": {
+      "start": "2014-01-01",
+      "end": "2021-12-31"
+    },
+    "data": [
+      {
+        "race": "Hispanic",
+        "gender": "Male/Man",
+        "rate": 5.09,
+        "total": 13896,
+        "substantiated": 708
+      },
+      {
+        "race": "Hispanic",
+        "gender": "Female/Woman",
+        "rate": 3.05,
+        "total": 3875,
+        "substantiated": 118
+      },
+      {
+        "race": "Black",
+        "gender": "Male/Man",
+        "rate": 5.98,
+        "total": 30109,
+        "substantiated": 1800
+      },
+      {
+        "race": "Black",
+        "gender": "Female/Woman",
+        "rate": 3.26,
+        "total": 9001,
+        "substantiated": 293
+      },
+      {
+        "race": "White",
+        "gender": "Male/Man",
+        "rate": 5.35,
+        "total": 6785,
+        "substantiated": 363
+      },
+      {
+        "race": "White",
+        "gender": "Female/Woman",
+        "rate": 3.18,
+        "total": 2826,
+        "substantiated": 90
+      },
+      {
+        "race": "Asian",
+        "gender": "Male/Man",
+        "rate": 5.61,
+        "total": 1621,
+        "substantiated": 91
+      },
+      {
+        "race": "Asian",
+        "gender": "Female/Woman",
+        "rate": 0.68,
+        "total": 440,
+        "substantiated": 3
+      }
+    ]
+  },
+  {
+    "mayor": "Adams",
+    "period": {
+      "start": "2022-01-01",
+      "end": "2024-12-16"
+    },
+    "data": [
+      {
+        "race": "Hispanic",
+        "gender": "Male/Man",
+        "rate": 16.95,
+        "total": 3722,
+        "substantiated": 631
+      },
+      {
+        "race": "Hispanic",
+        "gender": "Female/Woman",
+        "rate": 9.48,
+        "total": 1571,
+        "substantiated": 149
+      },
+      {
+        "race": "Black",
+        "gender": "Male/Man",
+        "rate": 14.65,
+        "total": 9458,
+        "substantiated": 1386
+      },
+      {
+        "race": "Black",
+        "gender": "Female/Woman",
+        "rate": 10.76,
+        "total": 3670,
+        "substantiated": 395
+      },
+      {
+        "race": "White",
+        "gender": "Male/Man",
+        "rate": 12.24,
+        "total": 1895,
+        "substantiated": 232
+      },
+      {
+        "race": "White",
+        "gender": "Female/Woman",
+        "rate": 9.74,
+        "total": 1098,
+        "substantiated": 107
+      },
+      {
+        "race": "Asian",
+        "gender": "Male/Man",
+        "rate": 20.27,
+        "total": 513,
+        "substantiated": 104
+      },
+      {
+        "race": "Asian",
+        "gender": "Female/Woman",
+        "rate": 19.35,
+        "total": 279,
+        "substantiated": 54
+      }
+    ]
+  }
+]
