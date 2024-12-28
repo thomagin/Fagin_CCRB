@@ -2285,6 +2285,64 @@ class RadarChart {
 // Initialize visualization when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new RadarChart('#radar-charts-container');
+// Set up intersection observer for radar chart annotations
+const radarObserverOptions = {
+    root: null,
+    rootMargin: '-40% 0px -40% 0px',
+    threshold: [0, 0.2, 0.4, 0.6, 0.8, 1]
+};
+
+const radarObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const section = entry.target;
+        const textElement = section.querySelector('.annotation-text');
+        
+        if (entry.isIntersecting && textElement) {
+            textElement.classList.add('active');
+            
+            // Update radar chart based on section
+            if (section.id === 'intro-section') {
+                resetRadarCategories(); // Show all categories for intro
+            } else if (section.id === 'abuse-authority-section') {
+                highlightRadarCategory('Abuse of Authority');
+            } else if (section.id === 'force-section') {
+                highlightRadarCategory('Force');
+            } else if (section.id === 'language-courtesy-section') {
+                highlightRadarCategories(['Discourtesy', 'Offensive Language']);
+            }
+        } else if (textElement) {
+            textElement.classList.remove('active');
+        }
+    });
+}, radarObserverOptions);
+
+// Start observing all radar annotation sections
+document.querySelectorAll('#complaints-section .annotation-section').forEach(section => {
+    radarObserver.observe(section);
+});
+
+// Helper functions for highlighting radar categories
+function highlightRadarCategory(category) {
+    const paths = document.querySelectorAll('.radar-path');
+    paths.forEach(path => {
+        path.style.opacity = path.dataset.category === category ? '1' : '0.2';
+    });
+}
+
+function highlightRadarCategories(categories) {
+    const paths = document.querySelectorAll('.radar-path');
+    paths.forEach(path => {
+        path.style.opacity = categories.includes(path.dataset.category) ? '1' : '0.2';
+    });
+}
+
+function resetRadarCategories() {
+    const paths = document.querySelectorAll('.radar-path');
+    paths.forEach(path => {
+        path.style.opacity = '1';
+    });
+}
+    
 });
 
 // Initialize all visualizations
