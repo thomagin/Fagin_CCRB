@@ -600,7 +600,7 @@ svg text {
     position: sticky;
     top: 50px;
     z-index: 1;
-    background: white;
+    background: #f5f5f5;
     margin-bottom: 20px;
 }
 
@@ -697,7 +697,7 @@ svg text {
     top: 20vh;
     height: 60vh;
     z-index: 1;
-    background: white;
+    background: #f5f5f5;
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -808,7 +808,7 @@ path {
     position: sticky;
     top: 50px;
     z-index: 1;
-    background: white;
+    background: #f5f5f5;
     margin-bottom: 20px;
 }
 
@@ -829,7 +829,7 @@ path {
     top: 20vh;
     height: 60vh;
     z-index: 1;
-    background: white;
+    background: #f5f5f5;
     padding: 20px;
     margin-bottom: 20px;
 }
@@ -845,7 +845,7 @@ path {
 /* Radar chart container */
 #radar-charts-container {
     margin: 0 auto;
-    max-width: 900px;  
+    max-width: 1200px;  
     min-width: 850px;  
     display: flex;
     justify-content: center;

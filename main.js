@@ -2093,10 +2093,11 @@ class RadarChart {
     constructor(containerId) {
         this.container = d3.select(containerId);
         this.features = ['Force', 'Abuse of Authority', 'Discourtesy', 'Offensive Language'];
-        this.width = 280;  // Reduced width
-        this.height = 280; // Reduced height
-        this.margin = {top: 80, right: 50, bottom: 10, left: 50}; // Adjusted margins
-        this.radius = Math.min(this.width, this.height) / 2 - Math.max(this.margin.top, this.margin.right);
+        this.width = 330;
+        this.height = 400;
+        this.margin = {top: 35, right: 55, bottom: 35, left: 45}; // Restored original margins
+        this.radius = Math.min(this.width - this.margin.left - this.margin.right, 
+                             this.height - this.margin.top - this.margin.bottom) / 2;
         this.angleSlice = (Math.PI * 2) / this.features.length;
         
         this.init();
@@ -2107,7 +2108,7 @@ class RadarChart {
             .style('display', 'flex')
             .style('justify-content', 'center')
             .style('flex-wrap', 'nowrap')  // Changed to nowrap
-            .style('gap', '20px');         // Reduced gap
+            .style('gap', '10px');         // Reduced gap
 
         data.forEach(admin => this.createChart(admin));
     }
@@ -2166,10 +2167,10 @@ class RadarChart {
                 .style('stroke', '#ddd')
                 .style('stroke-width', 1);
 
-            const labelDistance = this.radius + 20;
+            const labelDistance = this.radius + 15;
             const labelAngle = angle - Math.PI/2;
             const isTopLabel = Math.abs(labelAngle + Math.PI/2) < 0.1;
-            const yOffset = isTopLabel ? -15 : 0;
+            const yOffset = isTopLabel ? -12 : 0;
 
             const label = g.append('text')
                 .attr('class', 'axis-label')
@@ -2177,20 +2178,30 @@ class RadarChart {
                 .attr('y', (labelDistance * Math.sin(labelAngle)) + yOffset)
                 .style('text-anchor', 'middle');
 
+            // Handle different label cases
             if (feature === 'Abuse of Authority') {
                 label.append('tspan')
                     .attr('x', labelDistance * Math.cos(labelAngle))
-                    .text('Abuse of');
+                    .text('Abuse of')
+                    .attr('dy', '-0.3em');
                 label.append('tspan')
                     .attr('x', labelDistance * Math.cos(labelAngle))
-                    .attr('dy', '1em')
+                    .attr('dy', '1.2em')
                     .text('Authority');
+            } else if (feature === 'Offensive Language') {
+                label.append('tspan')
+                    .attr('x', labelDistance * Math.cos(labelAngle))
+                    .text('Offensive')
+                    .attr('dy', '-0.3em');
+                label.append('tspan')
+                    .attr('x', labelDistance * Math.cos(labelAngle))
+                    .attr('dy', '1.2em')
+                    .text('Language');
             } else {
                 label.text(feature);
             }
         });
     }
-
     plotData(g, adminData, maxValue) {
         const rScale = d3.scaleLinear()
             .domain([0, maxValue])
