@@ -1195,9 +1195,15 @@ function addLegend(svg, mayorColors, width) {
 }
 })();
 
+
+
+
+
+
 //LINE GRAPH
 // Load and process the data
 // Wait for the DOM to be fully loaded
+
 function createLineChart(data) {
     // Set up dimensions
     const margin = { top: 40, right: 120, bottom: 60, left: 80 };
@@ -1272,6 +1278,7 @@ function createLineChart(data) {
             .attr("d", line);
     });
 
+
     // Add scroll event listener
     const annotationSections = document.querySelectorAll('.annotation-section');
     const observerOptions = {
@@ -1340,11 +1347,11 @@ function addAxes(svg, xScale, yScale, width, height) {
         .attr("text-anchor", "middle")
         .text("Substantiation Rate (%)");
 
-    svg.append("text")
-        .attr("x", width/2)
-        .attr("y", height + 50)
-        .attr("text-anchor", "middle")
-        .text("Year");
+    //svg.append("text")
+       // .attr("x", width/2)
+       // .attr("y", height + 50)
+       // .attr("text-anchor", "middle")
+       // .text("Year");
 }
 
 // Initialize the visualization when the data is loaded
@@ -1353,6 +1360,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(createLineChart)
         .catch(error => console.error("Error loading the data:", error));
 });
+
+
+
+
 
 ///FADO CHARTS
 
@@ -1608,6 +1619,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+
+
 // CHOKEHOLD RATE
 
 const chokeholdData = {
@@ -1664,6 +1679,11 @@ d3.select('.arrow-container')
     .delay(400)
     .duration(800)
     .style('opacity', 1);
+
+
+
+
+
 
 // BAR CHART YEARLY
 // Set up dimensions
@@ -1899,7 +1919,7 @@ Object.entries(legendData).forEach(([mayor, color], i) => {
 });
 
 
-// RACE AND SEX HEATMAP
+//RACE AND SEX HEATMAP
 
 function createDemographicsHeatmap() {
     const margin = { top: 50, right: 120, bottom: 60, left: 120 };
@@ -1914,7 +1934,7 @@ function createDemographicsHeatmap() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const races = ["Asian", "Black", "Hispanic", "White"];
-    const genders = ["Female/Woman", "Male/Man"];
+    const genders = ["Woman", "Man"];  // Updated gender labels
 
     const x = d3.scaleBand()
         .domain(races)
@@ -1972,28 +1992,32 @@ function createDemographicsHeatmap() {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    // Add title in separate container above SVG
-d3.select("#demographics-heatmap")
-    .insert("div", "svg")
-    .style("text-align", "center")
-    .style("margin-bottom", "20px")
-    .append("h3")
-    .attr("class", "heatmap-title")
-    .text("Substantiation Rates by Race and Gender");
+    d3.select("#demographics-heatmap")
+        .insert("div", "svg")
+        .style("text-align", "center")
+        .style("margin-bottom", "20px")
+        .append("h3")
+        .attr("class", "heatmap-title")
+        .text("Substantiation Rates by Race and Gender");
 
     function updateHeatmap(mayorData) {
-        // Create color scale specific to this administration's data
+        // Map the incoming data's gender values to the new format
+        const mappedData = mayorData.demographics.map(d => ({
+            ...d,
+            gender: d.gender === "Female/Woman" ? "Woman" : "Man"
+        }));
+
         const colorScale = d3.scaleSequential(d3.interpolateBlues)
             .domain([
-                d3.min(mayorData.demographics, d => d.rate),
-                d3.max(mayorData.demographics, d => d.rate)
+                d3.min(mappedData, d => d.rate),
+                d3.max(mappedData, d => d.rate)
             ]);
 
         d3.select(".heatmap-title")
             .text(`Substantiation Rates by Race and Gender - ${mayorData.administration} Administration`);
 
         const cells = svg.selectAll("rect")
-            .data(mayorData.demographics);
+            .data(mappedData);
 
         cells.enter()
             .append("rect")
@@ -2038,7 +2062,7 @@ d3.select("#demographics-heatmap")
             });
 
         const labels = svg.selectAll(".cell-label")
-            .data(mayorData.demographics);
+            .data(mappedData);
 
         labels.enter()
             .append("text")
