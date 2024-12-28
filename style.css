@@ -763,3 +763,67 @@ path {
         padding: 0 10px;
     }
 }
+
+/* Add to your CSS file */
+.tooltip {
+    position: absolute;
+    z-index: 9999;
+    pointer-events: none;
+    background: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.legend {
+    z-index: 999;
+    position: relative;
+}
+
+/* Ensure annotations don't block interactive elements */
+.annotation-section {
+    pointer-events: none;
+}
+
+.annotation-text {
+    pointer-events: auto;
+    position: relative;
+    z-index: 998;
+}
+
+/* Fix sticky chart container */
+.sticky-chart {
+    position: sticky;
+    top: 50px;
+    z-index: 1;
+    background: white;
+    margin-bottom: 20px;
+}
+
+.annotations {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add to your CSS */
+#monthly-line-chart {
+    position: relative;
+    min-height: 300vh;
+    margin: 2rem 0;
+}
+
+.chart-sticky-container {
+    position: sticky;
+    top: 20vh;
+    height: 60vh;
+    z-index: 1;
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.annotations-container {
+    position: relative;
+    z-index: 2;
+}

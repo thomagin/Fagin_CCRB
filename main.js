@@ -1833,6 +1833,35 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
         console.log('Year range:', range);
     }
 
+
+
+// Add legend
+const legend = yearlySvg.append("g")
+    .attr("class", "legend")
+    .attr("transform", `translate(${yearlyWidth - 120}, 0)`);
+
+const legendData = {
+    "Bloomberg": "#003DA5",
+    "de Blasio": "#FFD700",
+    "Adams": "#FF4500"
+};
+
+Object.entries(legendData).forEach(([mayor, color], i) => {
+    const legendRow = legend.append("g")
+        .attr("transform", `translate(0, ${i * 20})`);
+
+    legendRow.append("rect")
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", color);
+
+    legendRow.append("text")
+        .attr("x", 20)
+        .attr("y", 12)
+        .style("font-size", "12px")
+        .text(mayor);
+});
+
     // Set up intersection observer - now inside the data loading scope
     const observerOptions = {
         root: null,
@@ -1843,22 +1872,20 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const section = entry.target;
-            const textElement = section.querySelector('.annotation-text');
+            // Check if section and textElement exist before accessing classList
+            const textElement = section?.querySelector('.annotation-text');
             
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && textElement) {
                 textElement.classList.add('active');
                 
                 if (section.id === 'bloomberg-section') {
-                    console.log('Focusing Bloomberg');
                     focusMayor('Bloomberg');
                 } else if (section.id === 'deblasio-section') {
-                    console.log('Focusing de Blasio');
                     focusMayor('de Blasio');
                 } else if (section.id === 'adams-section') {
-                    console.log('Focusing Adams');
                     focusMayor('Adams');
                 }
-            } else {
+            } else if (textElement) {
                 textElement.classList.remove('active');
             }
         });
