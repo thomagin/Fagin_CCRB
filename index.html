@@ -156,22 +156,23 @@
    
 
 
-    <!-- Section 8: small multiple complaint types -->
-    <div class="section" id="complaints-section">
-        <h2 class="license-plate">Complaints and Substantiation by Type</h2>
-        <p>Not every civilian complaint concerns the use of physical violence. The CCRB has four main categories for the complaints they receive: Force, Abuse of Authority, Discourtesy, and Offensive Language (FADO). How does the CCRB handle these different types of complaints?</p>
-        <div id="complaints-small-multiples">
-            <div id="complaints-small-multiples-vis"></div>
-            <div id="complaints-small-multiples-tooltip"></div>
-            <div class="small-multiples-explainer">
-                <p> <p>Each row shows a type of complaint. Square size shows total number of complaints, 
-                    while color intensity indicates substantiation rate.</p></p>
-            </div>
-            <p>No matter who the mayor is, the most common complaints concern abuse of authority; such complaints are also among the most likely to be substantiated. An example of abuse of authority includes Fourth Amendment violations such as illegal searches, or unlawful frisks and detentions. Another example unrelated to the Fourth Amendment would be an officer's refusal to provide a name and shield number. </p>
-                <p>Across the board, the least likely type of complaint to be substantiated concerns the use of force. Offensive language and discourtesy were three or four times more likely to be substantiated by Eric Adams' CCRB. 
-                Considering these are violations that do not typically infringe on citizens' rights or inflict phyiscal harm, it follows that the punishments administered to officers have been declining in severity.</p>
-        </div>
+    <!-- Section 8: complaint types with radar chart -->
+<div class="section" id="complaints-section">
+    <h2 class="license-plate">Complaints and Substantiation by Type</h2>
+    <p>Not every civilian complaint concerns the use of physical violence. The CCRB has four main categories for the complaints they receive: Force, Abuse of Authority, Discourtesy, and Offensive Language (FADO). How does the CCRB handle these different types of complaints?</p>
+    
+    <!-- Radar chart container -->
+    <div id="radar-charts-container"></div>
+    <div class="small-multiples-explainer">
+        <p>Each radar chart shows substantiation rates for different types of complaints. Larger values extend further from the center, showing higher substantiation rates.</p>
     </div>
+    
+    <p>No matter who the mayor is, the most common complaints concern abuse of authority; such complaints are also among the most likely to be substantiated. An example of abuse of authority includes Fourth Amendment violations such as illegal searches, or unlawful frisks and detentions. Another example unrelated to the Fourth Amendment would be an officer's refusal to provide a name and shield number.</p>
+    
+    <p>Across the board, the least likely type of complaint to be substantiated concerns the use of force. Offensive language and discourtesy were three or four times more likely to be substantiated by Eric Adams' CCRB. Considering these are violations that do not typically infringe on citizens' rights or inflict physical harm, it follows that the punishments administered to officers have been declining in severity.</p>
+</div>
+
+<script src="radar.js"></script>
 
     <!-- Section 9: Race/Sex heatmap-->
 

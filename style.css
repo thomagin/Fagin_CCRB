@@ -4,7 +4,7 @@ html {
 
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    background-color: white;
+    background-color: #f5f5f5;
     color: #333;
     margin: 0;
     padding: 0;
@@ -837,4 +837,72 @@ path {
 .annotations-container {
     position: relative;
     z-index: 2;
+}
+
+/*RADAR CHART*/
+
+
+/* Radar chart container */
+#radar-charts-container {
+    margin: 0 auto;
+    max-width: 900px;  
+    min-width: 850px;  
+    display: flex;
+    justify-content: center;
+}
+
+/* Tooltip styles */
+.radar-tooltip {
+    position: absolute;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    pointer-events: none;
+    font-size: 12px;
+    z-index: 1000;
+}
+
+/* Radar chart specific styles */
+.grid-circle {
+    fill: none;
+    stroke: #ddd;
+    stroke-dasharray: 4,4;
+}
+
+.radar-path {
+    transition: all 0.3s ease;
+}
+
+.radar-path:hover {
+    fill-opacity: 0.5;
+}
+
+.radar-point {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.radar-point:hover {
+    stroke: white;
+    stroke-width: 2px;
+}
+
+/* Text styles */
+.chart-title {
+    font-size: 16px;
+    font-weight: bold;
+    fill: #003DA5;
+    text-anchor: middle;
+}
+
+.axis-label {
+    font-size: 10px;
+    fill: #666;
+    text-anchor: middle;
+}
+
+.value-label {
+    font-size: 10px;
+    fill: #666;
 }

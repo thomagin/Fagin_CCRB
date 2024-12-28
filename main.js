@@ -2086,6 +2086,195 @@ function createDemographicsHeatmap() {
 
 document.addEventListener('DOMContentLoaded', createDemographicsHeatmap);
 
+// RADAR CHART FADO TYPE
+
+// Radar Chart Class
+class RadarChart {
+    constructor(containerId) {
+        this.container = d3.select(containerId);
+        this.features = ['Force', 'Abuse of Authority', 'Discourtesy', 'Offensive Language'];
+        this.width = 280;  // Reduced width
+        this.height = 280; // Reduced height
+        this.margin = {top: 80, right: 50, bottom: 10, left: 50}; // Adjusted margins
+        this.radius = Math.min(this.width, this.height) / 2 - Math.max(this.margin.top, this.margin.right);
+        this.angleSlice = (Math.PI * 2) / this.features.length;
+        
+        this.init();
+    }
+
+    init() {
+        this.container
+            .style('display', 'flex')
+            .style('justify-content', 'center')
+            .style('flex-wrap', 'nowrap')  // Changed to nowrap
+            .style('gap', '20px');         // Reduced gap
+
+        data.forEach(admin => this.createChart(admin));
+    }
+
+    createChart(adminData) {
+        const adminMaxValue = d3.max(adminData.complaintTypes, c => c.substantiatedRate);
+
+        const svg = this.container.append('svg')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .attr('viewBox', `0 0 ${this.width} ${this.height}`);
+
+        const g = svg.append('g')
+            .attr('transform', `translate(${this.width/2},${this.height/2 + 5})`);
+
+        this.drawGrid(g, adminMaxValue);
+        this.drawAxes(g);
+        this.plotData(g, adminData, adminMaxValue);
+        this.addTitle(svg, adminData.administration);
+    }
+
+    drawGrid(g, maxValue) {
+        const rScale = d3.scaleLinear()
+            .domain([0, maxValue])
+            .range([0, this.radius]);
+
+        const levels = 5;
+        const gridData = [...Array(levels).keys()].map(i => (i + 1) * (maxValue / levels));
+        
+        gridData.forEach(level => {
+            g.append('circle')
+                .attr('r', rScale(level))
+                .attr('class', 'grid-circle');
+
+            g.append('text')
+                .attr('y', -rScale(level))
+                .attr('dy', '0.4em')
+                .attr('class', 'value-label')
+                .text(`${level.toFixed(1)}%`);
+        });
+    }
+
+    drawAxes(g) {
+        this.features.forEach((feature, i) => {
+            const angle = i * this.angleSlice;
+            const lineCoords = {
+                x: this.radius * Math.cos(angle - Math.PI/2),
+                y: this.radius * Math.sin(angle - Math.PI/2)
+            };
+
+            g.append('line')
+                .attr('x1', 0)
+                .attr('y1', 0)
+                .attr('x2', lineCoords.x)
+                .attr('y2', lineCoords.y)
+                .style('stroke', '#ddd')
+                .style('stroke-width', 1);
+
+            const labelDistance = this.radius + 20;
+            const labelAngle = angle - Math.PI/2;
+            const isTopLabel = Math.abs(labelAngle + Math.PI/2) < 0.1;
+            const yOffset = isTopLabel ? -15 : 0;
+
+            const label = g.append('text')
+                .attr('class', 'axis-label')
+                .attr('x', labelDistance * Math.cos(labelAngle))
+                .attr('y', (labelDistance * Math.sin(labelAngle)) + yOffset)
+                .style('text-anchor', 'middle');
+
+            if (feature === 'Abuse of Authority') {
+                label.append('tspan')
+                    .attr('x', labelDistance * Math.cos(labelAngle))
+                    .text('Abuse of');
+                label.append('tspan')
+                    .attr('x', labelDistance * Math.cos(labelAngle))
+                    .attr('dy', '1em')
+                    .text('Authority');
+            } else {
+                label.text(feature);
+            }
+        });
+    }
+
+    plotData(g, adminData, maxValue) {
+        const rScale = d3.scaleLinear()
+            .domain([0, maxValue])
+            .range([0, this.radius]);
+
+        const complaintData = this.features.map((feature, i) => {
+            const complaint = adminData.complaintTypes.find(c => c.type === feature);
+            return {
+                value: complaint.substantiatedRate,
+                angle: i * this.angleSlice,
+                complaint: complaint
+            };
+        });
+
+        const radarLine = d3.lineRadial()
+            .radius(d => rScale(d.value))
+            .angle(d => d.angle)
+            .curve(d3.curveLinearClosed);
+
+        g.append('path')
+            .datum(complaintData)
+            .attr('class', 'radar-path')
+            .style('fill', '#003DA5')
+            .style('fill-opacity', 0.3)
+            .style('stroke', '#003DA5')
+            .style('stroke-width', 2)
+            .attr('d', radarLine);
+
+        g.selectAll('.radar-point')
+            .data(complaintData)
+            .join('circle')
+            .attr('class', 'radar-point')
+            .attr('cx', d => rScale(d.value) * Math.cos(d.angle - Math.PI/2))
+            .attr('cy', d => rScale(d.value) * Math.sin(d.angle - Math.PI/2))
+            .attr('r', 4)
+            .style('fill', '#003DA5')
+            .on('mouseover', (event, d) => {
+                d3.select(event.currentTarget)
+                    .transition()
+                    .duration(200)
+                    .attr('r', 6);
+
+                const tooltip = d3.select('body')
+                    .append('div')
+                    .attr('class', 'radar-tooltip')
+                    .style('opacity', 0);
+
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', 1);
+
+                tooltip.html(`
+                    <strong>${d.complaint.type}</strong><br>
+                    Substantiation Rate: ${d.complaint.substantiatedRate.toFixed(1)}%<br>
+                    Total Cases: ${d.complaint.total.toLocaleString()}<br>
+                    Substantiated: ${d.complaint.substantiated.toLocaleString()}
+                `)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 10) + 'px');
+            })
+            .on('mouseout', (event) => {
+                d3.select(event.currentTarget)
+                    .transition()
+                    .duration(200)
+                    .attr('r', 4);
+
+                d3.selectAll('.radar-tooltip')
+                    .remove();
+            });
+    }
+
+    addTitle(svg, administration) {
+        svg.append('text')
+            .attr('class', 'chart-title')
+            .attr('x', this.width/2)
+            .attr('y', 25)
+            .text(administration);
+    }
+}
+
+// Initialize visualization when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    new RadarChart('#radar-charts-container');
+});
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
