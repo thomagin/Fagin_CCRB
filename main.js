@@ -1721,9 +1721,9 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
 
     // Create color scale for mayors
     const yearlyMayorColors = {
-        "Bloomberg": "#003DA5",
-        "de Blasio": "#FFD700",
-        "Adams": "#FF4500"
+        "Bloomberg": "#FFC107",  // Amber
+        "de Blasio": "#4CAF50",  // Green
+        "Adams": "#2196F3"       // Blue
     };
 
     // Add grid lines
@@ -1840,11 +1840,12 @@ const legend = yearlySvg.append("g")
     .attr("class", "legend")
     .attr("transform", `translate(${yearlyWidth - 120}, 0)`);
 
-const legendData = {
-    "Bloomberg": "#003DA5",
-    "de Blasio": "#FFD700",
-    "Adams": "#FF4500"
-};
+    const legendData = {
+        "Bloomberg": "#FFC107",
+        "de Blasio": "#4CAF50",
+        "Adams": "#2196F3",
+        "Substantiated": "#2F2F2F"
+    };
 
 Object.entries(legendData).forEach(([mayor, color], i) => {
     const legendRow = legend.append("g")

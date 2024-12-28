@@ -604,7 +604,6 @@ svg text {
     margin-bottom: 20px;
 }
 
-
 .annotation-text {
     max-width: 400px;
     background: rgba(255, 255, 255, 0.95);
@@ -614,6 +613,18 @@ svg text {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
+}
+
+#bloomberg-section .annotation-text {
+    border-left: 4px solid #FFC107;
+}
+
+#deblasio-section .annotation-text {
+    border-left: 4px solid #4CAF50;
+}
+
+#adams-section .annotation-text {
+    border-left: 4px solid #2196F3;
 }
 
 .annotation-text.active {
