@@ -1198,79 +1198,55 @@ function addLegend(svg, mayorColors, width) {
 //LINE GRAPH
 // Load and process the data
 // Wait for the DOM to be fully loaded
-(function() {
-    document.addEventListener('DOMContentLoaded', function() {
-        d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
-            .then(createLineChart)
-            .catch(error => console.error("Error loading the data:", error));
-    });
+function createLineChart(data) {
+    // Set up dimensions
+    const margin = { top: 40, right: 120, bottom: 60, left: 80 };
+    const container = document.querySelector('.chart-sticky-container');
+    const width = container.clientWidth - margin.left - margin.right;
+    const height = container.clientHeight - margin.top - margin.bottom;
 
-    function createLineChart(data) {
-        // Debug log to check data structure
-        console.log("Raw data:", data);
-
-        // Set up chart dimensions and margins
-        const margin = { top: 40, right: 120, bottom: 60, left: 80 }; // Increased right margin
-        const width = 960 - margin.left - margin.right;
-        const height = 500 - margin.top - margin.bottom;
-
-    // Parse the date format correctly
+    // Parse dates and calculate rates
     const parseDate = d3.timeParse("%Y-%m-%d");
     const formatDate = d3.timeFormat("%B %Y");
 
-    // Define mayor colors (matching exact case from data)
+    // Define mayor colors
     const mayorColors = {
         "Bloomberg": "#FFC107",
         "de Blasio": "#4CAF50",
         "Adams": "#2196F3"
     };
 
-    // Combine and process all mayor data with correct case
+    // Process data
     const allData = [];
     if (data.Bloomberg) allData.push(...data.Bloomberg.map(d => ({ ...d, mayor: "Bloomberg" })));
     if (data["de Blasio"]) allData.push(...data["de Blasio"].map(d => ({ ...d, mayor: "de Blasio" })));
     if (data.Adams) allData.push(...data.Adams.map(d => ({ ...d, mayor: "Adams" })));
 
-    // Process dates and calculate rates
     allData.forEach(d => {
         d.Date = parseDate(d.Date);
         d.SubstantiationRate = (d.Substantiated / d["Total Complaints"]) * 100;
     });
 
-    console.log("Processed data:", allData);
-
-        // Set up scales
-        const xScale = d3.scaleTime()
-            .domain([
-                d3.min(allData, d => d.Date),
-                new Date('2024-12-31') // Changed to end of 2024
-            ])
-            .range([0, width]);
-
-    const yScale = d3.scaleLinear()
-        .domain([0, d3.max(allData, d => d.SubstantiationRate)])
-        .nice()
-        .range([height, 0]);
-
-    // Set up the SVG element
-    const svg = d3.select('#monthly-line-chart')
+    // Set up SVG
+    const svg = d3.select('.chart-sticky-container')
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
         .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // Add title
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", -margin.top / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", "18px")
-        .style("font-weight", "bold")
-        .text("CCRB Substantiation Rate by Mayor (2010-2024)");
+    // Set up scales
+    const xScale = d3.scaleTime()
+        .domain([d3.min(allData, d => d.Date), new Date('2024-12-31')])
+        .range([0, width]);
+
+    const yScale = d3.scaleLinear()
+        .domain([0, d3.max(allData, d => d.SubstantiationRate)])
+        .nice()
+        .range([height, 0]);
 
     // Add axes
-    addAxes(svg, xScale, yScale, width, height, margin);
+    addAxes(svg, xScale, yScale, width, height);
 
     // Define line generator
     const line = d3.line()
@@ -1278,61 +1254,69 @@ function addLegend(svg, mayorColors, width) {
         .y(d => yScale(d.SubstantiationRate))
         .curve(d3.curveMonotoneX);
 
-    // Create tooltip
-    const tooltip = createTooltip();
-
     // Group data by mayor
     const mayorData = d3.group(allData, d => d.mayor);
 
     // Add lines for each mayor
     mayorData.forEach((data, mayor) => {
-        // Add the line
+        const lineClass = mayor === "de Blasio" ? 
+            "line-de-blasio" : 
+            `line-${mayor.toLowerCase()}`;
+            
         svg.append("path")
             .datum(data)
+            .attr("class", lineClass)
             .attr("fill", "none")
             .attr("stroke", mayorColors[mayor])
             .attr("stroke-width", 2)
             .attr("d", line);
-
-        // Add dots for hover interaction
-        svg.selectAll(`.dot-${mayor.replace(/\s+/g, '-')}`)
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("class", `dot-${mayor.replace(/\s+/g, '-')}`)
-            .attr("cx", d => xScale(d.Date))
-            .attr("cy", d => yScale(d.SubstantiationRate))
-            .attr("r", 4)
-            .attr("fill", mayorColors[mayor])
-            .style("opacity", 0)
-            .on("mouseover", function(event, d) {
-                d3.select(this).style("opacity", 1);
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 1);
-                tooltip.html(`
-                    <strong>${mayor}</strong><br>
-                    <strong>Date:</strong> ${formatDate(d.Date)}<br>
-                    <strong>Substantiation Rate:</strong> ${d.SubstantiationRate.toFixed(1)}%<br>
-                    <strong>Substantiated Cases:</strong> ${d.Substantiated}<br>
-                    <strong>Total Cases:</strong> ${d["Total Complaints"]}
-                `)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function() {
-                d3.select(this).style("opacity", 0);
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
     });
 
-    // Add legend
-    addLegend(svg, mayorColors, width);
+    // Add scroll event listener
+    const annotationSections = document.querySelectorAll('.annotation-section');
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Get current mayor from section ID and normalize it
+                const currentMayor = entry.target.id.split('-')[0];
+                const normalizedCurrentMayor = currentMayor === 'deblasio' ? 'de blasio' : currentMayor.toLowerCase();
+                
+                // Update line opacities
+                Object.keys(mayorColors).forEach(mayor => {
+                    const lineClass = mayor === "de Blasio" ? 
+                        "line-de-blasio" : 
+                        `line-${mayor.toLowerCase()}`;
+                    
+                    const normalizedMayor = mayor.toLowerCase();
+                    const line = svg.select(`.${lineClass}`);
+                    
+                    if (line.node()) {
+                        line.transition()
+                            .duration(300)
+                            .style("opacity", normalizedMayor === normalizedCurrentMayor ? 1 : 0.2);
+                    }
+                });
+
+                // Update annotation visibility
+                if (entry.target && entry.target.classList) {
+                    entry.target.classList.add('active');
+                }
+            } else if (entry.target && entry.target.classList) {
+                entry.target.classList.remove('active');
+            }
+        });
+    }, observerOptions);
+
+    annotationSections.forEach(section => observer.observe(section));
 }
 
-function addAxes(svg, xScale, yScale, width, height, margin) {
+function addAxes(svg, xScale, yScale, width, height) {
     // Add X axis
     svg.append('g')
         .attr('transform', `translate(0,${height})`)
@@ -1341,69 +1325,34 @@ function addAxes(svg, xScale, yScale, width, height, margin) {
             .tickFormat(d3.timeFormat("%Y")))
         .selectAll('text')
         .style('text-anchor', 'end')
-        .style('font-size', '12px')
-        .attr('transform', 'rotate(-45) translate(-10, 0)')
-        .style('font-weight', 'bold');
+        .attr('transform', 'rotate(-45)');
 
-    // Add X axis label
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 5)
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .style("font-weight", "bold")
-        .text("Year");
-
-    // Add Y axis with grid lines
+    // Add Y axis
     svg.append('g')
         .call(d3.axisLeft(yScale)
-            .ticks(10)
-            .tickFormat(d => d.toFixed(1) + '%'))
-        .call(g => g.selectAll(".tick line")
-            .clone()
-            .attr("x2", width)
-            .attr("stroke-opacity", 0.1));
+            .tickFormat(d => d + '%'));
 
-    // Add Y axis label
+    // Add axis labels
     svg.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 30)
-        .attr("x", -(height / 2))
+        .attr("y", -60)
+        .attr("x", -height/2)
         .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .style("font-weight", "bold")
         .text("Substantiation Rate (%)");
+
+    svg.append("text")
+        .attr("x", width/2)
+        .attr("y", height + 50)
+        .attr("text-anchor", "middle")
+        .text("Year");
 }
 
-function createTooltip() {
-    return d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-}
-
-
-function addLegend(svg, mayorColors, width) {
-    const legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${width + 30}, 0)`); // Shifted legend right
-
-    Object.entries(mayorColors).forEach(([mayor, color], i) => {
-        const legendRow = legend.append("g")
-            .attr("transform", `translate(0, ${i * 20})`);
-
-        legendRow.append("rect")
-            .attr("width", 15)
-            .attr("height", 15)
-            .attr("fill", color);
-
-        legendRow.append("text")
-            .attr("x", 20)
-            .attr("y", 12)
-            .style("font-size", "12px")
-            .text(mayor);
-    });
-}
-})();
+// Initialize the visualization when the data is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
+        .then(createLineChart)
+        .catch(error => console.error("Error loading the data:", error));
+});
 
 ///FADO CHARTS
 

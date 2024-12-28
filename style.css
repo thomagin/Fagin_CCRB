@@ -667,3 +667,99 @@ svg text {
 
 /* LINE CHART ANNOTATIONS */
 
+#line-chart-section {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#monthly-line-chart {
+    position: relative;
+    min-height: 300vh;
+    margin: 2rem 0;
+}
+
+.chart-sticky-container {
+    position: sticky;
+    top: 20vh;
+    height: 60vh;
+    z-index: 1;
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.annotations-container {
+    position: relative;
+    z-index: 2;
+}
+
+.annotation-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.annotation-section.active {
+    opacity: 1;
+}
+
+.annotation-content {
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-left: 20px;
+}
+
+#bloomberg-section .annotation-content {
+    border-left: 4px solid #FFC107;
+}
+
+#deblasio-section .annotation-content {
+    border-left: 4px solid #4CAF50;
+}
+
+#adams-section .annotation-content {
+    border-left: 4px solid #2196F3;
+}
+
+.annotation-content h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.annotation-content p {
+    margin: 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+/* Ensure smooth transitions for the lines */
+path {
+    transition: opacity 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .chart-sticky-container {
+        top: 10vh;
+        height: 50vh;
+    }
+    
+    .annotation-content {
+        max-width: 85%;
+        margin: 0 auto;
+    }
+    
+    .annotation-section {
+        padding: 0 10px;
+    }
+}

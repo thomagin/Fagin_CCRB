@@ -104,12 +104,41 @@
 
 
   <!-- Section 7: Monthly Cases line chart -->     
-<div class="section" id="monthly-line-chart">         
-    <h2 class="license-plate">Subtantiation Rate by Mayor</h2>         
-    <div id="monthly-line-chart"></div>            
-</div>     
-<div class="section">
-    <p>Looking more closely at the substantiation rate, we see a pronounced dip in the middle of Bloomberg's tenure, again coinciding with the spike in complaints during the peak of the Stop and Frisk policy. Looking at de Blasio's term, there's a significant uptick in substantiation rates in mid-2020. George Floyd was killed by the police in May of that year, and there were widespread protests over the course of the summer. Ever since, the CCRB's substantiation rate has often exceeded 10%, which was unprecedented going back to the beginning of Bloomberg's term. This transformation did not come from the mayor or the board, but reflects a response to a broad shift in public opinion about police misconduct.</p>
+  <!-- Line Chart Section -->
+<div class="section" id="line-chart-section">
+    <h2 class="license-plate">Substantiation Rate by Mayor</h2>
+    
+    <!-- Main container for the visualization -->
+    <div id="monthly-line-chart">
+        <!-- The chart container will be sticky -->
+        <div class="chart-sticky-container">
+            <!-- D3 will insert the SVG here -->
+        </div>
+        
+        <!-- Annotation sections -->
+        <div class="annotations-container">
+            <div class="annotation-section" id="bloomberg-section">
+                <div class="annotation-content">
+                    <h3>Bloomberg Era</h3>
+                    <p>There is a pronounced dip in substantiation rate in the middle of Bloomberg's tenure coinciding with a spike in complaints during the peak of the Stop and Frisk policy.</p>
+                </div>
+            </div>
+            
+            <div class="annotation-section" id="deblasio-section">
+                <div class="annotation-content">
+                    <h3>De Blasio Era</h3>
+                    <p>The rate of substantiation during de Blasio was on average higher than Bloomberg's. He did not end Stop and Frisk entirely, but the number of stops were an order of magnitude smaller. There's a significant uptick in substantiation rates in mid-2020; George Floyd was killed by the police in May of that year, and there were widespread protests over the course of the summer.</p>
+                </div>
+            </div>
+            
+            <div class="annotation-section" id="adams-section">
+                <div class="annotation-content">
+                    <h3>Adams Era</h3>
+                    <p>Ever since 2021, the CCRB's substantiation rate has often exceeded 10%, which was unprecedented going back to the beginning of Bloomberg's term. Adams' CCRB has consistently substantiated cases at a higher rate than his predecessors'.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
     
 
