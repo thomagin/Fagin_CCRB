@@ -2380,15 +2380,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     
-});
-
-// BWC Impact Visualization
+});// BWC Impact Visualization
 function createBWCVisualization() {
+    const data = [
+        {
+            "year": 2017,
+            "no_bwc_total": 11862,
+            "no_bwc_substantiated_rate": 8.86,
+            "no_bwc_not_substantiated_rate": 91.14,
+            "bwc_total": 50,
+            "bwc_substantiated_rate": 0.0,
+            "bwc_not_substantiated_rate": 100.0
+        },
+        {
+            "year": 2018,
+            "no_bwc_total": 10790,
+            "no_bwc_substantiated_rate": 8.39,
+            "no_bwc_not_substantiated_rate": 91.61,
+            "bwc_total": 1450,
+            "bwc_substantiated_rate": 4.83,
+            "bwc_not_substantiated_rate": 95.17
+        },
+        {
+            "year": 2019,
+            "no_bwc_total": 9441,
+            "no_bwc_substantiated_rate": 7.01,
+            "no_bwc_not_substantiated_rate": 92.99,
+            "bwc_total": 6310,
+            "bwc_substantiated_rate": 11.16,
+            "bwc_not_substantiated_rate": 88.84
+        },
+        {
+            "year": 2020,
+            "no_bwc_total": 5533,
+            "no_bwc_substantiated_rate": 4.23,
+            "no_bwc_not_substantiated_rate": 95.77,
+            "bwc_total": 5512,
+            "bwc_substantiated_rate": 13.23,
+            "bwc_not_substantiated_rate": 86.77
+        },
+        {
+            "year": 2021,
+            "no_bwc_total": 4966,
+            "no_bwc_substantiated_rate": 3.91,
+            "no_bwc_not_substantiated_rate": 96.09,
+            "bwc_total": 3896,
+            "bwc_substantiated_rate": 40.37,
+            "bwc_not_substantiated_rate": 59.63
+        },
+        {
+            "year": 2022,
+            "no_bwc_total": 5633,
+            "no_bwc_substantiated_rate": 13.69,
+            "no_bwc_not_substantiated_rate": 86.31,
+            "bwc_total": 12841,
+            "bwc_substantiated_rate": 57.27,
+            "bwc_not_substantiated_rate": 42.73
+        },
+        {
+            "year": 2023,
+            "no_bwc_total": 8036,
+            "no_bwc_substantiated_rate": 5.36,
+            "no_bwc_not_substantiated_rate": 94.64,
+            "bwc_total": 11863,
+            "bwc_substantiated_rate": 37.4,
+            "bwc_not_substantiated_rate": 62.6
+        },
+        {
+            "year": 2024,
+            "no_bwc_total": 9219,
+            "no_bwc_substantiated_rate": 6.33,
+            "no_bwc_not_substantiated_rate": 93.67,
+            "bwc_total": 14938,
+            "bwc_substantiated_rate": 44.79,
+            "bwc_not_substantiated_rate": 55.21
+        }
+    ];
+
     // Set up dimensions
     const margin = { top: 40, right: 120, bottom: 60, left: 80 };
-    const container = document.querySelector('#bwc-chart');
-    const width = container.clientWidth - margin.left - margin.right;
-    const height = container.clientHeight - margin.top - margin.bottom;
+    const width = 800 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
 
     // Create SVG
     const svg = d3.select('#bwc-chart')
@@ -2399,155 +2471,176 @@ function createBWCVisualization() {
         .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // Create scales
-    const x = d3.scaleBand()
-        .range([0, width])
-        .padding(0.3);
+    const x = d3.scaleLinear()
+        .domain([2017, 2024])
+        .range([0, width]);
 
     const y = d3.scaleLinear()
+        .domain([0, 60])  // Maximum substantiation rate
         .range([height, 0]);
 
     // Add grid lines
-    function addGrid() {
-        svg.append('g')
-            .attr('class', 'grid')
-            .call(d3.axisLeft(y)
-                .tickSize(-width)
-                .tickFormat('')
-            )
-            .style('stroke', '#e0e0e0')
-            .style('stroke-dasharray', '3,3');
-    }
+    svg.append('g')
+        .attr('class', 'grid')
+        .call(d3.axisLeft(y)
+            .tickSize(-width)
+            .tickFormat('')
+        )
+        .style('stroke', '#e0e0e0')
+        .style('stroke-dasharray', '3,3');
+
+    // Add axes
+    svg.append('g')
+        .attr('transform', `translate(0,${height})`)
+        .call(d3.axisBottom(x)
+            .tickFormat(d3.format('d'))
+            .ticks(8));
+
+    svg.append('g')
+        .call(d3.axisLeft(y)
+            .tickFormat(d => d + '%'));
+
+    // Create line generators
+    const lineNoBWC = d3.line()
+        .x(d => x(d.year))
+        .y(d => y(d.no_bwc_substantiated_rate));
+
+    const lineBWC = d3.line()
+        .x(d => x(d.year))
+        .y(d => y(d.bwc_substantiated_rate));
 
     // Create tooltip
     const tooltip = d3.select('body')
         .append('div')
         .attr('class', 'bwc-tooltip')
-        .style('opacity', 0);
+        .style('opacity', 0)
+        .style('position', 'absolute')
+        .style('background', 'white')
+        .style('padding', '10px')
+        .style('border-radius', '4px')
+        .style('box-shadow', '0 2px 4px rgba(0,0,0,0.1)')
+        .style('pointer-events', 'none')
+        .style('z-index', 9999);
 
-    // Load and process data
-    d3.json('ccrb_bwc_stats.json').then(data => {
-        // Process the most recent year's data
-        const recentYear = d3.max(data, d => d.year);
-        const bwcData = data.find(d => d.year === recentYear);
-        
-        const processedData = [
-            {
-                category: 'Without BWC',
-                substantiated: bwcData.no_bwc_substantiated_rate,
-                notSubstantiated: bwcData.no_bwc_not_substantiated_rate,
-                total: bwcData.no_bwc_total
-            },
-            {
-                category: 'With BWC',
-                substantiated: bwcData.bwc_substantiated_rate,
-                notSubstantiated: bwcData.bwc_not_substantiated_rate,
-                total: bwcData.bwc_total
-            }
-        ];
+    // Add lines
+    svg.append('path')
+        .datum(data)
+        .attr('class', 'line no-bwc')
+        .attr('fill', 'none')
+        .attr('stroke', '#ff7f7f')
+        .attr('stroke-width', 2)
+        .attr('d', lineNoBWC);
 
-        // Update scales
-        x.domain(processedData.map(d => d.category));
-        y.domain([0, 100]);
+    svg.append('path')
+        .datum(data)
+        .attr('class', 'line bwc')
+        .attr('fill', 'none')
+        .attr('stroke', '#7f7fff')
+        .attr('stroke-width', 2)
+        .attr('d', lineBWC);
 
-        // Add grid
-        addGrid();
+    // Add dots for each data point
+    data.forEach(d => {
+        // Dots for no BWC
+        svg.append('circle')
+            .attr('cx', x(d.year))
+            .attr('cy', y(d.no_bwc_substantiated_rate))
+            .attr('r', 4)
+            .attr('fill', '#ff7f7f')
+            .on('mouseover', function(event) {
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', .9);
+                tooltip.html(`
+                    <strong>${d.year} - Without BWC</strong><br/>
+                    Substantiated: ${d.no_bwc_substantiated_rate.toFixed(1)}%<br/>
+                    Total Cases: ${d.no_bwc_total.toLocaleString()}
+                `)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', function() {
+                tooltip.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            });
 
-        // Add axes
-        svg.append('g')
-            .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(x));
-
-        svg.append('g')
-            .call(d3.axisLeft(y)
-                .tickFormat(d => d + '%'));
-
-        // Create stacked bars
-        processedData.forEach(d => {
-            // Not substantiated portion
-            svg.append('rect')
-                .attr('x', x(d.category))
-                .attr('y', y(100))
-                .attr('width', x.bandwidth())
-                .attr('height', height - y(d.notSubstantiated))
-                .attr('fill', '#ff7f7f')
-                .on('mouseover', function(event) {
-                    tooltip.transition()
-                        .duration(200)
-                        .style('opacity', .9);
-                    tooltip.html(`
-                        <strong>${d.category}</strong><br/>
-                        Not Substantiated: ${d.notSubstantiated.toFixed(1)}%<br/>
-                        Total Cases: ${d.total.toLocaleString()}
-                    `)
-                        .style('left', (event.pageX + 10) + 'px')
-                        .style('top', (event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function() {
-                    tooltip.transition()
-                        .duration(500)
-                        .style('opacity', 0);
-                });
-
-            // Substantiated portion
-            svg.append('rect')
-                .attr('x', x(d.category))
-                .attr('y', y(d.substantiated))
-                .attr('width', x.bandwidth())
-                .attr('height', height - y(d.substantiated))
-                .attr('fill', '#7f7fff')
-                .on('mouseover', function(event) {
-                    tooltip.transition()
-                        .duration(200)
-                        .style('opacity', .9);
-                    tooltip.html(`
-                        <strong>${d.category}</strong><br/>
-                        Substantiated: ${d.substantiated.toFixed(1)}%<br/>
-                        Total Cases: ${d.total.toLocaleString()}
-                    `)
-                        .style('left', (event.pageX + 10) + 'px')
-                        .style('top', (event.pageY - 28) + 'px');
-                })
-                .on('mouseout', function() {
-                    tooltip.transition()
-                        .duration(500)
-                        .style('opacity', 0);
-                });
-
-            // Add percentage labels
-            svg.append('text')
-                .attr('x', x(d.category) + x.bandwidth() / 2)
-                .attr('y', y(d.substantiated / 2))
-                .attr('text-anchor', 'middle')
-                .attr('fill', 'white')
-                .text(`${d.substantiated.toFixed(1)}%`);
-        });
-
-        // Add legend
-        const legend = svg.append('g')
-            .attr('class', 'legend')
-            .attr('transform', `translate(${width - 160}, 0)`);
-
-        const legendData = [
-            { label: 'Substantiated', color: '#7f7fff' },
-            { label: 'Not Substantiated', color: '#ff7f7f' }
-        ];
-
-        legendData.forEach((d, i) => {
-            const legendRow = legend.append('g')
-                .attr('transform', `translate(0, ${i * 20})`);
-
-            legendRow.append('rect')
-                .attr('width', 18)
-                .attr('height', 18)
-                .attr('fill', d.color);
-
-            legendRow.append('text')
-                .attr('x', 24)
-                .attr('y', 14)
-                .text(d.label);
-        });
+        // Dots for BWC
+        svg.append('circle')
+            .attr('cx', x(d.year))
+            .attr('cy', y(d.bwc_substantiated_rate))
+            .attr('r', 4)
+            .attr('fill', '#7f7fff')
+            .on('mouseover', function(event) {
+                tooltip.transition()
+                    .duration(200)
+                    .style('opacity', .9);
+                tooltip.html(`
+                    <strong>${d.year} - With BWC</strong><br/>
+                    Substantiated: ${d.bwc_substantiated_rate.toFixed(1)}%<br/>
+                    Total Cases: ${d.bwc_total.toLocaleString()}
+                `)
+                    .style('left', (event.pageX + 10) + 'px')
+                    .style('top', (event.pageY - 28) + 'px');
+            })
+            .on('mouseout', function() {
+                tooltip.transition()
+                    .duration(500)
+                    .style('opacity', 0);
+            });
     });
+
+    // Add legend
+    const legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${width - 120}, 0)`);
+
+    const legendData = [
+        { label: 'With BWC', color: '#7f7fff' },
+        { label: 'Without BWC', color: '#ff7f7f' }
+    ];
+
+    legendData.forEach((d, i) => {
+        const legendRow = legend.append('g')
+            .attr('transform', `translate(0, ${i * 20})`);
+
+        legendRow.append('rect')
+            .attr('width', 18)
+            .attr('height', 18)
+            .attr('fill', d.color);
+
+        legendRow.append('text')
+            .attr('x', 24)
+            .attr('y', 14)
+            .text(d.label);
+    });
+
+    // Add axes labels
+    svg.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', -margin.left + 20)
+        .attr('x', -(height / 2))
+        .attr('text-anchor', 'middle')
+        .text('Substantiation Rate (%)');
+
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', height + margin.bottom - 10)
+        .attr('text-anchor', 'middle')
+        .text('Year');
+
+    // Add title
+    svg.append('text')
+        .attr('x', width / 2)
+        .attr('y', -margin.top / 2)
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .style('fill', '#003DA5')
+        .text('Impact of Body Worn Cameras on Substantiation Rates (2017-2024)');
 }
+
+// Initialize visualization when document is loaded
+document.addEventListener('DOMContentLoaded', createBWCVisualization);
 
 // Initialize visualization when document is loaded
 document.addEventListener('DOMContentLoaded', createBWCVisualization);
