@@ -2380,7 +2380,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     
-});// BWC Impact Visualization
+});
+
+// BWC Impact Visualization
 function createBWCVisualization() {
     const data = [
         {
@@ -2642,8 +2644,6 @@ function createBWCVisualization() {
 // Initialize visualization when document is loaded
 document.addEventListener('DOMContentLoaded', createBWCVisualization);
 
-// Initialize visualization when document is loaded
-document.addEventListener('DOMContentLoaded', createBWCVisualization);
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');
