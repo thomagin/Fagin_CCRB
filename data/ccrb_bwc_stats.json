@@ -1,0 +1,74 @@
+[
+  {
+    "year": 2017,
+    "no_bwc_total": 11862,
+    "no_bwc_substantiated_rate": 8.86,
+    "no_bwc_not_substantiated_rate": 91.14,
+    "bwc_total": 50,
+    "bwc_substantiated_rate": 0.0,
+    "bwc_not_substantiated_rate": 100.0
+  },
+  {
+    "year": 2018,
+    "no_bwc_total": 10790,
+    "no_bwc_substantiated_rate": 8.39,
+    "no_bwc_not_substantiated_rate": 91.61,
+    "bwc_total": 1450,
+    "bwc_substantiated_rate": 4.83,
+    "bwc_not_substantiated_rate": 95.17
+  },
+  {
+    "year": 2019,
+    "no_bwc_total": 9441,
+    "no_bwc_substantiated_rate": 7.01,
+    "no_bwc_not_substantiated_rate": 92.99,
+    "bwc_total": 6310,
+    "bwc_substantiated_rate": 11.16,
+    "bwc_not_substantiated_rate": 88.84
+  },
+  {
+    "year": 2020,
+    "no_bwc_total": 5533,
+    "no_bwc_substantiated_rate": 4.23,
+    "no_bwc_not_substantiated_rate": 95.77,
+    "bwc_total": 5512,
+    "bwc_substantiated_rate": 13.23,
+    "bwc_not_substantiated_rate": 86.77
+  },
+  {
+    "year": 2021,
+    "no_bwc_total": 4966,
+    "no_bwc_substantiated_rate": 3.91,
+    "no_bwc_not_substantiated_rate": 96.09,
+    "bwc_total": 3896,
+    "bwc_substantiated_rate": 40.37,
+    "bwc_not_substantiated_rate": 59.63
+  },
+  {
+    "year": 2022,
+    "no_bwc_total": 5633,
+    "no_bwc_substantiated_rate": 13.69,
+    "no_bwc_not_substantiated_rate": 86.31,
+    "bwc_total": 12841,
+    "bwc_substantiated_rate": 57.27,
+    "bwc_not_substantiated_rate": 42.73
+  },
+  {
+    "year": 2023,
+    "no_bwc_total": 8036,
+    "no_bwc_substantiated_rate": 5.36,
+    "no_bwc_not_substantiated_rate": 94.64,
+    "bwc_total": 11863,
+    "bwc_substantiated_rate": 37.4,
+    "bwc_not_substantiated_rate": 62.6
+  },
+  {
+    "year": 2024,
+    "no_bwc_total": 9219,
+    "no_bwc_substantiated_rate": 6.33,
+    "no_bwc_not_substantiated_rate": 93.67,
+    "bwc_total": 14938,
+    "bwc_substantiated_rate": 44.79,
+    "bwc_not_substantiated_rate": 55.21
+  }
+]
