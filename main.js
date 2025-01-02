@@ -2631,14 +2631,6 @@ function createBWCVisualization() {
         .attr('text-anchor', 'middle')
         .text('Year');
 
-    // Add title
-    svg.append('text')
-        .attr('x', width / 2)
-        .attr('y', -margin.top / 2)
-        .attr('text-anchor', 'middle')
-        .style('font-size', '16px')
-        .style('fill', '#003DA5')
-        .text('Impact of Body Worn Cameras on Substantiation Rates (2017-2024)');
 }
 
 // Initialize visualization when document is loaded
