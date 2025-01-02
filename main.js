@@ -987,7 +987,12 @@ const scrollObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.scroll-section').forEach(section => {
     scrollObserver.observe(section);
+
+
+
+
 });
+
 
 
 
@@ -1919,6 +1924,9 @@ Object.entries(legendData).forEach(([mayor, color], i) => {
 });
 
 
+
+
+
 //RACE AND SEX HEATMAP
 
 function createDemographicsHeatmap() {
@@ -2285,6 +2293,21 @@ class RadarChart {
 // Initialize visualization when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new RadarChart('#radar-charts-container');
+
+
+// Set up intersection observer for radar chart annotations
+// Add CSS to allow pointer events through annotations
+const style = document.createElement('style');
+style.textContent = `
+    .annotations {
+        pointer-events: none;
+    }
+    .annotation-text {
+        pointer-events: auto;
+    }
+`;
+document.head.appendChild(style);
+
 // Set up intersection observer for radar chart annotations
 const radarObserverOptions = {
     root: null,
@@ -2302,7 +2325,8 @@ const radarObserver = new IntersectionObserver((entries) => {
             
             // Update radar chart based on section
             if (section.id === 'intro-section') {
-                resetRadarCategories(); // Show all categories for intro
+                // Start with lower opacity
+                setAllRadarOpacity(0.2);
             } else if (section.id === 'abuse-authority-section') {
                 highlightRadarCategory('Abuse of Authority');
             } else if (section.id === 'force-section') {
@@ -2312,6 +2336,10 @@ const radarObserver = new IntersectionObserver((entries) => {
             }
         } else if (textElement) {
             textElement.classList.remove('active');
+            // If no section is active, reset to lower opacity
+            if (!document.querySelector('.annotation-text.active')) {
+                setAllRadarOpacity(0.2);
+            }
         }
     });
 }, radarObserverOptions);
@@ -2325,6 +2353,7 @@ document.querySelectorAll('#complaints-section .annotation-section').forEach(sec
 function highlightRadarCategory(category) {
     const paths = document.querySelectorAll('.radar-path');
     paths.forEach(path => {
+        // Set highlighted paths to full opacity, others to low opacity
         path.style.opacity = path.dataset.category === category ? '1' : '0.2';
     });
 }
@@ -2332,18 +2361,196 @@ function highlightRadarCategory(category) {
 function highlightRadarCategories(categories) {
     const paths = document.querySelectorAll('.radar-path');
     paths.forEach(path => {
+        // Set highlighted paths to full opacity, others to low opacity
         path.style.opacity = categories.includes(path.dataset.category) ? '1' : '0.2';
     });
 }
 
-function resetRadarCategories() {
+function setAllRadarOpacity(opacity) {
     const paths = document.querySelectorAll('.radar-path');
     paths.forEach(path => {
-        path.style.opacity = '1';
+        path.style.opacity = opacity;
     });
 }
+
+// Initialize with low opacity
+document.addEventListener('DOMContentLoaded', () => {
+    setAllRadarOpacity(0.2);
+});
+
+
     
 });
+
+// BWC Impact Visualization
+function createBWCVisualization() {
+    // Set up dimensions
+    const margin = { top: 40, right: 120, bottom: 60, left: 80 };
+    const container = document.querySelector('#bwc-chart');
+    const width = container.clientWidth - margin.left - margin.right;
+    const height = container.clientHeight - margin.top - margin.bottom;
+
+    // Create SVG
+    const svg = d3.select('#bwc-chart')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // Create scales
+    const x = d3.scaleBand()
+        .range([0, width])
+        .padding(0.3);
+
+    const y = d3.scaleLinear()
+        .range([height, 0]);
+
+    // Add grid lines
+    function addGrid() {
+        svg.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(y)
+                .tickSize(-width)
+                .tickFormat('')
+            )
+            .style('stroke', '#e0e0e0')
+            .style('stroke-dasharray', '3,3');
+    }
+
+    // Create tooltip
+    const tooltip = d3.select('body')
+        .append('div')
+        .attr('class', 'bwc-tooltip')
+        .style('opacity', 0);
+
+    // Load and process data
+    d3.json('ccrb_bwc_stats.json').then(data => {
+        // Process the most recent year's data
+        const recentYear = d3.max(data, d => d.year);
+        const bwcData = data.find(d => d.year === recentYear);
+        
+        const processedData = [
+            {
+                category: 'Without BWC',
+                substantiated: bwcData.no_bwc_substantiated_rate,
+                notSubstantiated: bwcData.no_bwc_not_substantiated_rate,
+                total: bwcData.no_bwc_total
+            },
+            {
+                category: 'With BWC',
+                substantiated: bwcData.bwc_substantiated_rate,
+                notSubstantiated: bwcData.bwc_not_substantiated_rate,
+                total: bwcData.bwc_total
+            }
+        ];
+
+        // Update scales
+        x.domain(processedData.map(d => d.category));
+        y.domain([0, 100]);
+
+        // Add grid
+        addGrid();
+
+        // Add axes
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .call(d3.axisBottom(x));
+
+        svg.append('g')
+            .call(d3.axisLeft(y)
+                .tickFormat(d => d + '%'));
+
+        // Create stacked bars
+        processedData.forEach(d => {
+            // Not substantiated portion
+            svg.append('rect')
+                .attr('x', x(d.category))
+                .attr('y', y(100))
+                .attr('width', x.bandwidth())
+                .attr('height', height - y(d.notSubstantiated))
+                .attr('fill', '#ff7f7f')
+                .on('mouseover', function(event) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style('opacity', .9);
+                    tooltip.html(`
+                        <strong>${d.category}</strong><br/>
+                        Not Substantiated: ${d.notSubstantiated.toFixed(1)}%<br/>
+                        Total Cases: ${d.total.toLocaleString()}
+                    `)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                });
+
+            // Substantiated portion
+            svg.append('rect')
+                .attr('x', x(d.category))
+                .attr('y', y(d.substantiated))
+                .attr('width', x.bandwidth())
+                .attr('height', height - y(d.substantiated))
+                .attr('fill', '#7f7fff')
+                .on('mouseover', function(event) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style('opacity', .9);
+                    tooltip.html(`
+                        <strong>${d.category}</strong><br/>
+                        Substantiated: ${d.substantiated.toFixed(1)}%<br/>
+                        Total Cases: ${d.total.toLocaleString()}
+                    `)
+                        .style('left', (event.pageX + 10) + 'px')
+                        .style('top', (event.pageY - 28) + 'px');
+                })
+                .on('mouseout', function() {
+                    tooltip.transition()
+                        .duration(500)
+                        .style('opacity', 0);
+                });
+
+            // Add percentage labels
+            svg.append('text')
+                .attr('x', x(d.category) + x.bandwidth() / 2)
+                .attr('y', y(d.substantiated / 2))
+                .attr('text-anchor', 'middle')
+                .attr('fill', 'white')
+                .text(`${d.substantiated.toFixed(1)}%`);
+        });
+
+        // Add legend
+        const legend = svg.append('g')
+            .attr('class', 'legend')
+            .attr('transform', `translate(${width - 160}, 0)`);
+
+        const legendData = [
+            { label: 'Substantiated', color: '#7f7fff' },
+            { label: 'Not Substantiated', color: '#ff7f7f' }
+        ];
+
+        legendData.forEach((d, i) => {
+            const legendRow = legend.append('g')
+                .attr('transform', `translate(0, ${i * 20})`);
+
+            legendRow.append('rect')
+                .attr('width', 18)
+                .attr('height', 18)
+                .attr('fill', d.color);
+
+            legendRow.append('text')
+                .attr('x', 24)
+                .attr('y', 14)
+                .text(d.label);
+        });
+    });
+}
+
+// Initialize visualization when document is loaded
+document.addEventListener('DOMContentLoaded', createBWCVisualization);
 
 // Initialize all visualizations
 drawSubstantiationPieChart('Bloomberg');

@@ -14,7 +14,7 @@
     <!-- Section 1: Welcome -->
     <div class="section" id="welcome">
         <h1 class="license-plate">Vote for the CCRB in 2025</h1>
-        <p class="license-plate">When you cast your ballot for New York City mayor in 2025, you'll be voting for the CCRB you want to see.</p>
+        <p class="license-plate">Cast your ballot for New York City mayor in 2025 and vote for the CCRB you want to see.</p>
     </div>
     
     <div class="section with-sidebar text-left" id="ccrb-info">
@@ -42,25 +42,47 @@
         <p>The CCRB has a staff that receives the complaints, investigates the allegations, interviews the officer(s) in question, and then transmits their findings to a panel of three board members. The panel decides whether to <strong>substantiate</strong> the findings of completed investigations. If a majority of the panel votes to substantiate the findings, they forward the case to the police commissioner, who is empowered to impose discipline.</p> -->
     
         <h2 class="license-plate">Who is part of the board?</h2>
-        <p>The board is designed to consist of 15 members. Five seats are appointed by the Mayor, five by the NYC City Council, three by the Police Commissioner, one by the Public Advocate, and the Chair is jointly appointed by the Mayor and City Council. No member of the board is allowed to have a background in law enforcement, other than those designated by the police commissioner, and none may be public employees or serve in public office. They serve three-year terms, which can be renewed. Board members are entitled to receive payment for every session, but some choose to serve free of charge to the city.</p>
+        <p>The board is designed to consist of 15 members. Five seats are appointed by the Mayor, five by the NYC City Council, three by the Police Commissioner, one by the Public Advocate, and the Chair is jointly appointed by the Mayor and City Council. No member of the board is allowed to have a background in law enforcement, other than those designated by the police commissioner, and none may be public employees or serve in public office. For more information about the board members, visit the CCRB's <a href="https://www.nyc.gov/site/ccrb/about/the-board.page" target="_blank">website</a>.</p>
     </div>
-
 <!-- Section 3: Board Designee Visualization -->
 <div class="section" id="board-visualization">
     <svg id="designeeGrid" width="800" height="600"></svg>
     <div class="scroll-container">
+        <!-- Initial view section - reduced height -->
         <div class="scroll-section" id="initial-view">
             <div style="height: 10vh;"></div>
         </div>
-        <div class="scroll-section" id="transition-trigger">
-            <div style="height: 10vh;"></div>
-        </div>
+        
+        <!-- Vacant-view trigger section - reduced height -->
         <div class="scroll-section" id="vacant-view">
-            <div style="height: 10vh;"></div>
+            <div style="height: 20vh;"></div>
+            <div class="annotations">
+                <div class="annotation-section" id="vacancy-impact">
+                    <div class="annotation-text">
+                        <p>Under the Adams administration, the board has been reduced by over 25% due to vacancies. Since one mayoral designee, one city council designee, and one police commissioner designee are on the three-member panels that review and vote on cases, the absence of two mayoral appointees has a great effect on how many panels can be formed.</p>
+                    </div>
+                </div>
+                
+                <div class="annotation-section" id="caseload-impact">
+                    <div class="annotation-text">
+                        <p>Over a thousand cases are ruled on by sub-panels of the board every month, and in this diminished state less time can be given to every case.</p>
+                    </div>
+                </div>
+                
+                <div class="annotation-section" id="chair-resignation">
+                    <div class="annotation-text">
+                        <p>Mayor Adams is currently leaving two of his own appointed seats empty in addition to the chair position.</p>
+                    </div>
+                </div>
+                
+                <div class="annotation-section" id="mayoral-seats">
+                    <div class="annotation-text">
+                        <p>The previous chair of the CCRB, Arva Rice, resigned in July 2024 and the position remains unfilled as of December. According to the New York Times, she was pressured to resign by Philip Banks III, the deputy mayor for public safety, after she criticized police officials for delaying an investigation into the fatal shooting of a Bronx man by police.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p>Under the Adams administration, the board has been reduced by over 25% due to vacancies.  Since one mayoral designee, one city council designee, and one police commissioner designee are on the three-member panels that review and vote on cases, the absence of two mayoral appointees has a great effect on how many panels can be formed. Over a thousand cases are ruled on by sub-panels of the board every month, and in this diminished state their work becomes more difficult, and less consideration can be given to every case. A rushed process benefits neither the accused officers or the New Yorkers who have filed a complaint.</p>
     </div>
-        <p>The previous chair of the CCRB, Arva Rice, resigned in July 2024 and the position remains unfilled as of December. According to the New York Times, she was pressured to resign by Philip Banks III, the deputy mayor for public safety, after she criticized police officials for delaying an investigation into the fatal shooting of a Bronx man by police. In order to function as intended, the agency needs a chair as well as a full set of board members, and the mayor is currently leaving two of his own appointed seats empty in addition to the chair position. For more information about the board members, visit the CCRB's <a href="https://www.nyc.gov/site/ccrb/about/the-board.page" target="_blank">website</a>.</p>
 </div>
     
 
@@ -104,7 +126,6 @@
 
 
   <!-- Section 7: Monthly Cases line chart -->     
-  <!-- Line Chart Section -->
 <div class="section" id="line-chart-section">
     <h2 class="license-plate">Substantiation Rate by Mayor</h2>
     
@@ -141,6 +162,21 @@
     </div>
 </div>
     
+<!-- BWC Impact Section -->
+<div class="section" id="bwc-impact">
+    <h2 class="license-plate">Impact of Body Worn Cameras</h2>
+    <p>The introduction of body worn cameras has had a significant effect on how the CCRB substantiates complaints. Let's examine how the presence of video evidence influences case outcomes.</p>
+    <div class="bwc-visualization">
+        <div class="chart-container">
+            <div id="bwc-chart"></div>
+        </div>
+        <div class="annotation-container">
+            <div class="annotation">
+                <p>When body camera footage is available, complaints are more likely to be substantiated. This suggests that video evidence helps investigators make more definitive determinations about alleged misconduct.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- Section 5: Substantiated Rates Pie Charts -->
 <div class="section" id="rates-charts">
@@ -196,7 +232,7 @@
 
     <div class="section" id="demographics-section">
         
-        <h2 class="license-plate">Demographics of CCRB Complaints</h2>
+        <h2 class="license-plate">Demographics of CCRB Complainants</h2>
         <p>Let's take a look at whether race and sex play any part in how the CCRB makes decisions, and if any differences emerge when comparing the last three mayors' terms.</p>
         <div id="demographics-heatmap"></div>
         <p>During Bloomberg and de Blasio's tenures, Black men were the most likely demographic to have their complaint substantiated by the CCRB. They were also the most likely to file a complaint. Asian men and women have a markedly higher rate of substantiation during the Adams era, though they file significantly fewer complaints.</p>
@@ -255,11 +291,11 @@
     </div>
 
     <h2 class="license-plate">What can you do in the meantime?</h2>
-    <p>If you want to learn more about the activities of the CCRB, the board holds public meetings where they update the public, take questions, and hear concerns related to police misconduct. The meetings are open to the public and anyone can ask a question. These meetings typically take place on the second Wednesday of each month at 4:00 PM, and every year they hold at least one meeting in each borough. If you want to speak directly to the people invested with the power to make decisions about police misconduct, you should go and speak your mind.</p>
+    <p>If you want to learn more about the activities of the CCRB, the board holds public meetings where they update the public, take questions, and hear concerns related to police misconduct. The meetings are open to the public and anyone can ask a question. These meetings typically take place on the second Wednesday of each month at 4:00 PM, and every year they hold at least one meeting in each borough.</p>
     
     <h2 class="license-plate">Other ways to shape police oversight</h2>
     <p>Elections aren't the only way to make the CCRB change course. On July 17, 2014, Eric Garner was killed by a police officer who used a chokehold to subdue him for allegedly selling loose cigarettes, a misdemeanor. 
-        After widespread protests and pressure, the NYPD adopted several reforms, including the use of body worn cameras, and the officer who killed Garner was eventually fired. However, we can also see a shift in the CCRB's handling of similar cases:
+        After widespread protests and pressure, the NYPD adopted several reforms, including the use of body worn cameras, and the officer who killed Garner was eventually fired. We can also see a shift in the CCRB's handling of similar cases:
     </p>
 </div>
 
@@ -274,7 +310,7 @@
 
     <div class="section" id="about-this-data">
         <h2 class="license-plate">About this data</h2>
-        <p>All of the above has been drawn from data made available to the public by the CCRB's Data Transparency Initiative. They conduct <a href=https://www.nyc.gov/site/ccrb/policy/data-transparency-initiative.page target="_blank">their own analyses</a> of the same data, and you should feel free to look for yourself. Besides the important work the CCRB does in handling and investigating these complaints, their compiling and releasing this information sheds light on something that was invisible before. Without this resource, we would only encounter Fourth Amendment violations in the context of a court case: a police officer conducted a search unlawfully and they find a gun or something illegal, and it might get suppressed or dismissed because they didn't follow the law. But only seeing this outcome, when the case has reached the courts, fosters a distorted cost/benefit analysis of these police practices. You might be tempted to think, "Well, the search was illegal but they did get a gun off the streets." However, as the data shows, in reality these searches happen far more often than the system or the public can ever understand, but they're just never reported unless someone files a complaint to the CCRB which results in a substantiated abuse of authority allegation. So we owe a debt of gratitude to the CCRB for not only their everyday work, but the recording and publication of their efforts.
+        <p>All of the above has been drawn from data made available to the public by the CCRB's Data Transparency Initiative. They conduct <a href=https://www.nyc.gov/site/ccrb/policy/data-transparency-initiative.page target="_blank">their own analyses</a> of the same data, and you should feel free to look for yourself. Besides the important work the CCRB does in handling and investigating these complaints, their compiling and releasing this information sheds light on something that was invisible before. Without this resource, we would only encounter Fourth Amendment violations in the context of a court case: a police officer conducted a search unlawfully and they find a gun or something illegal, and it might get suppressed or dismissed because they didn't follow the law. But only seeing this outcome, when the case has reached the courts, fosters a distorted cost/benefit analysis of these police practices. You might be tempted to think, "Well, the search was illegal but they did get a gun off the streets." However, as the data shows, in reality these searches happen far more often than the system or the public can ever understand, but they're just never reported unless someone files a complaint to the CCRB which results in a substantiated abuse of authority allegation. So we owe a debt of gratitude to the CCRB for not only their everyday work, but also the recording and publication of their efforts.
 
         <script src="main.js"></script> <!-- External JavaScript file for D3 -->
 </body>
