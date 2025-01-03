@@ -1928,7 +1928,6 @@ Object.entries(legendData).forEach(([mayor, color], i) => {
 
 
 //RACE AND SEX HEATMAP
-
 function createDemographicsHeatmap() {
     const margin = { top: 50, right: 120, bottom: 60, left: 120 };
     const width = 900 - margin.left - margin.right;
@@ -1942,7 +1941,7 @@ function createDemographicsHeatmap() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const races = ["Asian", "Black", "Hispanic", "White"];
-    const genders = ["Woman", "Man"];  // Updated gender labels
+    const genders = ["Women", "Men"];  // Updated to plural forms
 
     const x = d3.scaleBand()
         .domain(races)
@@ -2009,10 +2008,10 @@ function createDemographicsHeatmap() {
         .text("Substantiation Rates by Race and Gender");
 
     function updateHeatmap(mayorData) {
-        // Map the incoming data's gender values to the new format
+        // Map the incoming data's gender values to the new plural format
         const mappedData = mayorData.demographics.map(d => ({
             ...d,
-            gender: d.gender === "Female/Woman" ? "Woman" : "Man"
+            gender: d.gender === "Female/Woman" ? "Women" : "Men"
         }));
 
         const colorScale = d3.scaleSequential(d3.interpolateBlues)
