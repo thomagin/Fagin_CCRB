@@ -365,15 +365,15 @@ const tooltip = d3.select("body")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// Set up scales with nice round numbers
+// Set up scales 
 const x = d3.scaleBand()
     .domain(data.map(d => d.administration))
     .range([0, width])
     .padding(0.3);
 
 const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.totalComplaints) * 1.1]) // Add 10% padding
-    .nice() // Round to nice numbers
+    .domain([0, d3.max(data, d => d.totalComplaints) * 1.1]) 
+    .nice() 
     .range([height, 0]);
 
 // Create grid lines
@@ -551,7 +551,7 @@ const chartsRow = d3.select("#rates-charts")
     .style("margin", "20px 0");
 
 function drawSubstantiationPieChart(admin) {
-    const width = 280;  // Slightly smaller to ensure fit
+    const width = 280;  
     const height = 280;
     const radius = Math.min(width, height) / 2;
 
@@ -581,10 +581,10 @@ function drawSubstantiationPieChart(admin) {
 
     // Custom Colors Mapping
     const customColors = {
-        "Charges": "#FF0000",
-        "Command Discipline A": "#FFEB3B",
-        "Command Discipline B": "#FF5900",
-        "Command Discipline": "#008000"
+        "Command Discipline": "#BFDBFE",  // Even lighter blue
+        "Command Discipline A": "#63a8e5", // More saturated medium blue
+        "Command Discipline B": "#2563EB", // Stronger dark blue
+        "Charges": "#DC2626"  // Red
     };
 
     // Create pie slices
@@ -629,7 +629,7 @@ function drawSubstantiationPieChart(admin) {
         .attr("dy", "0.35em")
         .style("font-size", "1.2em")
         .style("font-weight", "bold")
-        .style("fill", "#003DA5")  // Match your brand color
+        .style("fill", "#003DA5")  
         .text(admin);
 }
 
@@ -657,10 +657,10 @@ function drawLegend() {
     const spacingY = 30;
 
     const customColors = {
-        "Charges": "#FF0000",
-        "Command Discipline A": "#FFEB3B",
-        "Command Discipline B": "#FF5900",
-        "Command Discipline": "#008000"
+        "Command Discipline": "#BFDBFE",  
+        "Command Discipline A": "#63a8e5",
+        "Command Discipline B": "#2563EB", 
+        "Charges": "#DC2626"  
     };
 
     const legend = legendDiv
@@ -698,10 +698,10 @@ function drawLegend() {
 
 // Initialize everything
 function initializeCharts() {
-    // First draw the legend
+    
     drawLegend();
     
-    // Then draw all charts
+    
     data.forEach(d => drawSubstantiationPieChart(d.administration));
 }
 
@@ -729,7 +729,7 @@ const designees = [
     { type: "Chair", label: "Chair", name: "Vacant", color: "#003DA5" },
 ];
 
-// Create scroll section with increased spacing
+// Create scroll section, increase spacing
 const textSections = `
     <div class="scroll-section" id="initial-view">
         <h2 class="license-plate">Current Board Composition</h2>
@@ -772,7 +772,7 @@ function transitionToVacantView(show) {
         .style("opacity", 0)
         .remove();
 
-    // Add new labels after a brief delay
+    // Add new labels after brief delay
     setTimeout(() => {
         svg.selectAll(".label")
             .each(function(d) {
@@ -998,10 +998,10 @@ document.querySelectorAll('.scroll-section').forEach(section => {
 
 // HISTOGRAM
 
-// histogram.js
+
 (function() {
 document.addEventListener('DOMContentLoaded', function() {
-    // Load the data from the JSON file
+    // Load JSON file
     d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
         .then(createHistogram)
         .catch(error => console.error("Error loading the data:", error));
@@ -1013,7 +1013,7 @@ function createHistogram(data) {
     const width = 960 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
-    // Parse the date format correctly
+    // Parse the date format 
     const parseDate = d3.timeParse("%Y-%m-%d");
     const formatDate = d3.timeFormat("%B %Y");
 
@@ -1021,7 +1021,7 @@ function createHistogram(data) {
     const xScale = d3.scaleTime()
     .domain([
         d3.min(Object.values(data).flatMap(mayorData => mayorData.map(d => parseDate(d.Date)))),
-        new Date('2024-12-16') // Set end date to December 16, 2024
+        new Date('2024-12-16') 
     ])
     .range([0, width]);
 
@@ -1206,8 +1206,6 @@ function addLegend(svg, mayorColors, width) {
 
 
 //LINE GRAPH
-// Load and process the data
-// Wait for the DOM to be fully loaded
 
 function createLineChart(data) {
     // Set up dimensions
@@ -1359,7 +1357,7 @@ function addAxes(svg, xScale, yScale, width, height) {
        // .text("Year");
 }
 
-// Initialize the visualization when the data is loaded
+// Initialize the visualization when data is loaded
 document.addEventListener('DOMContentLoaded', function() {
     d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/monthmayors.json')
         .then(createLineChart)
@@ -1836,7 +1834,7 @@ d3.json('https://raw.githubusercontent.com/thomagin/Fagin_CCRB/main/data/yearmay
                 .style("opacity", 0);
         });
 
-    // Function to handle mayor focus - now inside the data loading scope
+    // Function to handle mayor focus
     function focusMayor(mayor) {
         const yearRanges = {
             'Bloomberg': [2002, 2013],
@@ -1888,7 +1886,7 @@ Object.entries(legendData).forEach(([mayor, color], i) => {
         .text(mayor);
 });
 
-    // Set up intersection observer - now inside the data loading scope
+    // Set up intersection observer 
     const observerOptions = {
         root: null,
         rootMargin: '-40% 0px -40% 0px',
@@ -1941,7 +1939,7 @@ function createDemographicsHeatmap() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const races = ["Asian", "Black", "Hispanic", "White"];
-    const genders = ["Women", "Men"];  // Updated to plural forms
+    const genders = ["Women", "Men"];  
 
     const x = d3.scaleBand()
         .domain(races)
@@ -2008,7 +2006,7 @@ function createDemographicsHeatmap() {
         .text("Substantiation Rates by Race and Gender");
 
     function updateHeatmap(mayorData) {
-        // Map the incoming data's gender values to the new plural format
+        // Map the incoming data's gender values to plural
         const mappedData = mayorData.demographics.map(d => ({
             ...d,
             gender: d.gender === "Female/Woman" ? "Women" : "Men"
@@ -2095,14 +2093,13 @@ document.addEventListener('DOMContentLoaded', createDemographicsHeatmap);
 
 // RADAR CHART FADO TYPE
 
-// Radar Chart Class
 class RadarChart {
     constructor(containerId) {
         this.container = d3.select(containerId);
         this.features = ['Force', 'Abuse of Authority', 'Discourtesy', 'Offensive Language'];
         this.width = 330;
         this.height = 400;
-        this.margin = {top: 35, right: 55, bottom: 35, left: 45}; // Restored original margins
+        this.margin = {top: 35, right: 55, bottom: 35, left: 45}; 
         this.radius = Math.min(this.width - this.margin.left - this.margin.right, 
                              this.height - this.margin.top - this.margin.bottom) / 2;
         this.angleSlice = (Math.PI * 2) / this.features.length;
@@ -2114,8 +2111,8 @@ class RadarChart {
         this.container
             .style('display', 'flex')
             .style('justify-content', 'center')
-            .style('flex-wrap', 'nowrap')  // Changed to nowrap
-            .style('gap', '10px');         // Reduced gap
+            .style('flex-wrap', 'nowrap')  // keep all on same line
+            .style('gap', '10px');         // gap b/w charts
 
         data.forEach(admin => this.createChart(admin));
     }
