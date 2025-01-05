@@ -13,11 +13,11 @@ const data = [
       "substantiated": 6506,
       "unsubstantiated": 212427,
       "substantiations": [
-        { "label": "Substantiated (Charges)", "value": 84.88, "cases": 5522 },
+        { "label": "Substantiated (Charges)", "value": 82.04, "cases": 5522 },
         { "label": "Substantiated (Command Discipline A)", "value": 0.00, "cases": 0 },
         { "label": "Substantiated (Command Discipline B)", "value": 0.00, "cases": 0 },
-        { "label": "Substantiated (Command Discipline)", "value": 15.12, "cases": 984 },
-        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+        { "label": "Substantiated (Command Discipline)", "value": 14.62, "cases": 984 },
+        { "label": "Substantiated (Training/Instructions)", "value": 3.34, "cases": 225 }
       ],
       "complaintTypes": [
         {
@@ -124,11 +124,11 @@ const data = [
       "substantiated": 4414,
       "unsubstantiated": 98499,
       "substantiations": [
-        { "label": "Substantiated (Charges)", "value": 37.29, "cases": 1646 },
-        { "label": "Substantiated (Command Discipline A)", "value": 33.17, "cases": 1464 },
-        { "label": "Substantiated (Command Discipline B)", "value": 25.37, "cases": 1120 },
-        { "label": "Substantiated (Command Discipline)", "value": 4.17, "cases": 184 },
-        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+        { "label": "Substantiated (Charges)", "value": 28.51, "cases": 1646 },
+        { "label": "Substantiated (Command Discipline A)", "value": 25.36, "cases": 1464 },
+        { "label": "Substantiated (Command Discipline B)", "value": 19.40, "cases": 1120 },
+        { "label": "Substantiated (Command Discipline)", "value": 3.19, "cases": 184 },
+        { "label": "Substantiated (Training/Instructions)", "value": 23.55, "cases": 1360 }
       ],
       "complaintTypes": [
         {
@@ -235,11 +235,11 @@ const data = [
       "substantiated": 7168,
       "unsubstantiated": 55362,
       "substantiations": [
-        { "label": "Substantiated (Charges)", "value": 14.89, "cases": 1067 },
-        { "label": "Substantiated (Command Discipline A)", "value": 65.64, "cases": 4705 },
-        { "label": "Substantiated (Command Discipline B)", "value": 19.48, "cases": 1396 },
+        { "label": "Substantiated (Charges)", "value": 13.28, "cases": 1067 },
+        { "label": "Substantiated (Command Discipline A)", "value": 58.56, "cases": 4705 },
+        { "label": "Substantiated (Command Discipline B)", "value": 17.37, "cases": 1396 },
         { "label": "Substantiated (Command Discipline)", "value": 0.00, "cases": 0 },
-        { "label": "Substantiated (Formal Training)", "value": 0.00, "cases": 0 }
+        { "label": "Substantiated (Training/Instructions)", "value": 10.79, "cases": 867 }
       ],
       "complaintTypes": [
         {
@@ -535,6 +535,7 @@ legendItems.append("text")
 
 
 // DONUT CHART
+
 // Create a flex container for the charts
 d3.select("#rates-charts")
     .style("display", "flex")
@@ -549,162 +550,177 @@ const chartsRow = d3.select("#rates-charts")
     .style("justify-content", "center")
     .style("width", "100%")
     .style("margin", "20px 0");
-
+   
 function drawSubstantiationPieChart(admin) {
-    const width = 280;  
-    const height = 280;
-    const radius = Math.min(width, height) / 2;
-
-    // Create a container div for each chart
-    const chartDiv = chartsRow
-        .append("div")
-        .attr("class", "chart-container")
-        .style("flex", "0 1 auto")
-        .style("margin", "0 10px");
-
-    const svg = chartDiv
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .append("g")
-        .attr("transform", `translate(${width / 2}, ${height / 2})`);
-
-    // Find substantiations data for the selected administration
-    const substantiations = data.find(d => d.administration === admin).substantiations;
-
-    const pie = d3.pie()
-        .value(d => d.value);
-
-    const arc = d3.arc()
-        .innerRadius(radius * 0.6)
-        .outerRadius(radius);
-
-    // Custom Colors Mapping
-    const customColors = {
-        "Command Discipline": "#BFDBFE",  // Even lighter blue
-        "Command Discipline A": "#63a8e5", // More saturated medium blue
-        "Command Discipline B": "#2563EB", // Stronger dark blue
-        "Charges": "#DC2626"  // Red
-    };
-
-    // Create pie slices
-    svg.selectAll(".arc")
-        .data(pie(substantiations))
-        .enter()
-        .append("g")
-        .attr("class", "arc")
-        .append("path")
-        .attr("d", arc)
-        .attr("fill", d => customColors[d.data.label.split('(')[1].replace(')', '')] || "#CCCCCC")
-        .on("mouseover", function (event, d) {
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", 0.9);
-            tooltip.html(d.data.label.split('(')[1].replace(')', ''))
-                .style("left", (event.pageX) + "px")
-                .style("top", (event.pageY - 28) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0);
+        const width = 280;  
+        const height = 280;
+        const radius = Math.min(width, height) / 2;
+    
+        const chartDiv = chartsRow
+            .append("div")
+            .attr("class", "chart-container")
+            .style("flex", "0 1 auto")
+            .style("margin", "0 10px");
+    
+        const svg = chartDiv
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2}, ${height / 2})`);
+    
+        let substantiations = data.find(d => d.administration === admin).substantiations;
+    
+        // Define the order from least to most severe (clockwise from top)
+        const severityOrder = [
+            "Substantiated (Training/Instructions)",
+            "Substantiated (Command Discipline)",
+            "Substantiated (Command Discipline A)",
+            "Substantiated (Command Discipline B)",
+            "Substantiated (Charges)"
+        ];
+    
+        // Sort the data by severity
+        substantiations.sort((a, b) => {
+            return severityOrder.indexOf(a.label) - severityOrder.indexOf(b.label);
         });
-
-    // Add percentages as labels
-    svg.selectAll(".label")
-        .data(pie(substantiations))
-        .enter()
-        .append("text")
-        .filter(d => d.data.value > 0)
-        .attr("transform", d => `translate(${arc.centroid(d)})`)
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .style("fill", "#333")  // Match your text color
-        .style("font-size", "12px")
-        .text(d => `${d.data.value}%`);
-
-    // Add mayor's name in the center
-    svg.append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .style("font-size", "1.2em")
-        .style("font-weight", "bold")
-        .style("fill", "#003DA5")  
-        .text(admin);
-}
-
-function drawLegend() {
-    // Create legend container
-    const legendDiv = d3.select("#legend")
-        .style("width", "100%")
-        .style("text-align", "center")
-        .style("margin-bottom", "20px");
-
-    const legendData = [
-        ...new Set(
-            data.flatMap(d =>
-                d.substantiations
-                    .filter(item => item.value > 0)
-                    .map(item => item.label.split('(')[1].replace(')', ''))
-            )
-        ),
-    ];
-
-    const legendWidth = 400;
-    const itemsPerRow = 2;
-    const legendHeight = Math.ceil(legendData.length / itemsPerRow) * 30;
-    const spacingX = 150;
-    const spacingY = 30;
-
-    const customColors = {
-        "Command Discipline": "#BFDBFE",  
-        "Command Discipline A": "#63a8e5",
-        "Command Discipline B": "#2563EB", 
-        "Charges": "#DC2626"  
-    };
-
-    const legend = legendDiv
-        .append("svg")
-        .attr("width", legendWidth)
-        .attr("height", legendHeight)
-        .append("g")
-        .attr("transform", "translate(10, 10)");
-
-    legend.selectAll(".legend-item")
-        .data(legendData)
-        .enter()
-        .append("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`)
-        .each(function (d, i) {
-            d3.select(this)
-                .append("rect")
-                .attr("x", 0)
-                .attr("y", 0)
-                .attr("width", 15)
-                .attr("height", 15)
-                .attr("fill", customColors[d] || "#CCCCCC");
-
-            d3.select(this)
-                .append("text")
-                .attr("x", 20)
-                .attr("y", 12)
-                .text(d)
-                .style("font-size", "12px")
-                .style("fill", "#333")
-                .attr("alignment-baseline", "middle");
-        });
-}
-
-// Initialize everything
-function initializeCharts() {
     
-    drawLegend();
+        // Start at top and proceed clockwise
+        const pie = d3.pie()
+            .value(d => d.value)
+            .startAngle(0)           
+            .endAngle(2 * Math.PI)   
+            .sortValues(null);        
     
+        const arc = d3.arc()
+            .innerRadius(radius * 0.6)
+            .outerRadius(radius);
     
-    data.forEach(d => drawSubstantiationPieChart(d.administration));
-}
-
+        // Colors from least to most severe
+        const customColors = {
+            "Training/Instructions": "#e8f3fc",  // Lightest blue
+            "Command Discipline": "#BFDBFE",     // Light blue
+            "Command Discipline A": "#63a8e5",   // Medium blue
+            "Command Discipline B": "#2563EB",   // Strong blue
+            "Charges": "#DC2626"                 // Red
+        };
+    
+        // Create pie slices
+        svg.selectAll(".arc")
+            .data(pie(substantiations))
+            .enter()
+            .append("g")
+            .attr("class", "arc")
+            .append("path")
+            .attr("d", arc)
+            .attr("fill", d => {
+                const type = d.data.label.split('(')[1].replace(')', '');
+                return customColors[type] || "#CCCCCC";
+            })
+            .on("mouseover", function (event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 0.9);
+                tooltip.html(d.data.label.split('(')[1].replace(')', ''))
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function () {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+    
+        // Add percentages as labels
+        svg.selectAll(".label")
+            .data(pie(substantiations))
+            .enter()
+            .append("text")
+            .filter(d => d.data.value > 0)
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.35em")
+            .style("fill", "#333")
+            .style("font-size", "12px")
+            .text(d => `${d.data.value}%`);
+    
+        // Add mayor's name in the center
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("dy", "0.35em")
+            .style("font-size", "1.2em")
+            .style("font-weight", "bold")
+            .style("fill", "#003DA5")  
+            .text(admin);
+    }
+    
+    function drawLegend() {
+        const legendDiv = d3.select("#legend")
+            .style("width", "100%")
+            .style("text-align", "center")
+            .style("margin-bottom", "20px");
+    
+        // Define the order of items in the legend (least to most severe)
+        const legendOrder = [
+            "Training/Instructions",
+            "Command Discipline",
+            "Command Discipline A",
+            "Command Discipline B",
+            "Charges"
+        ];
+    
+        const legendWidth = 800;  
+        const itemsPerRow = 3;      
+        const legendHeight = Math.ceil(legendOrder.length / itemsPerRow) * 25;  
+        const spacingX = 250;       
+        const spacingY = 22;       
+    
+        const customColors = {
+            "Training/Instructions": "#e8f3fc",  // Lightest blue
+            "Command Discipline": "#BFDBFE",     // Light blue
+            "Command Discipline A": "#63a8e5",   // Medium blue
+            "Command Discipline B": "#2563EB",   // Strong blue
+            "Charges": "#DC2626"                 // Red
+        };
+    
+        const legend = legendDiv
+            .append("svg")
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .append("g")
+            .attr("transform", "translate(10, 10)");
+    
+        legend.selectAll(".legend-item")
+            .data(legendOrder)
+            .enter()
+            .append("g")
+            .attr("class", "legend-item")
+            .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`)
+            .each(function (d, i) {
+                d3.select(this)
+                    .append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 15)
+                    .attr("height", 15)
+                    .attr("fill", customColors[d] || "#CCCCCC");
+    
+                d3.select(this)
+                    .append("text")
+                    .attr("x", 20)
+                    .attr("y", 12)
+                    .text(d)
+                    .style("font-size", "12px")
+                    .style("fill", "#333")
+                    .attr("alignment-baseline", "middle");
+            });
+    }
+    
+    // Initialize everything
+    function initializeCharts() {
+        drawLegend();
+        data.forEach(d => drawSubstantiationPieChart(d.administration));
+    }
 
 
 //GRID VISUALIZATION
@@ -974,7 +990,7 @@ function transitionToVacantView(show) {
 // Modified Intersection Observer options
 const scrollOptions = {
     root: null,
-    threshold: 0.1 //trigger point for change
+    threshold: 0.02 //trigger point for change
 };
 
 const scrollObserver = new IntersectionObserver((entries) => {

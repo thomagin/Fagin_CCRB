@@ -147,13 +147,13 @@ h1, h2 {
     text-align: center;
     width: auto;
     padding: 8px;
-    font: 14px sans-serif;  /* Increase font size for better readability */
-    background: #f1f1f1;    /* Lighter background for readability */
+    font: 14px sans-serif;  
+    background: #f1f1f1;   
     border: 1px solid #ccc;
     border-radius: 5px;
     pointer-events: none;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Add shadow to tooltip */
-    white-space: nowrap; /* Prevent tooltip from breaking lines */
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); 
+    white-space: nowrap; 
 }
 
 /* D3 Charts */
@@ -180,10 +180,10 @@ h1, h2 {
 
 /* Layout for pie charts side-by-side */
 #bloomberg-chart, #de-blasio-chart, #adams-chart {
-    display: inline-block; /* Ensure the charts are inline */
-    width: 30%;            /* Set each chart to take up 30% of the container width */
-    margin: 10px;          /* Add some spacing between the charts */
-    text-align: center;    /* Center align the chart container */
+    display: inline-block; 
+    width: 30%;            
+    margin: 10px;          
+    text-align: center;    
 }
 
 
@@ -192,16 +192,16 @@ h1, h2 {
     font-size: 16px;
     font-weight: bold;
     fill: #333;
-    margin-bottom: 10px; /* Space between the label and the pie chart */
+    margin-bottom: 10px; 
 }
 
 
 /* Enhanced styling for pie chart container */
 #bloomberg-chart, #de-blasio-chart, #adams-chart {
     padding: 20px;
-    background-color: #f9f9f9;  /* Light background for the chart containers */
-    border-radius: 8px; /* Rounded corners for the chart containers */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Light shadow for a cleaner look */
+    background-color: #f9f9f9;  
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  
 }
 
 svg text {
@@ -298,7 +298,7 @@ svg text {
     top: 50%;
     transform: translateY(-50%);
     z-index: 0;
-    margin: -20px auto 0; /* Negative top margin to pull it up */
+    margin: -20px auto 0; /* Negative top margin */
     background: transparent;
 }
 
@@ -590,7 +590,7 @@ svg text {
 }
 
 .candidate-card:first-child .candidate-image {
-    object-position: center 5%; /* This moves the image up, showing more of the bottom */
+    object-position: center 5%; 
 }
 
 /* Responsive Design */
@@ -617,7 +617,6 @@ svg text {
 
 /*ANNOTATIONS FOR YEARLY CHART*/
 
-/* Yearly Complaints Specific Styling */
 
 
 #yearly-complaints-chart.sticky-chart {
@@ -799,7 +798,7 @@ path {
     }
 }
 
-/* Add to your CSS file */
+
 .tooltip {
     position: absolute;
     z-index: 9999;
@@ -827,7 +826,7 @@ path {
     z-index: 998;
 }
 
-/* Fix sticky chart container */
+/*  sticky chart container */
 .sticky-chart {
     position: sticky;
     top: 50px;
@@ -841,7 +840,7 @@ path {
     z-index: 2;
 }
 
-/* Add to your CSS */
+
 #monthly-line-chart {
     position: relative;
     min-height: 300vh;
@@ -863,10 +862,11 @@ path {
     z-index: 2;
 }
 
+
+
 /*RADAR CHART*/
 
 
-/* Radar chart container */
 #radar-charts-container {
     margin: 0 auto;
     max-width: 1200px;  
@@ -939,7 +939,7 @@ path {
     background: #f5f5f5;
     padding: 20px;
     margin-bottom: 20px;
-    width: 900px;  /* Match your original width */
+    width: 900px;  
     margin-left: auto;
     margin-right: auto;
 }
@@ -949,7 +949,7 @@ path {
     position: relative;
     min-height: 200vh;
     width: 100%;
-    max-width: 1200px;  /* Gives room for annotations */
+    max-width: 1200px;  
     margin: 0 auto;
 }
 
@@ -1004,11 +1004,10 @@ path {
 
 /*GRID ANNOTATIONS*/
 
-/* Annotation specific styles */
 
 /* Adjust scroll section height */
 #board-visualization .scroll-section {
-    min-height: 60vh;  /* Reduced from 75vh */
+    min-height: 60vh; 
     padding: 0.25rem;
 }
 
