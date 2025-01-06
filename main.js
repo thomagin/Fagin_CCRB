@@ -534,6 +534,7 @@ legendItems.append("text")
 
 
 
+
 // DONUT CHART
 
 // Create a flex container for the charts
@@ -552,175 +553,182 @@ const chartsRow = d3.select("#rates-charts")
     .style("margin", "20px 0");
    
 function drawSubstantiationPieChart(admin) {
-        const width = 280;  
-        const height = 280;
-        const radius = Math.min(width, height) / 2;
+    const width = 280;  
+    const height = 280;
+    const radius = Math.min(width, height) / 2;
+
+    const chartDiv = chartsRow
+        .append("div")
+        .attr("class", "chart-container")
+        .style("flex", "0 1 auto")
+        .style("margin", "0 10px");
+
+    const svg = chartDiv
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    let substantiations = data.find(d => d.administration === admin).substantiations;
     
-        const chartDiv = chartsRow
-            .append("div")
-            .attr("class", "chart-container")
-            .style("flex", "0 1 auto")
-            .style("margin", "0 10px");
-    
-        const svg = chartDiv
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${width / 2}, ${height / 2})`);
-    
-        let substantiations = data.find(d => d.administration === admin).substantiations;
-    
-        // Define the order from least to most severe (clockwise from top)
-        const severityOrder = [
-            "Substantiated (Training/Instructions)",
-            "Substantiated (Command Discipline)",
-            "Substantiated (Command Discipline A)",
-            "Substantiated (Command Discipline B)",
-            "Substantiated (Charges)"
-        ];
-    
-        // Sort the data by severity
-        substantiations.sort((a, b) => {
-            return severityOrder.indexOf(a.label) - severityOrder.indexOf(b.label);
+    // Combine Command Discipline types
+    let combinedData = substantiations.reduce((acc, curr) => {
+        if (curr.label.includes('Command Discipline')) {
+            const existingCD = acc.find(d => d.label === 'Substantiated (Command Discipline)');
+            if (existingCD) {
+                existingCD.value += curr.value;
+            } else {
+                acc.push({label: 'Substantiated (Command Discipline)', value: curr.value});
+            }
+        } else {
+            acc.push(curr);
+        }
+        return acc;
+    }, []);
+
+    // Define the order from least to most severe (clockwise from top)
+    const severityOrder = [
+        "Substantiated (Training/Instructions)",
+        "Substantiated (Command Discipline)",
+        "Substantiated (Charges)"
+    ];
+
+    // Sort the data by severity
+    combinedData.sort((a, b) => {
+        return severityOrder.indexOf(a.label) - severityOrder.indexOf(b.label);
+    });
+
+    // Start at top and proceed clockwise
+    const pie = d3.pie()
+        .value(d => d.value)
+        .startAngle(0)           
+        .endAngle(2 * Math.PI)   
+        .sortValues(null);        
+
+    const arc = d3.arc()
+        .innerRadius(radius * 0.6)
+        .outerRadius(radius);
+
+    // Colors from least to most severe
+    const customColors = {
+        "Training/Instructions": "#c5daea",
+        "Command Discipline": "#2563EB",
+        "Charges": "#DC2626"
+    };
+
+    // Create pie slices
+    svg.selectAll(".arc")
+        .data(pie(combinedData))
+        .enter()
+        .append("g")
+        .attr("class", "arc")
+        .append("path")
+        .attr("d", arc)
+        .attr("fill", d => {
+            const type = d.data.label.split('(')[1].replace(')', '');
+            return customColors[type] || "#CCCCCC";
+        })
+        .on("mouseover", function (event, d) {
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 0.9);
+            tooltip.html(d.data.label.split('(')[1].replace(')', ''))
+                .style("left", (event.pageX) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
         });
-    
-        // Start at top and proceed clockwise
-        const pie = d3.pie()
-            .value(d => d.value)
-            .startAngle(0)           
-            .endAngle(2 * Math.PI)   
-            .sortValues(null);        
-    
-        const arc = d3.arc()
-            .innerRadius(radius * 0.6)
-            .outerRadius(radius);
-    
-        // Colors from least to most severe
-        const customColors = {
-            "Training/Instructions": "#e8f3fc",  // Lightest blue
-            "Command Discipline": "#BFDBFE",     // Light blue
-            "Command Discipline A": "#63a8e5",   // Medium blue
-            "Command Discipline B": "#2563EB",   // Strong blue
-            "Charges": "#DC2626"                 // Red
-        };
-    
-        // Create pie slices
-        svg.selectAll(".arc")
-            .data(pie(substantiations))
-            .enter()
-            .append("g")
-            .attr("class", "arc")
-            .append("path")
-            .attr("d", arc)
-            .attr("fill", d => {
-                const type = d.data.label.split('(')[1].replace(')', '');
-                return customColors[type] || "#CCCCCC";
-            })
-            .on("mouseover", function (event, d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", 0.9);
-                tooltip.html(d.data.label.split('(')[1].replace(')', ''))
-                    .style("left", (event.pageX) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            })
-            .on("mouseout", function () {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-    
-        // Add percentages as labels
-        svg.selectAll(".label")
-            .data(pie(substantiations))
-            .enter()
-            .append("text")
-            .filter(d => d.data.value > 0)
-            .attr("transform", d => `translate(${arc.centroid(d)})`)
-            .attr("text-anchor", "middle")
-            .attr("dy", "0.35em")
-            .style("fill", "#333")
-            .style("font-size", "12px")
-            .text(d => `${d.data.value}%`);
-    
-        // Add mayor's name in the center
-        svg.append("text")
-            .attr("text-anchor", "middle")
-            .attr("dy", "0.35em")
-            .style("font-size", "1.2em")
-            .style("font-weight", "bold")
-            .style("fill", "#003DA5")  
-            .text(admin);
-    }
-    
-    function drawLegend() {
-        const legendDiv = d3.select("#legend")
-            .style("width", "100%")
-            .style("text-align", "center")
-            .style("margin-bottom", "20px");
-    
-        // Define the order of items in the legend (least to most severe)
-        const legendOrder = [
-            "Training/Instructions",
-            "Command Discipline",
-            "Command Discipline A",
-            "Command Discipline B",
-            "Charges"
-        ];
-    
-        const legendWidth = 800;  
-        const itemsPerRow = 3;      
-        const legendHeight = Math.ceil(legendOrder.length / itemsPerRow) * 25;  
-        const spacingX = 250;       
-        const spacingY = 22;       
-    
-        const customColors = {
-            "Training/Instructions": "#e8f3fc",  // Lightest blue
-            "Command Discipline": "#BFDBFE",     // Light blue
-            "Command Discipline A": "#63a8e5",   // Medium blue
-            "Command Discipline B": "#2563EB",   // Strong blue
-            "Charges": "#DC2626"                 // Red
-        };
-    
-        const legend = legendDiv
-            .append("svg")
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .append("g")
-            .attr("transform", "translate(10, 10)");
-    
-        legend.selectAll(".legend-item")
-            .data(legendOrder)
-            .enter()
-            .append("g")
-            .attr("class", "legend-item")
-            .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`)
-            .each(function (d, i) {
-                d3.select(this)
-                    .append("rect")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("width", 15)
-                    .attr("height", 15)
-                    .attr("fill", customColors[d] || "#CCCCCC");
-    
-                d3.select(this)
-                    .append("text")
-                    .attr("x", 20)
-                    .attr("y", 12)
-                    .text(d)
-                    .style("font-size", "12px")
-                    .style("fill", "#333")
-                    .attr("alignment-baseline", "middle");
-            });
-    }
-    
-    // Initialize everything
-    function initializeCharts() {
-        drawLegend();
-        data.forEach(d => drawSubstantiationPieChart(d.administration));
-    }
+
+    // Add percentages as labels
+    svg.selectAll(".label")
+        .data(pie(combinedData))
+        .enter()
+        .append("text")
+        .filter(d => d.data.value > 0)
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .style("fill", "#333")
+        .style("font-size", "12px")
+        .text(d => `${d.data.value.toFixed(2)}%`);
+
+    // Add mayor's name in the center
+    svg.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .style("font-size", "1.2em")
+        .style("font-weight", "bold")
+        .style("fill", "#003DA5")  
+        .text(admin);
+}
+
+function drawLegend() {
+    const legendDiv = d3.select("#legend")
+        .style("width", "100%")
+        .style("text-align", "center")
+        .style("margin-bottom", "20px");
+
+    // Define the order of items in the legend (least to most severe)
+    const legendOrder = [
+        "Training/Instructions",
+        "Command Discipline",
+        "Charges"
+    ];
+
+    const legendWidth = 800;  
+    const itemsPerRow = 3;      
+    const legendHeight = Math.ceil(legendOrder.length / itemsPerRow) * 27;  
+    const spacingX = 150;       
+    const spacingY = 27;       
+
+    const customColors = {
+        "Training/Instructions": "#c5daea",
+        "Command Discipline": "#2563EB",
+        "Charges": "#DC2626"
+    };
+
+    const legend = legendDiv
+        .append("svg")
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .append("g")
+        .attr("transform", `translate(${(legendWidth - (legendOrder.length * spacingX)) / 2}, 10)`)
+
+    legend.selectAll(".legend-item")
+        .data(legendOrder)
+        .enter()
+        .append("g")
+        .attr("class", "legend-item")
+        .attr("transform", (d, i) => `translate(${(i % itemsPerRow) * spacingX}, ${Math.floor(i / itemsPerRow) * spacingY})`)
+        .each(function (d, i) {
+            d3.select(this)
+                .append("rect")
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", 15)
+                .attr("height", 15)
+                .attr("fill", customColors[d] || "#CCCCCC");
+
+            d3.select(this)
+                .append("text")
+                .attr("x", 20)
+                .attr("y", 12)
+                .text(d)
+                .style("font-size", "12px")
+                .style("fill", "#333")
+                .attr("alignment-baseline", "middle");
+        });
+}
+
+// Initialize everything
+function initializeCharts() {
+    drawLegend();
+    data.forEach(d => drawSubstantiationPieChart(d.administration));
+}
 
 
 //GRID VISUALIZATION
